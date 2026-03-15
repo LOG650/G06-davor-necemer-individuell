@@ -39,10 +39,11 @@ Prosjektet er strukturert i fire hovedfaser som reflekterer felles milepæler fo
     *   3.5 Analyse av resultater.
     *   3.6 Gjennomføre peer-to-peer review av en annen gruppes utkast.
 4.  **Fase 4: Sluttrapport**
-    *   4.1 Skrive diskusjon og konklusjon.
-    *   4.2 Finpuss av teori- og metodedel.
-    *   4.3 Korrekturlesing og formatering (APA 7th).
-    *   4.4 Innlevering.
+    *   4.1 Ferdigstille introduksjon.
+    *   4.2 Skrive diskusjon og konklusjon.
+    *   4.3 Finpuss av teori- og metodedel.
+    *   4.4 Korrekturlesing og formatering (APA 7th).
+    *   4.5 Innlevering.
 
 ## 3. Fremdrift
 Detaljert tidsplan, arbeidsrekkefølge og kritisk sti er modellert og vedlagt i et eget MS Project Gantt-diagram. Prosjektet styres etter de fire obligatoriske fasene i LOG650, med følgende hovedmilepæler:
@@ -63,8 +64,9 @@ Detaljert tidsplan, arbeidsrekkefølge og kritisk sti er modellert og vedlagt i 
     *   *Beskrivelse:* Det kan ta lang tid å finne og programmere riktig kapasitets- og prognosemodell (f.eks. SARIMA).
     *   *Tiltak:* Starte med en enkel standardmodell (baseline) for å sjekke at dataflyten fungerer. Bruke Claude Code systematisk som sparringspartner for koding og feilsøking.
 *   **Risiko 3: Konfidensialitet og sensitive data.**
-    *   *Beskrivelse:* Modellen bygges på reelle bedrifts- og produktdatabaser, som ikke kan deles åpent i KI-verktøy eller i den endelige rapporten.
-    *   *Tiltak:* Anonymisere og transformere dataene før bruk. Konkrete produktnavn maskeres (f.eks. "Produkt 1"), og volumer kan eventuelt skaleres/transformeres slik at reelle bedriftshemmeligheter ikke avsløres.
+    *   *Beskrivelse:* Modellen tar utgangspunkt i data fra en næringsmiddelbedrift.
+    *   *Tiltak:* Anonymisere og transformere dataene fullstendig før bruk i prosjektet. Konkrete produktnavn maskeres, og volumer skaleres/transformeres slik at reelle bedriftshemmeligheter ikke avsløres og dataene ikke lenger kan knyttes til bedriften.
+
 *   **Risiko 4: Ustrukturert litteratur- og referansehåndtering.**
     *   *Beskrivelse:* Tidkrevende å holde oversikt over kilder, noe som kan føre til feil i referanselisten (APA 7th).
     *   *Tiltak:* Etablere en fast rutine hvor alle leste artikler lagres som PDF i en egen mappe (003 references). KI brukes til å lage korte oppsummeringer av artiklene for å spare tid.
@@ -72,17 +74,17 @@ Detaljert tidsplan, arbeidsrekkefølge og kritisk sti er modellert og vedlagt i 
 ## 5. Ressurser
 *   **Prosjektteam og roller:** Davor Necemer gjennomfører prosjektet individuelt og innehar alle roller, inkludert prosjektleder, dataanalytiker og KI-utvikler.
 *   **Sponsor:** Høgskolen i Molde v/faglærerne. De fungerer som prosjektets godkjenningsinstans for de fire fasene og setter endelig vurdering (Godkjent/Ikke godkjent).
-*   **Kunde:** Den anonymiserte næringsmiddelbedriften. De eier problemstillingen og leverer det historiske datagrunnlaget prosjektet bygger på.
-*   **Tekniske verktøy:** Prosjektet er avhengig av MS Project for fremdriftsstyring (Gantt og referanseplan), GitHub for versjonskontroll, VS Code med Python for datamodellering, og Claude Code (eller Gemini CLI) som KI-assistent for programmering og rapportstøtte.
+*   **Kunde:** Prosjektet eies i praksis av studenten selv. Det tas utgangspunkt i et reelt, men fullstendig anonymisert og transformert datagrunnlag fra en næringsmiddelbedrift. Det er ingen formell bedriftstilknytning, og dermed ikke behov for taushetserklæring.
+*   **Tekniske verktøy:** MS Project for fremdriftsstyring (Gantt og referanseplan), GitHub for versjonskontroll, VS Code med Python for datamodellering, og Claude Code som KI-assistent for programmering og rapportstøtte.
 
 ## 6. Kommunikasjon
 *   **Plattformer:** Løpende dialog med faglærere/veiledere skjer via en egen tildelt gruppe-kanal på MS Teams. GitHub brukes for deling og versjonskontroll av kode og rapport.
 *   **Veiledermøter:** Som prosjektleder tar du initiativ til veiledningsmøter ved behov. For å sikre effektivitet sendes en konkret agenda til veileder senest 24 timer i forkant, etterfulgt av en kort skriftlig oppsummering.
-*   **Bedriftskontakt:** Siden prosjektleder (studenten) selv er ansatt i bedriften, fungerer som bedriftskontakt og henter ut dataene direkte, er det ikke behov for formelle eksterne statusmøter med bedriften.
+*   **Bedriftskontakt:** Det er ingen formell bedriftstilknytning, så det er ikke behov for eksterne statusmøter.
 
 ## 7. Kvalitet og Endringshåndtering
 *   **Faglig kvalitetssikring:** Arbeidet vil kvalitetssikres løpende ved bruk av de offisielle sjekklistene i LOG650-kompendiet (for problemstilling, teori/metode og figurer/tabeller) for å sikre at C-kravet for fasene og B-kravet for sluttproduktet nås.
-*   **Peer-to-peer review:** I slutten av fase 3 leveres et hovedutkast som skal vurderes av en medstudent. Tilbakemeldingene fra denne gjennomgangen brukes målrettet for å forbedre rapporten i avslutningsfasen.
-*   **Teknisk validering:** All KI-generert kode gjennomgås kritisk. Modellen og resultatene skal valideres (for eksempel ved residualanalyse og stresstesting) for å sikre at løsningen faktisk er robust og gir mening.
+*   **Peer-to-peer review:** I slutten av fase 3 leveres et hovedutkast som skal vurderes av en medstudent. Tilbakemeldingene herfra brukes for å forbedre rapporten i avslutningsfasen.
+*   **Teknisk validering:** All KI-generert kode gjennomgås kritisk. Modellen og resultatene skal valideres for å sikre at løsningen er robust og gir mening på det anonymiserte datagrunnlaget.
 *   **Endringshåndtering:** Opprinnelig tidsplan lagres som en Referanseplan (Baseline) i MS Project. Avvik mellom faktisk fremdrift og referanseplanen vil bli sporet og dokumentert, og større endringer i scope tas opp med veileder.
 
