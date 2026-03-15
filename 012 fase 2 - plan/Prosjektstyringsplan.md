@@ -71,6 +71,10 @@ Detaljert tidsplan, arbeidsrekkefølge og kritisk sti er modellert og vedlagt i 
     *   *Beskrivelse:* Tidkrevende å holde oversikt over kilder, noe som kan føre til feil i referanselisten (APA 7th).
     *   *Tiltak:* Etablere en fast rutine hvor alle leste artikler lagres som PDF i en egen mappe (003 references). KI brukes til å lage korte oppsummeringer av artiklene for å spare tid.
 
+*   **Risiko 5: For høy modellkompleksitet i forhold til tid.**
+    *   *Beskrivelse:* Ambisjonsnivået for kapasitets- og prognosemodellen overgår den tilgjengelige tiden i Fase 3, noe som kan forsinke den kritiske stien.
+    *   *Tiltak:* Innføre streng tidsstyring ("timeboxing") på modelleringen. Sikre at en enkel minimumsløsning (baseline) bygges først for å garantere at prosessen fra data til resultat fungerer. Ytterligere kompleksitet legges kun til dersom tidsplanen tillater det.
+
 ## 5. Ressurser
 *   **Prosjektteam og roller:** Davor Necemer gjennomfører prosjektet individuelt og innehar alle roller, inkludert prosjektleder, dataanalytiker og KI-utvikler.
 *   **Sponsor:** Høgskolen i Molde v/faglærerne. De fungerer som prosjektets godkjenningsinstans for de fire fasene og setter endelig vurdering (Godkjent/Ikke godkjent).
