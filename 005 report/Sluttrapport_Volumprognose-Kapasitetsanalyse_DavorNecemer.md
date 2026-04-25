@@ -329,14 +329,25 @@ hvor:
 
 ### 5.2 Data
 
-Her beskriver du hvilke data du har brukt, hvordan du har fått tak i dem og hvordan leseren eventuelt kan få tak i dataene om nødvendig.
+Prosjektet bygger på et avgrenset og anonymisert datagrunnlag hentet fra virksomhetens operative planleggings- og oppfølgingsmiljø. Siden formålet er å koble etterspørselsprognoser til kapasitetsanalyse på ukentlig nivå, er det ikke nødvendig å hente ut alle detaljdata fra ERP-systemet. Det sentrale er å hente inn de datasettene som gjør det mulig å modellere sammenhengen mellom prognostisert volum, arbeidsbelastning og tilgjengelig kapasitet.
 
-Hvordan er data samlet inn:
+Det detaljerte datakravet for prosjektet er dokumentert separat i `004 data/Datakrav_for_prosjektet.md`. Denne spesifikasjonen definerer hvilke felter som er nødvendige, hvilke som er anbefalte, og hvilke data som kan utelates i denne fasen.
 
-- Tidsperiode
-- Intervju: hvor mange og til hvem? Hvorfor ble disse valgt som intervjuobjekt?
-- Spørreskjema: hvor mange er det sendt til, hvor mange fikk dere inn, hvor mange kunne dere bruke, hvem sendte dere til, og er det flere versjoner?
-- Data fra ERP-systemet: periode, antall observasjoner i rådata og antall observasjoner etter cleaning
+Minimumssettet av data som kreves i prosjektet er:
+
+- **Ukentlig volumhistorikk per varestrøm:** historiske ukesvolumer i FPK-ekvivalenter for ferskvare og sekundærvare, samt indikator for kampanjeuker
+- **Omregning fra volum til tidsforbruk:** standard tidsbruk uttrykt som minutter per FPK for hver relevant prosess og varestrøm
+- **Ukentlig tilgjengelig kapasitet:** grunnkapasitet og maksimal ekstra kapasitet per uke og prosessledd
+- **Aggregerte sone- og fristparametre:** andeler av ukentlig volum som må være ferdig innen de ulike sonevise cut-off-fristene
+- **Tiltaksparametre:** regler og relative vekter for overtid, ekstra skift og eventuell tidlig oppstart
+
+Det mest kritiske datakravet i prosjektet er koblingen mellom:
+
+- volum i FPK-ekvivalenter
+- arbeidsforbruk i minutter per FPK
+- tilgjengelig kapasitet i timer per uke og prosess
+
+Uten denne koblingen vil kapasitetsmodellen ikke kunne oversette forecast til faktisk ressursbehov. Datainnsamlingen prioriteres derfor mot et lite, relevant og etterprøvbart datagrunnlag fremfor store mengder detaljdata med begrenset modellverdi.
 
 ## 6.0 Modellering
 
