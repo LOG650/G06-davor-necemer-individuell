@@ -98,7 +98,7 @@ Produksjonslogistikk i næringsmiddelbransjen står overfor en fundamental utfor
 
 Denne situasjonen oppstår fordi tradisjonelle kapasitetsplaner baseres på ukeaggregater, som ikke fanger opp de kritiske søne- og dagsvise cut-offs. Resultat: fraktbrudd, forsinkede leveranser, eller behov for dyrbar ekstrabemanning og overtid som kunne vært unngått gjennom bedre prognoser og planlegging.
 
-Litteraturen på demand forecasting og aggregate production planning tilbyr vel etablerte løsninger. ARIMAX-modeller kan prognostisere etterspørsel under hensyn til sesong og planlagte kampanjer, og linear programming kan optimalisere kapasitetsallokeringen under stramme restruksjoner. Integrering av disse to metodene kan gi både operasjonell effektivitet og innsikt i kritiske ressursbehov.
+Litteraturen på demand forecasting og aggregate production planning tilbyr vel etablerte løsninger. SARIMAX-modeller kan prognostisere etterspørsel under hensyn til sesongmønstre, planlagte kampanjer og andre eksogene faktorer, og linear programming kan optimalisere kapasitetsallokeringen under stramme restruksjoner. Integrering av disse to metodene kan gi både operasjonell effektivitet og innsikt i kritiske ressursbehov.
 
 Denne rapporten utvikler og tester en slik integrert modell på data fra en reell næringsmiddelproduksjon og distribusjonsoperasjon.
 
@@ -117,7 +117,7 @@ Problemstillingen behandler altså hvordan man *integrerer* etterspørselsprogno
 
 Problemstillingen løses gjennom to delproblem i rekkefølge:
 
-**DP1 – Etterspørselsprognose:** Hvordan kan ARIMAX-modeller best estimeres og valideres ved bruk av historiske volumdata og kampanjekalender for å prognose ukentlig etterspørsel?
+**DP1 – Etterspørselsprognose:** Hvordan kan SARIMAX-modeller best estimeres og valideres ved bruk av historiske volumdata, sesongmønstre og kampanjekalender for å prognose ukentlig etterspørsel?
 
 **DP2 – Kapasitetsoptimering:** Gitt en etterspørselsprognose, hvordan kan linear programming formuleres og løses for å bestemme optimal kapasitetsallokering som minimerer ressursforbruk mens cut-off-frister respekteres?
 
@@ -149,9 +149,9 @@ Disse delproblemene er sekvensielle: prognosen fra DP1 blir input til LP-modelle
 
 ### 2.1 Etterspørselsprognose med tidsseriemodeller
 
-Etterspørselsprognoser er kritisk for produksjonsplanlegging, spesielt når kapasiteten er begrenset og distribusjons-fristkrav må overholdes. **Tidsseriemodeller** er etablert praksis for volumdata: SARIMA-modeller (Seasonal Autoregressive Integrated Moving Average) håndterer både trends og sesongmønstre typiske for næringsmiddelproduksjon, hvor etterspørselen følger uke-til-uke mønstre og høysesonger.
+Etterspørselsprognoser er kritisk for produksjonsplanlegging, spesielt når kapasiteten er begrenset og distribusjons-fristkrav må overholdes. **Tidsseriemodeller** er etablert praksis for volumdata: SARIMAX-modeller (Seasonal Autoregressive Integrated Moving Average with eXogenous variables) håndterer både trends, sesongmønstre og eksogene effekter typiske for næringsmiddelproduksjon.
 
-En utvidelse av SARIMA er **ARIMAX**, som inkorporerer eksterne faktorer (eksogene variabler) som kampanjekalender. Dette er spesielt relevant da bedriftens planlagte tilbud og kampanjer driver etterspørselstopperushet ut over det baseline sesongmønster kan forklare. (KML Kompendium, 2026, s. Demand Forecasting)
+**SARIMAX** kombinerer to sentrale egenskaper: (1) **SARIMA**-komponenten fanger sesongmønstre repetitive over året (påske, jul, sommerferie), som er kritisk for næringsmiddeletterspørsel; (2) **eXogenous variables**-delen inkorporerer kampanjekalender og andre eksterne faktorer. Dette er essensielt da bedriftens planlagte tilbud og kampanjer driver etterspørselstopperushet ut over det baseline sesongmønster kan forklare. (KML Kompendium, 2026, s. Demand Forecasting)
 
 ### 2.2 Kapasitetsplanlegging gjennom linear programming
 
@@ -173,9 +173,9 @@ En **tidsserie** er en sekvens av observasjoner ordnet kronologisk, typisk med j
 - **Sesongmønstre:** repeterende mønstre på kort sikt (f.eks. ukentlige eller årlige rytmer)
 - **Residualer:** tilfeldig variasjon som ikke forklares av trend eller sesong
 
-**SARIMA-modeller** (Seasonal ARIMA) er matematiske rammer som modellerer disse komponentene. En SARIMA-modell estimeres ved å minimere forskjellen mellom observerte verdier og modellens prediksjoner (vanligvis målt som Mean Absolute Error eller Root Mean Square Error).
+**SARIMAX-modeller** (Seasonal ARIMA with eXogenous variables) er matematiske rammer som modellerer disse komponentene samt eksterne påvirkninger. En SARIMAX-modell estimeres ved å minimere forskjellen mellom observerte verdier og modellens prediksjoner (vanligvis målt som Mean Absolute Error eller Root Mean Square Error).
 
-**ARIMAX** utvider SARIMA ved å inkludere eksogene (eksterne) variabler. I ditt tilfelle er kampanjekalender en eksogen variabel som påvirker etterspørsel utenfor sesongmønsteret.
+Modellen består av fire deler: (1) **ARIMA-kjernen** håndterer autoregressive og moving average strukturer; (2) **Sesongkomponenten** modellerer repeterende mønstre over året (f.eks. 52 uker i ukesdata); (3) **Integreringsleddet** håndterer både trend (differensiering d) og sesongavdrift (sesongdifferensiering D); (4) **Eksogene variabler** (kampanjekalender, helligdager) fanges eksplisitt. Kombinasjonen av disse gjør SARIMAX spesielt egnet for sesongbundne varetyper med kjente kampanjepåvirkninger.
 
 (KML Kompendium, 2026)
 
@@ -190,7 +190,7 @@ Under:     Ax ≤ b  (Lineære begrensninger)
 ```
 
 I **Aggregate Production Planning** bestemmer LP-modellen optimal allokering av kapasitet (overtid, ekstrabemanning, tidlig oppstart) gitt:
-- Prognostisert etterspørsel (fra ARIMAX)
+- Prognostisert etterspørsel (fra SARIMAX)
 - Grunnkapasitet per uke per prosessledd
 - Sonevise distribusjons-cut-offs som må respekteres
 - Mål om å minimere total ekstra kapasitet
@@ -203,10 +203,10 @@ LP-modellen kan løses eksakt ved bruk av Simplex-algoritmen eller lignende. Lø
 
 Dette prosjektet integrerer begge tilnærminger sekvensielt:
 
-1. **Fase 1 – Etterspørselsprognose:** ARIMAX-modellen estimeres basert på historiske volumdata og kampanjekalender. Output: prognose per uke.
-2. **Fase 2 – Kapasitetsoptimering:** LP-modellen bruker denne prognosen som fast input og bestemmer optimal kapasitetsallokering for å møte etterspørselen.
+1. **Fase 1 – Etterspørselsprognose:** SARIMAX-modellen estimeres basert på historiske ukentlige volumdata, sesongmønstre og kampanjekalender, estimert separat for ferskvare og sekundærvare. Output: prognose per uke og varestrøm.
+2. **Fase 2 – Kapasitetsoptimering:** LP-modellen bruker denne prognosen som fast input og bestemmer optimal kapasitetsallokering for å møte etterspørselen under sonevise frister.
 
-Denne todelte strukturen sikrer at prognosefeil håndteres gjennom LP-modellens begrensninger (f.eks. penalty for fristbrudd) i stedet for å propagere usikkerhet direkte til operasjonelle beslutninger.
+Denne todelte strukturen sikrer at prognosefeil håndteres gjennom LP-modellens begrensninger (f.eks. penalty for fristbrudd) i stedet for å propagere usikkerhet direkte til operasjonelle beslutninger. Scenarioanalyse brukes til å teste modellrobusthet under prognoseusikkerhet.
 
 ## 4.0 Casebeskrivelse
 
@@ -268,44 +268,50 @@ Med en slik modell kan ledelsen ta proaktive beslutninger i stedet for reaktive 
 
 Litt avhengig av omfanget, kan det være lurt å vurdere om du skal splitte kapittelet i to eller ikke.
 
-### 5.1 Metode – Etterspørselsprognose (ARIMAX)
+### 5.1 Metode – Etterspørselsprognose (SARIMAX)
 
 **Paradigme:** Kvantitativ case-studie basert på historiske operasjonelle data fra en produksjon- og distribusjonsoperasjon.
 
-**Prognosemodell:** ARIMAX (Autoregressive Integrated Moving Average with eXogenous variables) velges fordi:
-- Tidsseriene (ukentlige volumer) har sesongmønstre og trender
-- Eksogene variabler (kampanjekalender) påvirker etterspørselen
-- ARIMAX er etablert praksis i demand forecasting (jf. Seksjon 2.0)
+**Prognosemodell:** SARIMAX (Seasonal Autoregressive Integrated Moving Average with eXogenous variables) velges fordi:
+- Tidsseriene (ukentlige volumer) har **tydelige sesongmønstre** (høysesonger knyttet til julekampanjer, påske, sommerferie) og underliggende trend
+- Eksogene variabler (kampanjekalender) påvirker etterspørselen betydelig utover sesongbasis-nivå
+- Næringsmiddeletterspørsel er kjent for å følge årlige sesongmønstre som SARIMAX håndterer godt
+- SARIMAX er etablert praksis i demand forecasting for sesongbundne varer (jf. Seksjon 2.0)
 
 **Modellspesifikasjon:**
 
-Modellen estimeres separat for ferskvare og sekundærvare:
+Modellen estimeres separat for ferskvare (F) og sekundærvare (S):
 
-$$\Phi(B) \nabla^d Y_t = \Theta(B) \epsilon_t + \beta X_t$$
+$$\Phi(B) \Phi_s(B^s) \nabla^d \nabla_s^D Y_t = \Theta(B) \Theta_s(B^s) \epsilon_t + \beta X_t$$
 
 hvor:
 - $Y_t$ = ukentlig volum (FPK-ekvivalenter)
 - $B$ = backshift-operator
-- $\nabla^d$ = d-te orden differensiering (for stationaritet)
+- $s$ = sesongperiode (52 uker for årlig sesong i ukesdata)
+- $\nabla^d$ = d-te orden differensiering (for trend-stationaritet)
+- $\nabla_s^D$ = sesongdifferensiering av orden D (for sesong-stationaritet)
 - $\Phi(B)$ = autoregressive polynom av orden p
+- $\Phi_s(B^s)$ = sesongavhengig autoregressive polynom av orden P
 - $\Theta(B)$ = moving average polynom av orden q
+- $\Theta_s(B^s)$ = sesongavhengig moving average polynom av orden Q
 - $\epsilon_t$ = hvit støy
-- $X_t$ = eksogen vektor (kampanjeindikator, holiday-dummy, osv.)
+- $X_t$ = eksogen vektor (kampanjeindikator, helligdag-dummy, osv.)
 - $\beta$ = koeffisientvektor for eksogene variabler
 
-**Parameterestimering:** ARIMAX-parametere (p, d, q) bestemmes via:
-1. ADF-test (Augmented Dickey-Fuller) for å sjekke stationaritet og velge d
-2. ACF/PACF-plot for å identifisere p og q
-3. Grid-search eller auto.arima-algoritme for optimal parametervalg
-4. Maximum likelihood estimation (MLE) for koeffisienter
+**Parameterestimering:** SARIMAX-parametere (p, d, q, P, D, Q, s) bestemmes via:
+1. ADF-test (Augmented Dickey-Fuller) for å sjekke trend-stationaritet og velge d
+2. Sesongdifferensiering og sjekk for sesong-stationaritet, velg D
+3. ACF/PACF-plot for å identifisere p, q, P, Q
+4. Auto-ARIMA med seasonal=True for automatisk parametervalg (eller grid-search)
+5. Maximum likelihood estimation (MLE) for koeffisienter
 
 **Validering:** Modellen evalueres på hold-out test-periode (f.eks. siste 13 uker):
 - MAE (Mean Absolute Error)
 - RMSE (Root Mean Squared Error)
 - MAPE (Mean Absolute Percentage Error)
-- Residual-diagnostikk (Ljung-Box test for autokorrelasjon)
+- Residual-diagnostikk (Ljung-Box test for autokorrelasjon og sesongavhengighet)
 
-**Verktøy:** Python (statsmodels.tsa.arima.ARIMA eller auto_arima), R (forecast::auto.arima), eller lignende.
+**Verktøy:** Python (statsmodels.tsa.statespace.sarimax.SARIMAX eller auto_arima med seasonal=True), R (forecast::auto.arima med seasonal=TRUE), eller lignende.
 
 ---
 
@@ -355,7 +361,7 @@ Uten denne koblingen vil kapasitetsmodellen ikke kunne oversette forecast til fa
 
 Modellen består av to sekvensielle komponenter:
 
-1. **Etterspørselsprognose (ARIMAX):** Basert på historiske ukentlige volumer for ferskvare (F) og sekundærvare (S) samt kampanjekalender, produseres punkt-prognoser for volumene i hver uke. Prognosen genererer prediktert volum `V_F,t` og `V_S,t` for uke `t`.
+1. **Etterspørselsprognose (SARIMAX):** Basert på historiske ukentlige volumer for ferskvare (F) og sekundærvare (S) samt kampanjekalender, produseres punkt-prognoser for volumene i hver uke. Prognosen fanger sesongmønstre, eksogene effekter (kampanjer), og genererer prediktert volum `V_F,t` og `V_S,t` for uke `t`.
 
 2. **Kapasitetsoptimering (LP):** Gitt prognostisert volum, bestemmes optimal kapasitetsallokering (overtimebehov, tidlig oppstart) per prosess for å møte sonevise frister med minimalt ressursforbruk.
 
