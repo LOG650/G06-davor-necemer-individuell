@@ -1,23 +1,23 @@
 # Oppgave og status – Integrert volumprognose og kapasitetsanalyse
 
-**Dato:** 26.04.2026  
-**Status-revisjon:** Basert på repo-analyse og Gantt-plan fra MS Project  
+**Dato:** 25.04.2026  
+**Status-revisjon:** Basert på repo-gjennomgang per 25.04.2026 og Gantt-plan fra MS Project  
 **Prosjektleder:** Davor Necemer
 
 ---
 
 ## Sammendrag av forsinkelse
 
-**Dager til innlevering:** 33 dager (29.05.2026)
+**Dager til innlevering:** 34 dager (29.05.2026)
 
-Prosjektet er **betydelig forsinket**. Fase 1 og 2 er fullført, men **alle aktiviteter i fase 3 (Gjennomføring & Review)** ligger etter planen:
+Prosjektet er fortsatt **forsinket i forhold til planen**, men repoet viser tydelig framdrift sammenlignet med tidligere statusbilde:
 
-- **Litteraturarbeid (3.1):** ~31 dager forsinket
-- **Datainnsamling (3.2):** ~31 dager forsinket ⚠️ **KRITISK – blokkerer alt videre arbeid**
-- **Prognosemodell (3.3):** ~17 dager forsinket
-- **Kapasitetsmodell (3.4):** 2 dager forsinket (skulle ende 24.04.26)
+- **Litteraturarbeid (3.1):** pågår, men trenger flere kilder utover kompendiet
+- **Datainnsamling (3.2):** faktiske bedriftsdata mangler fortsatt ⚠️ **kritisk aktivitet**
+- **Prognosemodell (3.3):** metodikk er oppdatert til SARIMAX, men implementasjon mangler
+- **Kapasitetsmodell (3.4):** LP-struktur er beskrevet, men implementasjon mangler
 
-Fase 4 (Sluttrapport) har ennå ikke startet.
+Fase 4 er ikke ferdigstilt, men sluttrapportutkastet er nå opprettet og påbegynt i repoet.
 
 ---
 
@@ -40,29 +40,29 @@ Fase 4 (Sluttrapport) har ennå ikke startet.
 |----|-----------|----------|-------|------------------|--------|-----------|
 | 2.1 | Utvikle styringsplan og risikoanalyse | 9 d | 25.02.26 | 09.03.26 | ✅ Fullført | Plan finnes |
 | 2.2 | Bygge WBS og Gantt i MS Project | 5 d | 10.03.26 | 16.03.26 | ✅ Fullført | MS Project fil eksisterer |
-| 2.3 | Starte formelt litteratursøk | 10 d | 25.02.26 | 10.03.26 | ⚠️ Delvis | 1 ref. funnet, søk ikke fullført |
+| 2.3 | Starte formelt litteratursøk | 10 d | 25.02.26 | 10.03.26 | ⚠️ Delvis | Kompendier for forecasting og capacity planning er lagt inn. Ekstern litteratur bygges videre fortløpende |
 | 2.4 | **Milepæl: Godkjent prosjektplan** | 0 d | 16.03.26 | 16.03.26 | ✅ Fullført | Prosjektstyringsplan i `012 fase 2 - plan/` |
 
 ### **FASE 3: Gjennomføring & Review** ❌ FORSINKET
 
 | ID | Aktivitet | Varighet | Start | Slutt (planlagt) | **Status** | **Dager forsinket** | Kommentar |
 |----|-----------|----------|-------|------------------|-----------|---------------------|-----------|
-| 3.1 | Utarbeide teoretisk rammeverk | 8 d | 17.03.26 | 26.03.26 | ⚠️ Forsinket | ~31 | Kun 1 metodologi-referanse i repo. Mangler litteratur i forecasting & capacity_planning mapper |
-| 3.2 | **Datainnsamling og vask av bedriftsdata** | 8 d | 17.03.26 | 26.03.26 | 🔴 Ikke startet | ~31 | **KRITISK:** `004 data/` mappen er **HELT TOM** – ingen datafiler |
-| 3.3 | Utvikling og trening av KI-prognosemodell | 10 d | 27.03.26 | 09.04.26 | 🔴 Ikke startet | ~17 | Ingen kode-filer i repo. Avhenger av 3.2 |
-| 3.4 | Utvikling av kapasitetsoptimeringsmodell | 11 d | 10.04.26 | 24.04.26 | 🔴 Ikke startet | 2 | Skulle avsluttes IGÅR. Ingen implementasjon funnet. Avhenger av 3.2 |
-| 3.5 | Analyse av resultater | 5 d | 27.04.26 | 01.05.26 | 🔴 Ikke startet | – | Starter MORGEN iht. plan, men forutsetninger (3.2–3.4) ikke oppfylt |
+| 3.1 | Utarbeide teoretisk rammeverk | 8 d | 17.03.26 | 26.03.26 | ⚠️ Pågår, men forsinket | - | Rapportutkast med teori, metode og modellstruktur finnes, men litteraturgrunnlaget må utvides |
+| 3.2 | **Datainnsamling og vask av bedriftsdata** | 8 d | 17.03.26 | 26.03.26 | ⚠️ Forberedt, men forsinket | - | **KRITISK:** `004 data/` inneholder datakrav og CSV-maler, men ingen faktiske bedriftsdata ennå |
+| 3.3 | Utvikling og trening av KI-prognosemodell | 10 d | 27.03.26 | 09.04.26 | ⚠️ Metodisk forberedt | - | SARIMAX er valgt og dokumentert, men ingen kode eller estimering er gjennomført ennå |
+| 3.4 | Utvikling av kapasitetsoptimeringsmodell | 11 d | 10.04.26 | 24.04.26 | ⚠️ Konseptuelt forberedt | - | LP-logikk og modellstruktur er dokumentert, men ingen implementasjon finnes ennå |
+| 3.5 | Analyse av resultater | 5 d | 27.04.26 | 01.05.26 | 🔴 Ikke startet | – | Forutsetter at 3.2–3.4 gir brukbare modellresultater |
 | 3.6 | Gjennomføre peer-to-peer review | 5 d | 04.05.26 | 08.05.26 | 🔴 Ikke startet | – | `013 fase 3 - review/` er tom |
-| 3.7 | **Milepæl: Godkjent hovedutkast** | 0 d | 08.05.26 | 08.05.26 | 🔴 Ikke startet | – | 12 dager igjen. Kritisk milepæl – blokkert av 3.2–3.6 |
+| 3.7 | **Milepæl: Godkjent hovedutkast** | 0 d | 08.05.26 | 08.05.26 | 🔴 Ikke startet | – | Kritisk milepæl – blokkert av 3.2–3.6 |
 
-### **FASE 4: Sluttrapport** ❌ IKKE STARTET
+### **FASE 4: Sluttrapport** ⚠️ PÅBEGYNT, MEN IKKE FERDIGSTILT
 
 | ID | Aktivitet | Varighet | Start | Slutt (planlagt) | Status | Kommentar |
 |----|-----------|----------|-------|------------------|--------|-----------|
-| 4.1 | Ferdigstille introduksjon | 4 d | 11.05.26 | 14.05.26 | 🔴 Ikke startet | Starter 15 dager fra nå |
-| 4.2 | Skrive diskusjon og konklusjon | 6 d | 15.05.26 | 22.05.26 | 🔴 Ikke startet | `014 fase 4 - report/` er tom |
+| 4.1 | Ferdigstille introduksjon | 4 d | 11.05.26 | 14.05.26 | ⚠️ Påbegynt | Rapportutkast finnes i `005 report/` |
+| 4.2 | Skrive diskusjon og konklusjon | 6 d | 15.05.26 | 22.05.26 | 🔴 Ikke startet | Avhenger av analyse og ferdig modellgrunnlag |
 | 4.3 | Finpuss, kvalitetssikring og APA 7th | 5 d | 25.05.26 | 29.05.26 | 🔴 Ikke startet | Siste oppgave før innlevering |
-| 4.4 | **Milepæl: Innlevering av rapport og kode** | 0 d | 29.05.26 | 29.05.26 | 🔴 Ikke startet | **ENDELIG FRIST:** 33 dager igjen |
+| 4.4 | **Milepæl: Innlevering av rapport og kode** | 0 d | 29.05.26 | 29.05.26 | 🔴 Ikke startet | **ENDELIG FRIST:** 34 dager igjen |
 | 4.5 | Forberede og gjennomføre muntlig presentasjon | 5 d | 01.06.26 | 05.06.26 | 🔴 Ikke startet | Etter innlevering |
 
 ---
@@ -75,18 +75,18 @@ Fase 4 (Sluttrapport) har ennå ikke startet.
 |--------|--------|-------|
 | **Fase 1: Proposal** | ✅ Fullført | `011 fase 1 - proposal/Proposal for integrert volumprognose og kapasitetsanalyse Revidert.md` |
 | **Fase 2: Plan & Gantt** | ✅ Fullført | `012 fase 2 - plan/LOG650_Prosjektstyringsplan_Davor_Necemer_1.2.md` + MS Project-fil |
-| **Litteraturgrunnlag** | ⚠️ Mangelfull | Kun 1 fil i `003 references/03 method/`. Mapper `01 forecasting/` og `02 capacity_planning/` er tomme |
-| **Data** | 🔴 Mangler helt | `004 data/` mappen er tom. Ingen datafiler innlastet |
+| **Litteraturgrunnlag** | ⚠️ Under oppbygging | Kompendier i forecasting og capacity planning er lagt inn. Ekstern litteratur utover dette legges til fortløpende |
+| **Data** | ⚠️ Forberedt, men ikke innlastet | `004 data/` inneholder datakrav og CSV-maler, men ingen faktiske bedriftsdata ennå |
 | **Kode/Modeller** | 🔴 Mangler helt | Ingen Python-, R-, Excel- eller modelleringsfiler i repo |
 | **Analyse** | 🔴 Ikke startet | `013 fase 3 - review/` er tom |
-| **Rapport** | 🔴 Ikke startet | `014 fase 4 - report/` er tom |
-| **Report-mal** | ✅ Tilgjengelig | `005 report/Mal prosjekt LOG650 v2.md` (oppdatert 25.04.26) |
+| **Rapport** | ⚠️ Påbegynt | Aktiv rapportfil finnes i `005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md` |
+| **Report-mal** | ✅ Tilgjengelig | `005 report/Mal prosjekt LOG650 v2.md` finnes fortsatt som grunnlag |
 
 ---
 
 ## Kritisk linje og avhengigheter
 
-**Blokkert av:** Aktivitet 3.2 (Datainnsamling) – **URGENT START REQUIRED**
+**Kritisk avhengighet:** Aktivitet 3.2 (Datainnsamling) – faktiske data må inn før modellene kan implementeres og testes
 
 Kritisk sekvens som må gjennomføres serielt:
 
@@ -104,22 +104,22 @@ Kritisk sekvens som må gjennomføres serielt:
 
 ### 🚨 KRITISK (Dager: 0)
 
-1. **Start datainnsamling (3.2) UMIDDELBART**
-   - Hent bedriftsdata fra anonymisert næringsmiddelkilde
-   - Gjennomfør datavask og normalisering til FPK-ekvivalenter
-   - Mål: Fullføre innen 2–3 uker for å få modellering på skinner
+1. **Start innlasting av faktiske bedriftsdata (3.2) umiddelbart**
+   - Hent data via Qlik Sense fra Infor M3
+   - Prioriter `weekly_volume.csv`, `process_time_matrix.csv` og `capacity_weekly.csv`
+   - Gjennomfør anonymisering og normalisering til FPK-ekvivalenter
 
 2. **Komplettere litteraturgrunnlag (3.1)**
    - Søk etter referanser om:
      - Demand forecasting / volumprognoser
      - Capacity planning / kapasitetsplanlegging
      - Optimering under tidsfrister
-   - Mål: Minimum 8–12 relevante kilder
+   - Mål: Bygge et lite, relevant litteraturgrunnlag utover kompendiet
 
 ### ⚠️ HØYT PRIORITET (Dager: 3–7)
 
-3. **Starte KI-prognosemodell (3.3)** (parallelt med datavask)
-   - Velg tidsseriemetode (ARIMA, eksponentiell utjevning, enkel ML)
+3. **Starte prognosemodell (3.3)** (parallelt med datavask)
+   - Bruk SARIMAX som hovedretning, med enkel baseline ved behov
    - Implementer baseline-modell
    - Test med historiske data når 3.2 er delvis ferdig
 
@@ -167,14 +167,14 @@ Kritisk sekvens som må gjennomføres serielt:
 
 | Milepæl | Dato | Dager igjen | Status |
 |---------|------|-------------|--------|
-| **3.7: Godkjent hovedutkast** | 08.05.26 | 12 | 🔴 Avhenger av 3.2–3.6 |
-| **4.4: Innlevering rapport og kode** | 29.05.26 | 33 | 🔴 Avhenger av fase 3 & 4 |
-| **4.5: Muntlig presentasjon** | 01–05.06.26 | 36–40 | 🔴 Etter innlevering |
+| **3.7: Godkjent hovedutkast** | 08.05.26 | 13 | 🔴 Avhenger av 3.2–3.6 |
+| **4.4: Innlevering rapport og kode** | 29.05.26 | 34 | 🔴 Avhenger av fase 3 & 4 |
+| **4.5: Muntlig presentasjon** | 01–05.06.26 | 37–41 | 🔴 Etter innlevering |
 
 ---
 
 ## Konklusjon
 
-**Prosjektet kan fullføres innen fristen dersom datainnsamling (3.2) starter umiddelbart og gjennomføres parallelt med litteratur- og modellarbeid.** Gjenværende 33 dager er tilstrekkelig hvis kritiske oppgaver gjennomføres effektivt og sekvensiell (ikke parallell) der det er planlagt.
+**Prosjektet kan fortsatt fullføres innen fristen dersom datainnsamling (3.2) starter nå og gjennomføres parallelt med målrettet litteraturarbeid og enkel modellimplementasjon.** Gjenværende 34 dager er knappe, men tilstrekkelige dersom omfanget holdes stramt og minimumsløsningen prioriteres først.
 
-**Største risiko:** Forsinkelse i datavask (3.2) vil kaskadeforsink alle påfølgende aktiviteter og truende milepælen på 08.05.26.
+**Største risiko:** Forsinkelse i tilgang til faktiske data vil kaskadeforsinke modellering, analyse og hovedutkastet som skal være klart før 08.05.2026.
