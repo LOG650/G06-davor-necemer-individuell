@@ -272,6 +272,8 @@ Litt avhengig av omfanget, kan det være lurt å vurdere om du skal splitte kapi
 
 **Paradigme:** Kvantitativ case-studie basert på historiske operasjonelle data fra en produksjon- og distribusjonsoperasjon.
 
+**Datavindu og modellstrategi:** Datagrunnlaget for prognosedelen består av ukentlige observasjoner for perioden 1. januar 2024 til 31. desember 2025, totalt 104 observasjoner per varestrøm. Modellen trenes på denne perioden og valideres deretter out-of-sample mot observerte ukedata for perioden 1. januar 2026 til 31. mars 2026. Etter modellvalg re-estimeres endelig modell på hele det tilgjengelige datasettet før prognosen brukes som input til kapasitetsmodellen. Endelig modellspesifikasjon fastsettes etter datakontroll og innledende eksplorativ analyse, slik at modellens kompleksitet tilpasses datamaterialets kvalitet, lengde og tilgjengelige eksogene variabler.
+
 **Prognosemodell:** SARIMAX (Seasonal Autoregressive Integrated Moving Average with eXogenous variables) velges fordi:
 - Tidsseriene (ukentlige volumer) har **tydelige sesongmønstre** (høysesonger knyttet til julekampanjer, påske, sommerferie) og underliggende trend
 - Eksogene variabler (kampanjekalender) påvirker etterspørselen betydelig utover sesongbasis-nivå
@@ -298,20 +300,24 @@ hvor:
 - $X_t$ = eksogen vektor (kampanjeindikator, helligdag-dummy, osv.)
 - $\beta$ = koeffisientvektor for eksogene variabler
 
+Her viser F og S til varestrømmene ferskvare og sekundærvare, mens $s$ i SARIMAX-formelen viser sesonglengden og ikke varestrømmen sekundærvare. For ukedata settes $s = 52$ fordi etterspørselen forventes å følge et årlig sesongmønster.
+
 **Parameterestimering:** SARIMAX-parametere (p, d, q, P, D, Q, s) bestemmes via:
 1. ADF-test (Augmented Dickey-Fuller) for å sjekke trend-stationaritet og velge d
 2. Sesongdifferensiering og sjekk for sesong-stationaritet, velg D
 3. ACF/PACF-plot for å identifisere p, q, P, Q
-4. Auto-ARIMA med seasonal=True for automatisk parametervalg (eller grid-search)
-5. Maximum likelihood estimation (MLE) for koeffisienter
+4. Auto-ARIMA med seasonal=True brukes som støtte til å identifisere rimelige kandidatmodeller for (p, d, q)(P, D, Q, s), siden manuell søking raskt blir vilkårlig når datamaterialet er begrenset
+5. Endelig SARIMAX-modell estimeres med maximum likelihood estimation (MLE), og valg av modell støttes av informasjonskriterier og residualdiagnostikk
 
-**Validering:** Modellen evalueres på hold-out test-periode (f.eks. siste 13 uker):
+Siden hver varestrøm bare har 104 ukesobservasjoner i treningsperioden, estimeres parsimoniske modeller og sammenlignes mot enklere benchmark-modeller der det er relevant, for eksempel seasonal naive eller enklere SARIMA/SARIMAX-varianter.
+
+**Validering:** Modellen evalueres out-of-sample mot observerte ukedata for perioden 1. januar 2026 til 31. mars 2026 (omtrent 13 uker), etter at modellen først er estimert på data for 2024 og 2025:
 - MAE (Mean Absolute Error)
 - RMSE (Root Mean Squared Error)
 - MAPE (Mean Absolute Percentage Error)
 - Residual-diagnostikk (Ljung-Box test for autokorrelasjon og sesongavhengighet)
 
-**Verktøy:** Python (statsmodels.tsa.statespace.sarimax.SARIMAX eller auto_arima med seasonal=True), R (forecast::auto.arima med seasonal=TRUE), eller lignende.
+**Verktøy:** Python er hovedverktøyet i prognosedelen. `auto_arima` (for eksempel fra `pmdarima`) kan brukes som støtte til modellseleksjon, mens `statsmodels.tsa.statespace.sarimax.SARIMAX` brukes til endelig estimering, tolkning av koeffisienter for eksogene variabler, residualdiagnostikk og prognosegenerering. R med `forecast::auto.arima(seasonal = TRUE)` kan brukes som alternativ ved behov.
 
 ---
 
