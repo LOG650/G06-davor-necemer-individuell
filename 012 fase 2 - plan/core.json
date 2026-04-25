@@ -1,0 +1,20 @@
+{
+  "project_id": "LOG650-G06-IND",
+  "name": "Integrert volumprognose og kapasitetsanalyse",
+  "course": "LOG650",
+  "institution": "Høgskolen i Molde",
+  "owner": "Davor Necemer",
+  "status": "delayed",
+  "start_date": "2026-01-12",
+  "deadline_report": "2026-05-29",
+  "deadline_presentation": "2026-06-05",
+  "description": "Datadrevet kapasitetsmodell for et anonymisert norsk næringsmiddelmiljø. To parallelle varestrømmer (ferskvare og sekundær/handelsvare) samles i et felles distribusjonsledd med faste daglige cut-off-frister. Målet er å minimere ekstra kapasitetsbruk og unngå fristbrudd ved hjelp av volumpronoser og en kapasitetsoptimeringsmodell.",
+  "approach": "Kvantitativ, casebasert studieoppgave",
+  "tools": [
+    "Python",
+    "Microsoft Project",
+    "Word/Markdown",
+    "GitHub",
+    "VS Code"
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "risks": [
+    {
+      "id": "RK01",
+      "title": "Kompleks datainnsamling og datavask",
+      "description": "Data må hentes fra flere systemer og i ulike formater, noe som kan gjøre sammenstilling og rensing tidkrevende.",
+      "probability": "high",
+      "impact": "high",
+      "status": "active",
+      "mitigation": "Starte datavask tidlig og bruke skript/verktøy for å effektivisere arbeidet."
+    },
+    {
+      "id": "RK02",
+      "title": "Utfordringer med modellvalg og modellutvikling",
+      "description": "Det kan ta tid å finne og utvikle en hensiktsmessig prognose- og kapasitetsmodell.",
+      "probability": "medium",
+      "impact": "high",
+      "status": "active",
+      "mitigation": "Starte med en enkel baseline-løsning og utvikle modellen trinnvis."
+    },
+    {
+      "id": "RK03",
+      "title": "Konfidensialitet og sensitive bedriftsdata",
+      "description": "Prosjektet bygger på data fra en næringsmiddelbedrift – feil håndtering kan føre til personvern- eller forretningsproblemer.",
+      "probability": "low",
+      "impact": "high",
+      "status": "mitigated",
+      "mitigation": "Anonymisere og transformere datagrunnlaget før analyse og rapportering."
+    },
+    {
+      "id": "RK04",
+      "title": "Ustrukturert litteratur- og referansehåndtering",
+      "description": "Svak oversikt over kilder kan føre til feil i referanseliste og teorigrunnlag.",
+      "probability": "medium",
+      "impact": "medium",
+      "status": "active",
+      "mitigation": "Lagre relevante kilder systematisk i «003 references» og oppdatere bibliografien fortløpende."
+    },
+    {
+      "id": "RK05",
+      "title": "For høy modellkompleksitet i forhold til tid",
+      "description": "Ambisjonsnivået i modelleringen kan bli for høyt i forhold til prosjektets rammer og frister.",
+      "probability": "high",
+      "impact": "high",
+      "status": "active",
+      "mitigation": "Prioritere en gjennomførbar minimumsløsning først og utvide bare dersom tidsplanen tillater det."
+    }
+  ]
+}

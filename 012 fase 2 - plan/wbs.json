@@ -1,0 +1,165 @@
+{
+  "project": "Integrert volumprognose og kapasitetsanalyse",
+  "deliverables": [
+    {
+      "id": "WBS-1",
+      "name": "Initiering og proposal",
+      "description": "Første utkast og revidert proposal levert og godkjent",
+      "work_packages": [
+        {
+          "id": "WBS-1.1",
+          "name": "Utarbeide problemstilling og scope"
+        },
+        {
+          "id": "WBS-1.2",
+          "name": "Definere målfunksjon og avgrensninger"
+        },
+        {
+          "id": "WBS-1.3",
+          "name": "Revidere etter tilbakemelding"
+        }
+      ]
+    },
+    {
+      "id": "WBS-2",
+      "name": "Prosjektplanlegging og risikoanalyse",
+      "description": "Prosjektstyringsplan, Gantt og risikoregister",
+      "work_packages": [
+        {
+          "id": "WBS-2.1",
+          "name": "Prosjektstyringsplan (scope, mål, budsjett, interessenter)"
+        },
+        {
+          "id": "WBS-2.2",
+          "name": "WBS og Gantt-plan i MS Project"
+        },
+        {
+          "id": "WBS-2.3",
+          "name": "Risikoregister med tiltak"
+        }
+      ]
+    },
+    {
+      "id": "WBS-3",
+      "name": "Litteratursøk og teoretisk rammeverk",
+      "description": "Relevant litteratur om prognoser, kapasitetsplanlegging og optimering",
+      "work_packages": [
+        {
+          "id": "WBS-3.1",
+          "name": "Søk etter litteratur om etterspørselsprognoser"
+        },
+        {
+          "id": "WBS-3.2",
+          "name": "Søk etter litteratur om kapasitetsplanlegging"
+        },
+        {
+          "id": "WBS-3.3",
+          "name": "Skriv teoretisk rammeverk"
+        }
+      ]
+    },
+    {
+      "id": "WBS-4",
+      "name": "Datainnsamling og datavask",
+      "description": "Historiske volumdata og kampanjekalender klargjort for analyse",
+      "work_packages": [
+        {
+          "id": "WBS-4.1",
+          "name": "Hente historiske volumdata (min. 2 år)"
+        },
+        {
+          "id": "WBS-4.2",
+          "name": "Hente kampanjekalender"
+        },
+        {
+          "id": "WBS-4.3",
+          "name": "Standardisere til FPK-ekvivalenter"
+        },
+        {
+          "id": "WBS-4.4",
+          "name": "Datavask og anonymisering"
+        }
+      ]
+    },
+    {
+      "id": "WBS-5",
+      "name": "Prognosemodellering",
+      "description": "Tidsserie- eller ML-modell for ukentlig volumprognose",
+      "work_packages": [
+        {
+          "id": "WBS-5.1",
+          "name": "Velge og begrunne prognosemodell (ARIMA, ETS, ML)"
+        },
+        {
+          "id": "WBS-5.2",
+          "name": "Trene og validere modell"
+        },
+        {
+          "id": "WBS-5.3",
+          "name": "Dokumentere prognosefeil og modellvalg"
+        }
+      ]
+    },
+    {
+      "id": "WBS-6",
+      "name": "Kapasitetsmodell og analyse",
+      "description": "Optimeringsmodell for ekstra kapasitet og produksjonsstart",
+      "work_packages": [
+        {
+          "id": "WBS-6.1",
+          "name": "Definere optimeringsmål og beslutningsvariabler"
+        },
+        {
+          "id": "WBS-6.2",
+          "name": "Implementere kapasitetsoptimeringsmodell"
+        },
+        {
+          "id": "WBS-6.3",
+          "name": "Kjøre analyse og tolke resultater"
+        },
+        {
+          "id": "WBS-6.4",
+          "name": "Scenarioanalyse og sensitivitetstesting"
+        }
+      ]
+    },
+    {
+      "id": "WBS-7",
+      "name": "Review, kvalitetssikring og sluttrapport",
+      "description": "Peer-review, finpuss og ferdigstilt rapport",
+      "work_packages": [
+        {
+          "id": "WBS-7.1",
+          "name": "Peer-to-peer review av hovedutkast"
+        },
+        {
+          "id": "WBS-7.2",
+          "name": "Skrive introduksjon, diskusjon og konklusjon"
+        },
+        {
+          "id": "WBS-7.3",
+          "name": "Finpuss, APA 7th og sluttkontroll"
+        }
+      ]
+    },
+    {
+      "id": "WBS-8",
+      "name": "Innlevering og muntlig presentasjon",
+      "description": "Rapport og kode levert, presentasjon gjennomført",
+      "work_packages": [
+        {
+          "id": "WBS-8.1",
+          "name": "Innlevering av rapport og kode (29.05.26)"
+        },
+        {
+          "id": "WBS-8.2",
+          "name": "Forberede presentasjon"
+        },
+        {
+          "id": "WBS-8.3",
+          "name": "Gjennomføre muntlig presentasjon (01–05.06.26)"
+        }
+      ]
+    }
+  ]
+}

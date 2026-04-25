@@ -1,0 +1,60 @@
+{
+  "requirements": [
+    {
+      "id": "R01",
+      "category": "data",
+      "description": "Bygge på relevante historiske virksomhetsdata (min. 2 år, ukentlig volum)",
+      "priority": "must",
+      "status": "open"
+    },
+    {
+      "id": "R02",
+      "category": "forecasting",
+      "description": "Bruke volumprognoser som input til kapasitetsanalysen",
+      "priority": "must",
+      "status": "open"
+    },
+    {
+      "id": "R03",
+      "category": "capacity",
+      "description": "Analysere behov for ekstra kapasitet i tre produksjonsledd",
+      "priority": "must",
+      "status": "open"
+    },
+    {
+      "id": "R04",
+      "category": "capacity",
+      "description": "Inkludere faste distribusjonsfrister (sonevise cut-offs) som rammebetingelser",
+      "priority": "must",
+      "status": "open"
+    },
+    {
+      "id": "R05",
+      "category": "documentation",
+      "description": "Dokumentere analysen slik at fremgangsmåte og vurderinger er etterprøvbare",
+      "priority": "must",
+      "status": "open"
+    },
+    {
+      "id": "R06",
+      "category": "reporting",
+      "description": "Levere sluttrapport og kildekode som grunnlag for muntlig presentasjon",
+      "priority": "must",
+      "status": "open"
+    },
+    {
+      "id": "R07",
+      "category": "data",
+      "description": "Anonymisere og transformere bedriftsdata – ingen personopplysninger",
+      "priority": "must",
+      "status": "open"
+    },
+    {
+      "id": "R08",
+      "category": "model",
+      "description": "Gjennomføre scenarioanalyse for sensitivitetstesting av modellens robusthet",
+      "priority": "should",
+      "status": "open"
+    }
+  ]
+}

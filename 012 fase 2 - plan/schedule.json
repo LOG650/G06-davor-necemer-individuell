@@ -1,0 +1,234 @@
+{
+  "project": "Integrert volumprognose og kapasitetsanalyse",
+  "baseline_date": "2026-03-16",
+  "status_date": "2026-04-26",
+  "phases": [
+    {
+      "id": "F1",
+      "name": "Fase 1: Initiering",
+      "start": "2026-01-12",
+      "end": "2026-02-24",
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "1.1",
+          "name": "Utvikle første utkast",
+          "duration_days": 29,
+          "start": "2026-01-12",
+          "end": "2026-02-19",
+          "status": "completed"
+        },
+        {
+          "id": "1.2",
+          "name": "Levere første utkast",
+          "duration_days": 0,
+          "start": "2026-02-19",
+          "end": "2026-02-19",
+          "milestone": true,
+          "status": "completed"
+        },
+        {
+          "id": "1.3",
+          "name": "Vente på tilbakemelding fra veileder",
+          "duration_days": 1,
+          "start": "2026-02-20",
+          "end": "2026-02-20",
+          "status": "completed"
+        },
+        {
+          "id": "1.4",
+          "name": "Revidere proposal",
+          "duration_days": 1,
+          "start": "2026-02-23",
+          "end": "2026-02-23",
+          "status": "completed"
+        },
+        {
+          "id": "1.5",
+          "name": "Levere revidert versjon",
+          "duration_days": 1,
+          "start": "2026-02-24",
+          "end": "2026-02-24",
+          "status": "completed"
+        },
+        {
+          "id": "1.6",
+          "name": "Milepæl: Godkjent prosjektbeskrivelse",
+          "duration_days": 0,
+          "start": "2026-02-24",
+          "end": "2026-02-24",
+          "milestone": true,
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "id": "F2",
+      "name": "Fase 2: Prosjektplan",
+      "start": "2026-02-24",
+      "end": "2026-03-16",
+      "status": "completed",
+      "tasks": [
+        {
+          "id": "2.1",
+          "name": "Utvikle styringsplan og risikoanalyse",
+          "duration_days": 9,
+          "start": "2026-02-25",
+          "end": "2026-03-09",
+          "status": "completed"
+        },
+        {
+          "id": "2.2",
+          "name": "Bygge WBS og Gantt i MS Project",
+          "duration_days": 5,
+          "start": "2026-03-10",
+          "end": "2026-03-16",
+          "status": "completed"
+        },
+        {
+          "id": "2.3",
+          "name": "Starte formelt litteratursøk",
+          "duration_days": 10,
+          "start": "2026-02-25",
+          "end": "2026-03-10",
+          "status": "partial",
+          "note": "Kun 1 referanse funnet i repo"
+        },
+        {
+          "id": "2.4",
+          "name": "Milepæl: Godkjent prosjektplan",
+          "duration_days": 0,
+          "start": "2026-03-16",
+          "end": "2026-03-16",
+          "milestone": true,
+          "status": "completed"
+        }
+      ]
+    },
+    {
+      "id": "F3",
+      "name": "Fase 3: Gjennomføring & Review",
+      "start": "2026-03-16",
+      "end": "2026-05-08",
+      "status": "delayed",
+      "tasks": [
+        {
+          "id": "3.1",
+          "name": "Utarbeide teoretisk rammeverk",
+          "duration_days": 8,
+          "start": "2026-03-17",
+          "end": "2026-03-26",
+          "status": "delayed",
+          "days_late": 31,
+          "note": "Kun 1 metodologi-ref. Mangler forecasting & capacity refs."
+        },
+        {
+          "id": "3.2",
+          "name": "Datainnsamling og vask av bedriftsdata",
+          "duration_days": 8,
+          "start": "2026-03-17",
+          "end": "2026-03-26",
+          "status": "not_started",
+          "days_late": 31,
+          "note": "KRITISK: 004 data/ mappen er tom"
+        },
+        {
+          "id": "3.3",
+          "name": "Utvikling og trening av KI-prognosemodell",
+          "duration_days": 10,
+          "start": "2026-03-27",
+          "end": "2026-04-09",
+          "status": "not_started",
+          "days_late": 17,
+          "note": "Avhenger av 3.2"
+        },
+        {
+          "id": "3.4",
+          "name": "Utvikling av kapasitetsoptimeringsmodell",
+          "duration_days": 11,
+          "start": "2026-04-10",
+          "end": "2026-04-24",
+          "status": "not_started",
+          "days_late": 2,
+          "note": "Avhenger av 3.2 og 3.3"
+        },
+        {
+          "id": "3.5",
+          "name": "Analyse av resultater",
+          "duration_days": 5,
+          "start": "2026-04-27",
+          "end": "2026-05-01",
+          "status": "not_started",
+          "note": "Avhenger av 3.3 og 3.4"
+        },
+        {
+          "id": "3.6",
+          "name": "Gjennomføre peer-to-peer review",
+          "duration_days": 5,
+          "start": "2026-05-04",
+          "end": "2026-05-08",
+          "status": "not_started"
+        },
+        {
+          "id": "3.7",
+          "name": "Milepæl: Godkjent hovedutkast",
+          "duration_days": 0,
+          "start": "2026-05-08",
+          "end": "2026-05-08",
+          "milestone": true,
+          "status": "not_started"
+        }
+      ]
+    },
+    {
+      "id": "F4",
+      "name": "Fase 4: Sluttrapport",
+      "start": "2026-05-08",
+      "end": "2026-06-05",
+      "status": "not_started",
+      "tasks": [
+        {
+          "id": "4.1",
+          "name": "Ferdigstille introduksjon",
+          "duration_days": 4,
+          "start": "2026-05-11",
+          "end": "2026-05-14",
+          "status": "not_started"
+        },
+        {
+          "id": "4.2",
+          "name": "Skrive diskusjon og konklusjon",
+          "duration_days": 6,
+          "start": "2026-05-15",
+          "end": "2026-05-22",
+          "status": "not_started"
+        },
+        {
+          "id": "4.3",
+          "name": "Finpuss, kvalitetssikring og APA 7th",
+          "duration_days": 5,
+          "start": "2026-05-25",
+          "end": "2026-05-29",
+          "status": "not_started"
+        },
+        {
+          "id": "4.4",
+          "name": "Milepæl: Innlevering av rapport og kode",
+          "duration_days": 0,
+          "start": "2026-05-29",
+          "end": "2026-05-29",
+          "milestone": true,
+          "status": "not_started"
+        },
+        {
+          "id": "4.5",
+          "name": "Forberede og gjennomføre muntlig presentasjon",
+          "duration_days": 5,
+          "start": "2026-06-01",
+          "end": "2026-06-05",
+          "status": "not_started"
+        }
+      ]
+    }
+  ]
+}
