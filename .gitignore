@@ -1,0 +1,8 @@
+# Local/sensitive business data exports
+004 data/raw/
+004 data/processed/
+004 data/weekly_volume.csv
+
+# Python cache
+__pycache__/
+*.py[cod]

@@ -20,6 +20,20 @@ en tydelig kobling mellom:
 
 Uten denne koblingen blir LP-modellen ikke operativt gyldig.
 
+### Operasjonell definisjon av FPK-ekvivalent
+
+I denne modellen betyr `FPK-ekvivalent` en operasjonell haandteringsenhet i
+distribusjonsleddet, ikke noedvendigvis antall underliggende forbrukerenheter.
+Hvis en DPK, kurv eller tilsvarende salgsenhet tas ut, plukkes eller sorteres som
+en fysisk enhet, teller den som `1` i `volume_fpk_eq`.
+
+Eksempel:
+- `1` DPK franske landbroed kan inneholde `4` broed, men hvis DPK-en haandteres
+  som en kurv i distribusjonen, teller den som `1` haandteringsenhet i modellen.
+
+Begrunnelsen er at kapasitetsbelastningen i distribusjonsklargjoering bestemmes
+av antall fysiske haandteringer, ikke bare av antall produkter inne i hver DPK.
+
 ## Minimumssett du maa ha
 
 Foelgende fem datablokker er minimum for aa kunne gjennomfoere prosjektet paa en
@@ -50,6 +64,8 @@ Kritisk merknad:
 - Hvis `volume_fpk_eq` egentlig er utsendt volum og ikke faktisk etterspoersel, maa
   uker med stockout, produksjonsstopp eller kapasitetsbrudd merkes. Ellers vil
   forecasten kunne undervurdere reelle topper.
+- Hvis datakilden teller underliggende forbrukerenheter i stedet for operative
+  haandteringsenheter, maa volumet omregnes eller dokumenteres i `notes`.
 
 ### 2. Omregning fra volum til tidsforbruk
 

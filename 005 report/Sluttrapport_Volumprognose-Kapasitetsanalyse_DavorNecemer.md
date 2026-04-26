@@ -133,6 +133,8 @@ Disse delproblemene er sekvensielle: prognosen fra DP1 blir input til LP-modelle
 
 **Måling:** Modellen optimaliserer kapasitetsforbruk (mann-timer, overtimebehov) og omfang av fristbrudd (FPK-enheter over kapasitet), ikke faktiske norske kroner. *Begrunnelse:* Kostnadsdata er sensitive; ressursenhetsmål er generelt og reproduserbart.
 
+**Volumenhet:** I distribusjonsleddet brukes FPK-ekvivalent som en operasjonell håndteringsenhet. Dersom en DPK, kurv eller tilsvarende salgsenhet håndteres som én fysisk plukk- eller sorteringsenhet, teller den som én enhet i modellen, selv om den inneholder flere underliggende forbrukerenheter. *Begrunnelse:* Kapasitetsbelastningen i distribusjonsklargjøring bestemmes primært av antall håndteringer, ikke av antall produkter inne i hver håndteringsenhet.
+
 **Implementering:** Prosjektet er teoretisk modellutvikling. Operativ implementasjon av daglig mann-allokering ligger utenfor omfanget. *Begrunnelse:* Sikrer fokus på prognostisering og optimeringsmodell innenfor tidsrammen.
 
 ### 1.4 Antagelser
@@ -272,7 +274,7 @@ Litt avhengig av omfanget, kan det være lurt å vurdere om du skal splitte kapi
 
 **Paradigme:** Kvantitativ case-studie basert på historiske operasjonelle data fra en produksjon- og distribusjonsoperasjon.
 
-**Datavindu og modellstrategi:** Datagrunnlaget for prognosedelen består av ukentlige observasjoner for perioden 1. januar 2024 til 31. desember 2025, totalt 104 observasjoner per varestrøm. Modellen trenes på denne perioden og valideres deretter out-of-sample mot observerte ukedata for perioden 1. januar 2026 til 31. mars 2026. Etter modellvalg re-estimeres endelig modell på hele det tilgjengelige datasettet før prognosen brukes som input til kapasitetsmodellen. Endelig modellspesifikasjon fastsettes etter datakontroll og innledende eksplorativ analyse, slik at modellens kompleksitet tilpasses datamaterialets kvalitet, lengde og tilgjengelige eksogene variabler.
+**Datavindu og modellstrategi:** Datagrunnlaget for prognosedelen består av ukentlige observasjoner for perioden 1. januar 2024 til 31. desember 2025, totalt 104 observasjoner per varestrøm. Modellen trenes på denne perioden og valideres deretter out-of-sample mot observerte ukedata for perioden 1. januar 2026 til 31. mars 2026. På ukesnivå representeres dette som uke 2026-01 til 2026-14, der uke 14 starter 30. mars 2026 og dermed dekker 31. mars. Etter modellvalg re-estimeres endelig modell på hele det tilgjengelige datasettet før prognosen brukes som input til kapasitetsmodellen. Endelig modellspesifikasjon fastsettes etter datakontroll og innledende eksplorativ analyse, slik at modellens kompleksitet tilpasses datamaterialets kvalitet, lengde og tilgjengelige eksogene variabler.
 
 **Prognosemodell:** SARIMAX (Seasonal Autoregressive Integrated Moving Average with eXogenous variables) velges fordi:
 - Tidsseriene (ukentlige volumer) har **tydelige sesongmønstre** (høysesonger knyttet til julekampanjer, påske, sommerferie) og underliggende trend
@@ -311,7 +313,7 @@ Her viser F og S til varestrømmene ferskvare og sekundærvare, mens $s$ i SARIM
 
 Siden hver varestrøm bare har 104 ukesobservasjoner i treningsperioden, estimeres parsimoniske modeller og sammenlignes mot enklere benchmark-modeller der det er relevant, for eksempel seasonal naive eller enklere SARIMA/SARIMAX-varianter.
 
-**Validering:** Modellen evalueres out-of-sample mot observerte ukedata for perioden 1. januar 2026 til 31. mars 2026 (omtrent 13 uker), etter at modellen først er estimert på data for 2024 og 2025:
+**Validering:** Modellen evalueres out-of-sample mot observerte ukedata for perioden 1. januar 2026 til 31. mars 2026. Siden modellen bruker hele uker, behandles valideringsperioden som uke 2026-01 til 2026-14, etter at modellen først er estimert på data for 2024 og 2025:
 - MAE (Mean Absolute Error)
 - RMSE (Root Mean Squared Error)
 - MAPE (Mean Absolute Percentage Error)
@@ -352,6 +354,8 @@ Minimumssettet av data som kreves i prosjektet er:
 - **Ukentlig tilgjengelig kapasitet:** grunnkapasitet og maksimal ekstra kapasitet per uke og prosessledd
 - **Aggregerte sone- og fristparametre:** andeler av ukentlig volum som må være ferdig innen de ulike sonevise cut-off-fristene
 - **Tiltaksparametre:** regler og relative vekter for overtid, ekstra skift og eventuell tidlig oppstart
+
+For datavasken defineres `volume_fpk_eq` som operasjonelle håndteringsenheter i distribusjonsleddet. Hvis `Antall fakturert` i Qlik representerer DPK, kurv eller annen enhet som plukkes og sorteres som én fysisk enhet, kan verdien brukes direkte som FPK-ekvivalent i modellen. Hvis datakilden i stedet teller underliggende forbrukerenheter, må volumet omregnes eller dokumenteres som avvik.
 
 Det mest kritiske datakravet i prosjektet er koblingen mellom:
 

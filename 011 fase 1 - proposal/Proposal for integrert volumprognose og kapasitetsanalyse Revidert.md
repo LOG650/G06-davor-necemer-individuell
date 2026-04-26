@@ -21,7 +21,7 @@ Selv om modellen kjøres på ukesnivå, representeres de sonevise cut-offene ved
 **Data:**
 Prosjektet vil bygge på følgende datagrunnlag:
 
-Historiske, ukentlige volumdata over minimum to år for de to varestrømmene. Volumet standardiseres til en felles måleenhet (FPK-ekvivalenter) for å bygge prognosemodellen.
+Historiske, ukentlige volumdata over minimum to år for de to varestrømmene. Volumet standardiseres til en felles måleenhet (FPK-ekvivalenter) for å bygge prognosemodellen. I distribusjonsleddet tolkes FPK-ekvivalenten som en operasjonell håndteringsenhet: dersom en DPK, kurv eller tilsvarende salgsenhet plukkes og sorteres som én fysisk enhet, teller den som én enhet i modellen selv om den inneholder flere underliggende forbrukerenheter.
 
 Historisk kampanjekalender (indikatorvariabler for planlagte tilbud/kampanjer) for å fange opp eksterne etterspørselsdrivere i prognosen.
 
