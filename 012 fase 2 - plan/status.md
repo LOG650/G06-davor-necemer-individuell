@@ -1,8 +1,8 @@
 # Prosjektstatus - Integrert volumprognose og kapasitetsanalyse
 
 **Dato:** 2026-04-28
-**Prosjektleder:** Davor Necemer  
-**Dager til innlevering:** 33 (2026-05-29)
+**Prosjektleder:** Davor Necemer
+**Dager til innlevering:** 31 (2026-05-29)
 
 ---
 
@@ -15,7 +15,12 @@
 | Fase 3: Gjennomforing | Pagar, men bak plan |
 | Fase 4: Sluttrapport | Pabegynt i repo, men ikke ferdigstilt |
 
-Prosjektet er fortsatt forsinket i forhold til Gantt-planen, men statusen er bedre enn tidligere repo-gjennomgang tilsa. Det finnes na et aktivt rapportutkast, et tydelig datakravsdokument, CSV-maler for datainnhenting, forste lokale vask av Qlik-volumdata, kapasitetsantakelser for dispatch og en oppdatert metodisk retning med SARIMAX for prognosedelen og LP for kapasitetsdelen.
+Prosjektet er fortsatt forsinket i forhold til Gantt-planen, men statusen er
+bedre enn tidligere repo-gjennomgang tilsa. Det finnes na et aktivt
+rapportutkast, et tydelig datakravsdokument, CSV-maler for datainnhenting,
+forste lokale vask av Qlik-volumdata, en publiserbar anonymisert
+weekly-volume-fil, kapasitetsantakelser for dispatch og en oppdatert metodisk
+retning med SARIMAX for prognosedelen og LP for kapasitetsdelen.
 
 ---
 
@@ -46,8 +51,8 @@ Prosjektet er fortsatt forsinket i forhold til Gantt-planen, men statusen er bed
 | ID | Aktivitet | Planlagt slutt | Status | Merknad |
 |----|-----------|----------------|--------|---------|
 | 3.1 | Utarbeide teoretisk rammeverk | 2026-03-26 | In progress, delayed | Teori-, metode- og modelleringsutkast finnes i rapporten, men litteraturgrunnlaget ma fortsatt utvides. |
-| 3.2 | Datainnsamling og vask av bedriftsdata | 2026-03-26 | In progress, delayed | Qlik-volum, kampanjer og lansering/sanering er lastet lokalt og forste vask er gjennomfort. Outlook-script for produksjonslister/dispatcher er testet, men 2024-historikk venter paa videre Outlook-synk/arkivtilgang. Sensitive data ignoreres av Git inntil anonymisering er klar. |
-| 3.3 | Utvikling og trening av prognosemodell | 2026-04-09 | Prepared, delayed | SARIMAX er valgt metodisk. Vasket ukentlig volum dekker trening 2024-2025 og validering 2026-01 til 2026-14. Ingen modellkode er implementert ennå. |
+| 3.2 | Datainnsamling og vask av bedriftsdata | 2026-03-26 | In progress, delayed | Qlik-volum, kampanjer og lansering/sanering er lastet lokalt og forste vask er gjennomfort. `weekly_volume_anonymized.csv` er generert med indeks `2024_average_per_stream=100` og kan pushes. Outlook-script for produksjonslister/dispatcher er testet, men 2024-historikk venter paa videre Outlook-synk/arkivtilgang. Sensitive raw/processed-data holdes fortsatt lokalt og ignorert av Git. |
+| 3.3 | Utvikling og trening av prognosemodell | 2026-04-09 | Prepared, delayed | SARIMAX er valgt metodisk. Anonymisert ukentlig volum dekker trening 2024-2025 og validering 2026-01 til 2026-14. Ingen modellkode er implementert ennaa. |
 | 3.4 | Utvikling av kapasitetsoptimeringsmodell | 2026-04-24 | Prepared, delayed | LP-struktur og beslutningslogikk er beskrevet i rapportutkastet. Kapasitetsbaseline for P1/P2, tidlig oppstart, sykefravaersproxy og ekstra bemanning er dokumentert som dataantakelser. Ingen optimeringsimplementasjon er laget ennaa. |
 | 3.5 | Analyse av resultater | 2026-05-01 | Not started | Avhenger av 3.2 til 3.4. |
 | 3.6 | Gjennomfore peer-to-peer review | 2026-05-08 | Not started |  |
@@ -67,18 +72,24 @@ Prosjektet er fortsatt forsinket i forhold til Gantt-planen, men statusen er bed
 
 ## Kritiske risikoer akkurat na
 
-1. **Datainnsamling:** Ukentlig volumgrunnlag er lastet og vasket lokalt, men data maa anonymiseres foer de kan pushes eller brukes som del av leveranse. Historiske Outlook-vedlegg foer 2025 er forelopig ikke tilgjengelige lokalt.
-2. **Litteraturgrunnlag:** Strukturen er ryddet og kompendiene er pa plass, men ekstern litteratur utover kompendiet ma fortsatt bygges opp.
-3. **Implementasjon:** Metodikken er definert, men prognosemodell og kapasitetsmodell er forelopig bare dokumentert konseptuelt.
+1. **Datainnsamling:** Ukentlig volumgrunnlag er lastet, vasket lokalt og
+   anonymisert som indeksfil som kan pushes. Raw Qlik-, kampanje-,
+   lansering/sanering- og processed-filer er fortsatt sensitive og skal ikke
+   pushes. Historiske Outlook-vedlegg foer 2025 er forelopig ikke tilgjengelige
+   lokalt.
+2. **Litteraturgrunnlag:** Strukturen er ryddet og kompendiene er pa plass, men
+   ekstern litteratur utover kompendiet ma fortsatt bygges opp.
+3. **Implementasjon:** Metodikken er definert, men prognosemodell og
+   kapasitetsmodell er forelopig bare dokumentert konseptuelt.
 
 ## Prioriterte tiltak
 
 | Prioritet | Tiltak |
 |-----------|--------|
-| Kritisk | Gjennomfoer review av datagrunnlag og antakelser foer anonymisering. Deretter anonymiser `weekly_volume.csv`, og oppdater `process_time_matrix.csv` naar flere Outlook-par er hentet. |
-| Hoy | Fullfor et lite, relevant litteraturgrunnlag utover kompendiet |
-| Hoy | Implementer en enkel baseline for SARIMAX sa snart de forste dataene er klare |
-| Medium | Bygg den forste operative LP-modellen nar forecast-input og kapasitetsdata foreligger |
+| Kritisk | Dokumenter anonymiseringstransformasjonen i rapporten og start forecast-baseline paa `weekly_volume_anonymized.csv`. Oppdater `process_time_matrix.csv` naar flere Outlook-par er hentet. |
+| Hoy | Fullfor et lite, relevant litteraturgrunnlag utover kompendiet. |
+| Hoy | Implementer en enkel baseline for SARIMAX sa snart forecast-inputen er klar. |
+| Medium | Bygg den forste operative LP-modellen nar forecast-input og kapasitetsdata foreligger. |
 
 ---
 
@@ -89,11 +100,23 @@ Det viktigste som na faktisk finnes i repoet er:
 - proposal i `011 fase 1 - proposal/`
 - prosjektplan og styringsdokumenter i `012 fase 2 - plan/`
 - referansestruktur med aktive kompendier i `003 references/`
-- datakrav, CSV-maler, vaskeskript og lokal handover-note i `004 data/`
-- aktiv sluttrapport i `005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md`
+- datakrav, CSV-maler, vaskeskript, anonymiseringsskript, publiserbar
+  `weekly_volume_anonymized.csv` og lokal handover-note i `004 data/`
+- aktiv sluttrapport i
+  `005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md`
 
 Det viktigste som fortsatt mangler er:
 
-- anonymisert datagrunnlag som kan committes/pushes trygt
 - kode eller notebook for forecast og optimering
 - gjennomfort analyse og review
+
+## Restart checkpoint 2026-04-28
+
+Ved neste arbeidsokt etter omstart:
+
+1. Start fra `004 data/STATUS_2026-04-26.md`.
+2. Ikke skann `000 templates/`.
+3. Bruk `004 data/weekly_volume_anonymized.csv` som publiserbart forecastgrunnlag.
+4. Hold `004 data/weekly_volume.csv`, `004 data/raw/` og `004 data/processed/` lokalt/ignorert.
+5. Neste faglige steg er aa dokumentere anonymiseringen i rapporten og lage forste forecast-baseline.
+6. Mer Outlook-data avventes til Outlook-synk/arkivtilgang er avklart.
