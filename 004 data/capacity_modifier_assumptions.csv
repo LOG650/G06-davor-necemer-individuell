@@ -1,0 +1,8 @@
+parameter,value,unit,source_basis,comment
+baseline_sickness_absence_rate,0.06,share,SSB industry sick leave used as planning proxy,"Use as generic capacity reduction before replacements; not company-specific absence data"
+off_week_staff_efficiency,1.00,multiplier,local operational assumption,"Regular staff from off week are assumed equally productive"
+on_call_staff_efficiency,0.85,multiplier,local operational assumption,"On-call helpers are assumed less trained; test 0.80-0.90 in sensitivity analysis"
+on_call_staff_efficiency_low,0.80,multiplier,sensitivity assumption,"Lower sensitivity bound"
+on_call_staff_efficiency_high,0.90,multiplier,sensitivity assumption,"Upper sensitivity bound"
+standard_holiday_early_start,2.00,hours_per_work_night,local operational assumption,"Earlier start on ordinary holiday setup"
+easter_christmas_early_start,3.00,hours_per_work_night,local operational assumption,"Earlier start on Easter/Christmas setup"

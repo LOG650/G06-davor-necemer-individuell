@@ -1,0 +1,9 @@
+process_id,action_type,max_hours_per_week,relative_cost_weight,activation_rule,comment
+P1,early_start_standard_holiday,6.00,1.50,2 hours earlier start on ordinary holiday setup,"0.5 worker-equivalents * 2 hours * 6 work nights; treated as overtime hours"
+P2,early_start_standard_holiday,36.00,1.50,2 hours earlier start on ordinary holiday setup,"3.0 worker-equivalents * 2 hours * 6 work nights; treated as overtime hours"
+P1,early_start_easter_christmas,9.00,1.50,3 hours earlier start on Easter/Christmas setup,"0.5 worker-equivalents * 3 hours * 6 work nights; treated as overtime hours"
+P2,early_start_easter_christmas,54.00,1.50,3 hours earlier start on Easter/Christmas setup,"3.0 worker-equivalents * 3 hours * 6 work nights; treated as overtime hours"
+P1,extra_staff_off_week,,2.00,Replace absence or add capacity using regular staff from off week,"Assumed normal productivity; max hours pending local staffing limit"
+P2,extra_staff_off_week,,2.00,Replace absence or add capacity using regular staff from off week,"Assumed normal productivity; max hours pending local staffing limit"
+P1,extra_staff_on_call,,1.30,Replace absence or add capacity using on-call helpers,"Assumed 85% efficiency; max hours pending local staffing limit"
+P2,extra_staff_on_call,,1.30,Replace absence or add capacity using on-call helpers,"Assumed 85% efficiency; max hours pending local staffing limit"

@@ -113,6 +113,39 @@ Anbefalt fil: `capacity_weekly.csv`
 Hvis kapasiteten er nesten konstant, kan du starte med en enklere baseline-tabell.
 Hvis kapasiteten varierer med kalender, maa du ha ukespesifikke verdier.
 
+Foreloepig avklart kapasitetsbaseline:
+- Ordinart dispatchskift er `16:30-01:00` med `30` minutter matpause.
+- Netto arbeidstid per arbeider per skift er derfor `8,0` timer.
+- Normal bemanning er `3,5` arbeidere i skiftet.
+- `0,5` arbeider er allokert til grovfordeling / `P1=PD`.
+- `3,0` arbeidere er allokert til `P2=ED`.
+- Dette gir `4,0` basetimer per driftsdag for `P1` og `24,0`
+  basetimer per driftsdag for `P2`, totalt `28,0` arbeidstimer per
+  normal driftsdag.
+- Tidlig oppstart brukes grovt som tiltak ved helligdager: `2` timer tidligere
+  oppstart, og `3` timer ved paaske og jul.
+- Drift regnes som `6` dager per uke: arbeid/dispatch fra soendag til fredag,
+  med leveringsdager mandag til loerdag.
+- Det finnes to lag i turnus. Lagturnusen gaar fra onsdag til tirsdag, som
+  tilsvarer leveringsdager torsdag til onsdag.
+- Folk jobber en uke/skiftperiode paa og en uke av.
+- For kapasitetsmodellen betyr dette at ukentlig `base_hours` kan beregnes som
+  basetimer per driftsdag multiplisert med `6` relevante driftsdager. Turnusen
+  dokumenteres som kapasitetsforutsetning, men trenger ikke modelleres per
+  person saa lenge lagene har samme nominelle bemanning.
+- Generelt sykefravaer modelleres foreloepig som `6 %` av nominell kapasitet.
+  Dette ligger naer publisert sykefravaer for industri og brukes som
+  planleggingsantakelse, ikke som registrert bedriftsdata.
+- Ved sykefravaer erstattes folk normalt med ansatte fra friuke eller
+  tilkallingshjelp. Ansatte fra friuke antas aa ha normal effektivitet, men
+  utloeser overtid. Tilkallingshjelp antas aa ha lavere effektivitet; foreloepig
+  modellantakelse er `85 %` effektivitet, med sensitivitetsanalyse for
+  `80-90 %`.
+- Bedriften foelger NNN/tariffregler. Derfor modelleres ekstra kapasitet med
+  relative vekter i stedet for kroner: vanlig overtid/tidlig start settes lavere
+  enn arbeid paa friuke/natt/helligdag. Endelige satser maa kvalitetssikres mot
+  gjeldende lokal avtale hvis modellen skal brukes operativt.
+
 ### 4. Aggregerte sone- og fristparametre
 
 Anbefalt fil: `zone_cutoff_profile.csv`
@@ -130,6 +163,13 @@ Anbefalt fil: `zone_cutoff_profile.csv`
 Dette er dataene som skal underbygge `p1`, `p2`, `p3` i modellen.
 Hvis disse andelene ikke finnes i historiske data, kan de fastsettes som en
 driftsregel bekreftet av virksomheten, men det maa dokumenteres eksplisitt.
+
+Foreloepig sone-/fristtolkning:
+- Sonene observeres som `Street` i dispatcher actions.
+- Fristene i rapport/proposal er `00:00`, `01:00` og `02:00`.
+- Foerste arbeidsantakelse er `Street 1 -> 00:00`, `Street 2 -> 01:00` og
+  senere streets mot siste frist `02:00`, men endelige andeler skal beregnes fra
+  dispatcherhistorikk naar nok dager er hentet.
 
 ### 5. Tiltaks- og kostnadsparametre for ekstra kapasitet
 

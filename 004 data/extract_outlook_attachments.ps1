@@ -32,8 +32,8 @@ Save matching production-list attachments for one date.
 
 [CmdletBinding(SupportsShouldProcess = $true)]
 param(
-    [datetime]$Since = (Get-Date).AddDays(-30),
-    [datetime]$Until = (Get-Date).AddDays(1),
+    [object]$Since = (Get-Date).AddDays(-30),
+    [object]$Until = (Get-Date).AddDays(1),
     [string]$FolderPath = "",
     [switch]$IncludeSubfolders,
     [string]$SubjectContains = "",
@@ -87,7 +87,40 @@ function Get-FolderDisplayPath {
 function Format-OutlookDate {
     param([Parameter(Mandatory = $true)][datetime]$Date)
 
-    return $Date.ToString("MM/dd/yyyy hh:mm tt", [System.Globalization.CultureInfo]::InvariantCulture)
+    # Outlook Restrict parses dates using the local Outlook/Windows locale.
+    # On this project machine, ISO and US-style dates are interpreted as dd/MM/yyyy.
+    return $Date.ToString("dd/MM/yyyy HH:mm", [System.Globalization.CultureInfo]::InvariantCulture)
+}
+
+function Convert-ToDateTimeParameter {
+    param([Parameter(Mandatory = $true)]$Value)
+
+    if ($Value -is [datetime]) {
+        return [datetime]$Value
+    }
+
+    $text = ([string]$Value).Trim()
+    $formats = @(
+        "yyyy-MM-dd HH:mm:ss",
+        "yyyy-MM-dd HH:mm",
+        "yyyy-MM-dd",
+        "dd.MM.yyyy HH:mm:ss",
+        "dd.MM.yyyy HH:mm",
+        "dd.MM.yyyy",
+        "dd.MM.yy HH:mm",
+        "dd.MM.yy"
+    )
+    $culture = [System.Globalization.CultureInfo]::InvariantCulture
+    $styles = [System.Globalization.DateTimeStyles]::AssumeLocal
+    $parsed = [datetime]::MinValue
+
+    foreach ($format in $formats) {
+        if ([datetime]::TryParseExact($text, $format, $culture, $styles, [ref]$parsed)) {
+            return $parsed
+        }
+    }
+
+    return [datetime]::Parse($text, [System.Globalization.CultureInfo]::CurrentCulture)
 }
 
 function Get-ChildFolders {
@@ -180,6 +213,8 @@ $outlook = New-Object -ComObject Outlook.Application
 $namespace = $outlook.GetNamespace("MAPI")
 $rootFolder = Find-OutlookFolder -Namespace $namespace -Path $FolderPath
 $folders = @(Get-MailFolders -RootFolder $rootFolder -Recursive ([bool]$IncludeSubfolders))
+$sinceDate = Convert-ToDateTimeParameter -Value $Since
+$untilDate = Convert-ToDateTimeParameter -Value $Until
 
 if ($Save) {
     New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
@@ -191,7 +226,7 @@ $savedCount = 0
 foreach ($folder in $folders) {
     $items = $folder.Items
     $items.Sort("[ReceivedTime]", $true)
-    $filter = "[ReceivedTime] >= '$(Format-OutlookDate -Date $Since)' AND [ReceivedTime] < '$(Format-OutlookDate -Date $Until)'"
+    $filter = "[ReceivedTime] >= '$(Format-OutlookDate -Date $sinceDate)' AND [ReceivedTime] < '$(Format-OutlookDate -Date $untilDate)'"
     $dateItems = $items.Restrict($filter)
 
     foreach ($item in $dateItems) {
@@ -243,7 +278,7 @@ foreach ($folder in $folders) {
 
 if ($matches.Count -eq 0) {
     Write-Host "No matching attachments found."
-    Write-Host "Searched from $($Since.ToString('yyyy-MM-dd')) to $($Until.ToString('yyyy-MM-dd')) in '$((Get-FolderDisplayPath -Folder $rootFolder))'."
+    Write-Host "Searched from $($sinceDate.ToString('yyyy-MM-dd')) to $($untilDate.ToString('yyyy-MM-dd')) in '$((Get-FolderDisplayPath -Folder $rootFolder))'."
     exit 0
 }
 
