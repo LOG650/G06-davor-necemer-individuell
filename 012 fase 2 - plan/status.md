@@ -75,7 +75,7 @@ Prosjektet er fortsatt forsinket i forhold til Gantt-planen, men statusen er bed
 
 | Prioritet | Tiltak |
 |-----------|--------|
-| Kritisk | Anonymiser `weekly_volume.csv`, og hent inn/estimer `process_time_matrix.csv` og `capacity_weekly.csv` |
+| Kritisk | Anonymiser `weekly_volume.csv`, og hent inn/estimer `process_time_matrix.csv` og `capacity_weekly.csv` med oppdatert prosessavgrensning `P1=PD/for-klargjoering` og `P2=ED/endelig dispatch` |
 | Hoy | Fullfor et lite, relevant litteraturgrunnlag utover kompendiet |
 | Hoy | Implementer en enkel baseline for SARIMAX sa snart de forste dataene er klare |
 | Medium | Bygg den forste operative LP-modellen nar forecast-input og kapasitetsdata foreligger |

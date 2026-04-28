@@ -73,8 +73,8 @@ Anbefalt fil: `process_time_matrix.csv`
 
 | Felt | Paa-krevd | Beskrivelse | Kommentar |
 |---|---|---|---|
-| `stream_id` | Ja | `F` eller `S` | Kobler varestroem til prosessbehov |
-| `process_id` | Ja | `P1`, `P2`, `P3` | `P1=primaer pakking`, `P2=sekundaer pakking`, `P3=distribusjonsklargjoering` |
+| `stream_id` | Ja | `F`, `S` eller `ALL` | Kobler varestroem til prosessbehov. Bruk `ALL` hvis samme dispatcher-standardtid gjelder begge stroemmer |
+| `process_id` | Ja | `P1`, `P2` | `P1=PD/for-klargjoering`, `P2=ED/endelig dispatch/ekspedering` |
 | `minutes_per_fpk` | Ja | Standard tidsbruk per FPK i aktuell prosess | Den viktigste parameteren i hele modellen |
 | `source_basis` | Ja | Hvordan tallet er fastsatt | Tidsstudie, standardtid, erfaringsverdi, ERP-avledning |
 | `valid_from` | Nei | Gyldig fra dato | Hvis standarden har endret seg over tid |
@@ -82,10 +82,15 @@ Anbefalt fil: `process_time_matrix.csv`
 | `comment` | Nei | Fritekst | Forklarer antagelser eller forenklinger |
 
 Denne tabellen er noekkelen til aa loese svakheten i dagens modell.
-Her maa du kunne si noe slikt:
-- `1 FPK ferskvare krever x minutter i P1`
-- `1 FPK sekundaervare krever y minutter i P2`
-- `1 FPK totalt krever z minutter i P3`
+Prosessene avgrenses til distribusjonsklargjoering fordi tidsgrunnlaget kommer
+fra produksjonslister og dispatcher actions, ikke fra primaer eller sekundaer
+produksjonspakking. Her maa du kunne si noe slikt:
+- `1 haandteringsenhet krever x minutter i P1/PD/for-klargjoering`
+- `1 haandteringsenhet krever y minutter i P2/ED/endelig dispatch`
+
+`DD` behandles foreloepig som direkte eller saerskilt dispatchflyt. Den kan
+inngaa i tidsgrunnlaget hvis volumet er relevant, men modelleres ikke som et
+eget hovedledd foer flere uker viser at den er operativt vesentlig.
 
 Hvis prosessforbruket varierer mye mellom undergrupper, kan du dele videre paa
 `product_family`. Hvis variasjonen er liten, behold dagens grovere inndeling.
@@ -97,7 +102,7 @@ Anbefalt fil: `capacity_weekly.csv`
 | Felt | Paa-krevd | Beskrivelse | Kommentar |
 |---|---|---|---|
 | `year_week` | Ja | Ukenummer | Maa kunne fange ferieuker og helligdager |
-| `process_id` | Ja | `P1`, `P2`, `P3` | Samme ID-er som i modellen |
+| `process_id` | Ja | `P1`, `P2` | Samme ID-er som i modellen |
 | `base_hours` | Ja | Normal tilgjengelig kapasitet i timer | Grunnkapasitet i aktuell uke |
 | `overtime_max_hours` | Ja | Maks mulig overtid i timer | Modellgrense |
 | `extra_shift_max_hours` | Anbefalt | Maks ekstra skift/bemanning | Hvis dette er et faktisk tiltak |
@@ -132,7 +137,7 @@ Anbefalt fil: `action_parameters.csv`
 
 | Felt | Paa-krevd | Beskrivelse | Kommentar |
 |---|---|---|---|
-| `process_id` | Ja | `P1`, `P2`, `P3` | Hvor tiltaket kan brukes |
+| `process_id` | Ja | `P1`, `P2` | Hvor tiltaket kan brukes |
 | `action_type` | Ja | `overtime`, `extra_shift`, `early_start` | Modellens beslutningsgrep |
 | `max_hours_per_week` | Ja | Maks bruk per uke | Viktig constraint |
 | `relative_cost_weight` | Ja | Relativ kost/vekt i maalfunksjonen | Kan brukes i stedet for NOK |
@@ -229,7 +234,7 @@ Hvis du maa starte veldig smalt, er dette den minste brukbare datapakken:
 Foer datasettene brukes i modellen, boer disse kontrollene vaere oppfylt:
 - ingen manglende uker i volumhistorikken
 - samme definisjon av `FPK-ekvivalent` gjennom hele perioden
-- samme definisjon av prosessene `P1`, `P2`, `P3`
+- samme definisjon av prosessene `P1` og `P2`
 - kapasitet og volum er dokumentert i kompatible enheter
 - kampanjer og spesialuker er merket konsekvent
 - soneandelene summerer til `1.0`

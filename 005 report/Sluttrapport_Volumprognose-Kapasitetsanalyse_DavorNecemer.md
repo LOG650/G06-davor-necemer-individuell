@@ -127,7 +127,7 @@ Disse delproblemene er sekvensielle: prognosen fra DP1 blir input til LP-modelle
 
 **Aggregeringsnivå – fra dag/sone til uke:** Selv om problemet manifesteres daglig gjennom sonevise frister (kl 00:00, 01:00, 02:00), modelleres det på *ukentlig* nivå. *Begrunnelse:* Sonevise frister aggregeres som ukentlige kapasitets- og fristbegrensninger basert på sonestruktur. Fordi sonene er operasjonelt like (samme ressursbemanning, samme skiftlengde), er forskjellen primært avgangtidspunkt, ikke kapasitetskarakteristikk. Aggregering til uke tillater bruk av tidsseriedata for de to varestrømmene og forenkler LP-formulering betydelig. Daglig operativ planlegging (mann-allokering per natt) ligger utenfor modellomfanget.
 
-**Prosessomfang:** Analysen dekker tre hovedprosessledd (primær pakkeprosess, sekundær pakkeprosess, distribusjonsklargjøring) og to varestrømmer (ferskvare og sekundær/handelsvare). *Begrunnelse:* Dette er de kritiske flaskehalsene identifisert i caset; andre prosesser har større fleksibilitet.
+**Prosessomfang:** Analysen dekker distribusjonsklargjøringen etter at volumet er klart for utsendelse. Prosessene modelleres som `P1 = PD / for-klargjøring` og `P2 = ED / endelig dispatch/ekspedering`, mens `DD` behandles som direkte eller særskilt dispatchflyt som inngår i tidsgrunnlaget ved behov, men ikke som separat hovedprosess. *Begrunnelse:* Produksjonslister og dispatcher actions for lager 310 viser at tilgjengelig tidsdata måler håndtering mot distribusjonsfrister, ikke primær eller sekundær produksjonspakking. Prosessavgrensningen må derfor følge det observerbare datagrunnlaget for å unngå at modellen estimerer kapasitet for prosesser som ikke er målt.
 
 **Geografi og personvern:** Data behandles fullt anonymisert uten personopplysninger. Bedriften er ikke identifisert. *Begrunnelse:* Sikrer personvern og forretningshemmeligheter.
 
@@ -197,7 +197,7 @@ I **Aggregate Production Planning** bestemmer LP-modellen optimal allokering av 
 - Sonevise distribusjons-cut-offs som må respekteres
 - Mål om å minimere total ekstra kapasitet
 
-LP-modellen kan løses eksakt ved bruk av Simplex-algoritmen eller lignende. Løsningen er en optimal allokeringsplan for de tre hovedprosessene.
+LP-modellen kan løses eksakt ved bruk av Simplex-algoritmen eller lignende. Løsningen er en optimal allokeringsplan for de to hovedprosessene i distribusjonsklargjøringen.
 
 (KML Kompendium, 2026)
 
@@ -223,16 +223,17 @@ Begge varestrømmer må gjennomgå samme distribusjonsledd før utsendelse til k
 
 ### 4.2 Operasjonell struktur
 
-Distribusjonsoperasjonen består av tre hovedprosessledd:
+Distribusjonsoperasjonen modelleres som to hovedledd i dispatcherflyten:
 
-1. **Primær pakkeprosess:** Pakking av ferskvare fra Filial A
-2. **Sekundær pakkeprosess:** Håndtering og forberedelse av vare fra Filial B
-3. **Distribusjonsklargjøring:** Sortering, palletisering, og lasting på utgående kjøretøy
+1. **P1 - PD / for-klargjøring:** Forberedende klargjøring, sortering eller pre-dispatch før endelig ekspedering.
+2. **P2 - ED / endelig dispatch/ekspedering:** Ferdigstilling av volumet mot distribusjonsfristene.
+
+I datagrunnlaget finnes også `DD`, som tolkes som direkte eller særskilt dispatchflyt. Denne flyten holdes foreløpig utenfor hovedprosessene fordi observasjonene viser lavt volum og svært lav registrert tid sammenlignet med `PD` og `ED`. Dersom flere uker viser at `DD` er operativt vesentlig, kan den senere skilles ut som en egen prosess eller behandles som egen scenarioforutsetning.
 
 Hver prosess har en grunnkapasitet (Standard Working Hours per uke). Kapasiteten er ikke fullt ut fleksibel, men kan utvides gjennom:
 - Overtid
 - Ekstra skift (bemanning)
-- Tidlig oppstart av dagsproduksjonsteam (bare for sekundær vare)
+- Tidlig oppstart av for-klargjøring eller ekspedering i dispatcherleddet
 
 ### 4.3 Flaskehals-problematikk
 
@@ -373,7 +374,7 @@ Modellen består av to sekvensielle komponenter:
 
 1. **Etterspørselsprognose (SARIMAX):** Basert på historiske ukentlige volumer for ferskvare (F) og sekundærvare (S) samt kampanjekalender, produseres punkt-prognoser for volumene i hver uke. Prognosen fanger sesongmønstre, eksogene effekter (kampanjer), og genererer prediktert volum `V_F,t` og `V_S,t` for uke `t`.
 
-2. **Kapasitetsoptimering (LP):** Gitt prognostisert volum, bestemmes optimal kapasitetsallokering (overtimebehov, tidlig oppstart) per prosess for å møte sonevise frister med minimalt ressursforbruk.
+2. **Kapasitetsoptimering (LP):** Gitt prognostisert volum, bestemmes optimal kapasitetsallokering (overtimebehov, tidlig oppstart) for `P1` og `P2` i distribusjonsklargjøringen for å møte sonevise frister med minimalt ressursforbruk.
 
 ---
 
@@ -382,9 +383,8 @@ Modellen består av to sekvensielle komponenter:
 La `OT_j,t` = overtimebehov (mann-timer) i prosess j, uke t
 
 Prosesser:
-- j = 1: Primær pakkeprosess (ferskvare)
-- j = 2: Sekundær pakkeprosess (sekundærvare)
-- j = 3: Distribusjonsklargjøring (kombinert)
+- j = 1: `P1 = PD / for-klargjøring`
+- j = 2: `P2 = ED / endelig dispatch/ekspedering`
 
 Tidsperiode:
 - t = 1, 2, ..., T (planningshorisonten, f.eks. T=52 uker)
@@ -395,7 +395,7 @@ Tidsperiode:
 
 **Minimiser:**
 
-$$Z = \sum_{t=1}^{T} \sum_{j=1}^{3} c_j \cdot OT_{j,t} + \sum_{t=1}^{T} \lambda \cdot SLACK_t$$
+$$Z = \sum_{t=1}^{T} \sum_{j \in \{P1,P2\}} c_j \cdot OT_{j,t} + \sum_{t=1}^{T} \lambda \cdot SLACK_t$$
 
 hvor:
 - $c_j$ = kostnadsvektor per overtimetime i prosess j (ressursenhet eller relativ vekt)
@@ -412,17 +412,17 @@ hvor:
 
 For hver prosess j og uke t:
 
-$$V_{\text{eff}, j,t} \leq CAP_{j,\text{base}} + OT_{j,t}$$
+$$W_{j,t} \leq 60 \cdot (CAP_{j,\text{base}} + OT_{j,t})$$
 
 hvor:
-- $V_{\text{eff}, j,t}$ = effektivt volum (FPK-ekvivalenter) som krever behandling i prosess j, uke t
+- $W_{j,t}$ = arbeidsbelastning i minutter i prosess j, beregnet som prognostisert håndteringsvolum multiplisert med `minutes_per_fpk`
 - $CAP_{j,\text{base}}$ = grunnkapasitet (mann-timer) i prosess j per uke
 - $OT_{j,t}$ = overtimebehov (beslutningsvariabel)
 
 Eksempel (grunnkapasitet):
-- Primær pakking: 250 mann-timer/uke
-- Sekundær pakking: 250 mann-timer/uke
-- Distribusjonsklargjøring: 150 mann-timer/uke (3 mann × 10 timer × 5 netter)
+- P1 / for-klargjøring: x mann-timer/uke
+- P2 / endelig dispatch: y mann-timer/uke
+- Kapasitetsbemanning kan modelleres som tre parallelle worker slots per skift, og testes med scenarioer for flere personer eller tidligere oppstart.
 
 ---
 
@@ -436,23 +436,23 @@ Sonevise frister aggregeres som ukentlige andeler:
 
 **Eksempel:** Hvis sone 1 normalt håndterer 30% av distribusjonsvolum:
 
-$$V_{\text{dist}, t} \cdot 0.30 \leq CAP_{3,\text{base}} \cdot 0.30 + \text{(tilgjengelig overtid for sone 1)}$$
+$$W_{P2,t} \cdot 0.30 \leq 60 \cdot (CAP_{P2,\text{base}} \cdot 0.30 + \text{tilgjengelig overtid for sone 1})$$
 
 I enkel form (uten detaljert sone-fordeling):
 
-$$V_{F,t} + V_{S,t} - SLACK_t \leq CAP_{3,\text{base}} + OT_{3,t}$$
+$$W_{P2,t} - SLACK_t \leq 60 \cdot (CAP_{P2,\text{base}} + OT_{P2,t})$$
 
-hvor `SLACK_t` representerer volum som ikke klargjøres innen den samlede avgangsfristen.
+hvor `W_{P2,t}` er beregnet arbeidsbelastning i endelig dispatch/ekspedering, og `SLACK_t` representerer arbeid eller volum som ikke klargjøres innen den samlede avgangsfristen.
 
 ---
 
-### 6.6 Sekundærvare prioritering
+### 6.6 Tidlig oppstart i dispatcherleddet
 
-Modellen prioriterer tidlig oppstart for sekundærvare når prognostisert volum krever det. Dette modelleres som en eksplisitt constraint:
+Modellen prioriterer tidlig oppstart eller ekstra bemanning i dispatcherleddet når prognostisert volum krever det. Dette modelleres som en eksplisitt kapasitetsgrense for `P1` og `P2`:
 
-$$V_{S,t} \leq CAP_{2,\text{base}} + OT_{2,t}$$
+$$W_{j,t} \leq 60 \cdot (CAP_{j,\text{base}} + OT_{j,t} + ES_{j,t}) \quad \forall j \in \{P1,P2\}$$
 
-Hvis `OT_{2,t}` overstiger en terskelverdi, trigges en flagg som indikerer "tidlig oppstart anbefalt for uke t".
+Her er `ES_{j,t}` ekstra kapasitet fra tidlig oppstart eller ekstra bemanning. Hvis `OT_{j,t}` eller `ES_{j,t}` overstiger en terskelverdi, trigges et flagg som indikerer at tidligere oppstart eller ekstra bemanning anbefales for uke `t`.
 
 ---
 
