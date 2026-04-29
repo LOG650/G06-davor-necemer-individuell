@@ -1,0 +1,19 @@
+Operations research and LP links
+
+Leung, Wu and Lai (2006), DOI:
+https://doi.org/10.1057/palgrave.jors.2601988
+
+Leung, Wu and Lai (2006), Springer page:
+https://link.springer.com/article/10.1057/palgrave.jors.2601988
+
+Leung, Wu and Lai (2006), ResearchGate page:
+https://www.researchgate.net/publication/233697542_A_stochastic_programming_approach_for_multi-site_aggregate_production_planning
+
+Leung, Wu and Lai (2006), ResearchGate direct PDF link observed in browser:
+https://www.researchgate.net/profile/Kin-Keung-Lai/publication/233697542_A_stochastic_programming_approach_for_multi-site_aggregate_production_planning/links/6442c66f2d8ff00363901d18/A-stochastic-programming-approach-for-multi-site-aggregate-production-planning.pdf
+
+Holt, Modigliani and Simon (1955), INFORMS page:
+https://pubsonline.informs.org/doi/10.1287/mnsc.2.1.1
+
+Winston (2004), WorldCat record:
+https://www.worldcat.org/title/operations-research-applications-and-algorithms/oclc/52559540

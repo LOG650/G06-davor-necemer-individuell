@@ -1,0 +1,19 @@
+Forecasting theory links
+
+Hyndman and Athanasopoulos (2021), Forecasting: Principles and Practice, 3rd edition:
+https://otexts.com/fpp3/
+
+Chapter 9, ARIMA models:
+https://otexts.com/fpp3/arima.html
+
+Section 9.9, Seasonal ARIMA models:
+https://otexts.com/fpp3/arima.html#seasonal-arima-models
+
+Chapter 10, Dynamic regression models:
+https://otexts.com/fpp3/dynamic.html
+
+Hyndman and Khandakar (2008), Journal of Statistical Software article page:
+https://www.jstatsoft.org/article/view/v027i03
+
+Hyndman and Khandakar (2008), direct PDF:
+https://www.jstatsoft.org/index.php/jss/article/download/v027i03/255

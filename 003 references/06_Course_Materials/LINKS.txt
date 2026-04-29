@@ -1,0 +1,10 @@
+Course material links
+
+KML Kompendium:
+https://kml-site-production.up.railway.app/
+
+Existing local note:
+../01 forecasting/KML_Kompendium_Demand_Forecasting.md
+
+Existing local note:
+../02 capacity_planning/KML_Kompendium_Production_Planning.md

@@ -1,0 +1,13 @@
+Food retail forecasting links
+
+Arunraj, Ahrens and Fernandes (2016), DOI:
+https://doi.org/10.4018/IJORIS.2016040101
+
+RePEc metadata and publisher PDF resolver:
+https://ideas.repec.org/a/igg/joris0/v7y2016i2p1-21.html
+
+ResearchGate page:
+https://www.researchgate.net/publication/296477650_Application_of_SARIMAX_Model_to_Forecast_Daily_Sales_in_Food_Retail_Industry
+
+ResearchGate direct PDF link observed in browser:
+https://www.researchgate.net/profile/Nari-Arunraj/publication/296477650_Application_of_SARIMAX_Model_to_Forecast_Daily_Sales_in_Food_Retail_Industry/links/571f644608aead26e71b618d/Application-of-SARIMAX-Model-to-Forecast-Daily-Sales-in-Food-Retail-Industry.pdf
