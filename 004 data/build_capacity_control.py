@@ -265,12 +265,34 @@ def final_production_lists_by_date(production_lists):
     return selected
 
 
-def worker_slots(rows):
+def is_legacy_dispatcher_rows(rows):
+    return any(
+        cell(row, 0) == "Duration"
+        and cell(row, 1).startswith("Station")
+        and cell(row, 2).startswith("Units")
+        for row in rows
+    )
+
+
+def parse_shipping_date(value):
+    text = (value or "").strip()
+    if not text:
+        return None
+    for parser in (parse_date_yyyymmdd, parse_date_ddmmyy):
+        try:
+            return parser(text)
+        except ValueError:
+            continue
+    return None
+
+
+def worker_slots(rows, legacy=False):
+    action_index = 3 if legacy else 6
     names = sorted(
         {
             cell(row, 0)
             for row in rows
-            if cell(row, 6) in KNOWN_ACTIONS and cell(row, 0) and cell(row, 0) != "END DISPATCH TERMINALS"
+            if cell(row, action_index) in KNOWN_ACTIONS and cell(row, 0) and cell(row, 0) != "END DISPATCH TERMINALS"
         }
     )
     slots = {name: f"W{idx:02d}" for idx, name in enumerate(names, start=1)}
@@ -278,8 +300,22 @@ def worker_slots(rows):
     return slots
 
 
-def new_dispatcher_record(path, shipping_date, row_no, row, slots):
+def new_dispatcher_record(path, shipping_date, row_no, row, slots, legacy=False):
     worker_name = cell(row, 0)
+    if legacy:
+        return DispatcherRecord(
+            source_file=path.name,
+            shipping_date=shipping_date,
+            row_no=row_no,
+            worker_slot=slots.get(worker_name, "W00"),
+            start_time=cell(row, 1),
+            duration_seconds=parse_duration_seconds(cell(row, 2)),
+            action=cell(row, 3),
+            station_screen=cell(row, 5),
+            from_location=cell(row, 4),
+            to_location="",
+        )
+
     return DispatcherRecord(
         source_file=path.name,
         shipping_date=shipping_date,
@@ -294,19 +330,27 @@ def new_dispatcher_record(path, shipping_date, row_no, row, slots):
     )
 
 
-def add_quantities(record, row):
-    units_transnos = parse_dispatcher_int(cell(row, 21))
-    quant_reserved = parse_dispatcher_int(cell(row, 29))
-    quant_shipped = parse_dispatcher_int(cell(row, 31))
-    quant_arrived = parse_dispatcher_int(cell(row, 33))
+def add_quantities(record, row, legacy=False):
+    if legacy:
+        units_transnos = parse_dispatcher_int(cell(row, 9))
+        quant_reserved = parse_dispatcher_int(cell(row, 12))
+        quant_shipped = parse_dispatcher_int(cell(row, 13))
+        quant_arrived = parse_dispatcher_int(cell(row, 14))
+        transno = cell(row, 7)
+        article_no = cell(row, 8)
+    else:
+        units_transnos = parse_dispatcher_int(cell(row, 21))
+        quant_reserved = parse_dispatcher_int(cell(row, 29))
+        quant_shipped = parse_dispatcher_int(cell(row, 31))
+        quant_arrived = parse_dispatcher_int(cell(row, 33))
+        transno = cell(row, 17)
+        article_no = cell(row, 19)
 
     record.units_transnos += units_transnos
     record.quant_reserved += quant_reserved
     record.quant_shipped += quant_shipped
     record.quant_arrived += quant_arrived
 
-    transno = cell(row, 17)
-    article_no = cell(row, 19)
     if transno:
         record.transnos.add(transno)
     if article_no:
@@ -389,26 +433,46 @@ def parse_dispatcher_xlsx(path):
 
 
 def parse_dispatcher_rows(path, rows):
+    legacy = is_legacy_dispatcher_rows(rows)
 
     shipping_dates = []
     for row in rows:
         for idx, value in enumerate(row):
-            if value.strip() == "Shipping date:" and idx + 2 < len(row):
-                shipping_dates.append(parse_date_yyyymmdd(row[idx + 2].strip()))
+            if value.strip() == "Shipping date:":
+                for date_index in (idx + 1, idx + 2):
+                    parsed_date = parse_shipping_date(cell(row, date_index))
+                    if parsed_date:
+                        shipping_dates.append(parsed_date)
+                        break
     if len(set(shipping_dates)) != 1:
         raise ValueError(f"Expected one shipping date in {path}, found {sorted(set(shipping_dates))}")
     shipping_date = shipping_dates[0]
 
-    slots = worker_slots(rows)
+    slots = worker_slots(rows, legacy=legacy)
     records = []
     article_rows = []
     current = None
 
     for row_no, row in enumerate(rows, start=1):
-        action = cell(row, 6)
+        action = cell(row, 3) if legacy else cell(row, 6)
         if action in KNOWN_ACTIONS:
-            current = new_dispatcher_record(path, shipping_date, row_no, row, slots)
+            current = new_dispatcher_record(path, shipping_date, row_no, row, slots, legacy=legacy)
             records.append(current)
+
+            if legacy:
+                detail = add_quantities(current, row, legacy=True)
+                if detail["article_no"]:
+                    article_rows.append(
+                        {
+                            "source_file": path.name,
+                            "shipping_date": shipping_date.isoformat(),
+                            "row_no": str(row_no),
+                            "action": current.action,
+                            "worker_slot": current.worker_slot,
+                            **detail,
+                        }
+                    )
+                continue
 
         if current is None:
             continue
@@ -431,11 +495,18 @@ def parse_dispatcher_rows(path, rows):
 
 def read_dispatcher_files(input_dir):
     parsed = []
-    csv_stems = {path.stem for path in input_dir.glob("*Dispatcher actions*.csv")}
-    for path in sorted(input_dir.glob("*Dispatcher actions*.csv")):
+    dispatcher_paths = [
+        path
+        for path in input_dir.iterdir()
+        if path.is_file() and "dispatcher actions" in path.name.lower()
+    ]
+    csv_paths = [path for path in dispatcher_paths if path.suffix.lower() == ".csv"]
+    xlsx_paths = [path for path in dispatcher_paths if path.suffix.lower() == ".xlsx"]
+    csv_stems = {path.stem.lower() for path in csv_paths}
+    for path in sorted(csv_paths):
         parsed.append(parse_dispatcher_csv(path))
-    for path in sorted(input_dir.glob("*Dispatcher actions*.xlsx")):
-        if path.stem not in csv_stems:
+    for path in sorted(xlsx_paths):
+        if path.stem.lower() not in csv_stems:
             parsed.append(parse_dispatcher_xlsx(path))
     return parsed
 

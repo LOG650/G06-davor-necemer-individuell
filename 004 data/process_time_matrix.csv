@@ -1,3 +1,3 @@
 stream_id,process_id,minutes_per_fpk,source_basis,valid_from,valid_to,comment
-ALL,P1,0.006349,PD dispatcher 20260427_053933_Dispatcher actions (Production).csv; final production list 20260424_190430_Utskrifter fra Bakehuset.pdf,2026-04-27,,PD / for-klargjoering
-ALL,P2,0.040368,ED dispatcher 20260427_053933_Dispatcher actions (Production).csv; final production list 20260424_190430_Utskrifter fra Bakehuset.pdf,2026-04-27,,ED / endelig dispatch/ekspedering
+ALL,P1,0.003885,"weighted average from 8 production/dispatcher pairs: 2024-03-12, 2024-06-25, 2024-10-22, 2024-12-17, 2025-03-11, 2025-12-16, 2026-02-24, 2026-04-28",2024-03-12,2026-04-28,PD / for-klargjoering
+ALL,P2,0.037555,"weighted average from 8 production/dispatcher pairs: 2024-03-12, 2024-06-25, 2024-10-22, 2024-12-17, 2025-03-11, 2025-12-16, 2026-02-24, 2026-04-28",2024-03-12,2026-04-28,ED / endelig dispatch/ekspedering

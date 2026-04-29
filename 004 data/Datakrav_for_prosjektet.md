@@ -164,12 +164,17 @@ Dette er dataene som skal underbygge `p1`, `p2`, `p3` i modellen.
 Hvis disse andelene ikke finnes i historiske data, kan de fastsettes som en
 driftsregel bekreftet av virksomheten, men det maa dokumenteres eksplisitt.
 
-Foreloepig sone-/fristtolkning:
+Oppdatert sone-/fristtolkning:
 - Sonene observeres som `Street` i dispatcher actions.
 - Fristene i rapport/proposal er `00:00`, `01:00` og `02:00`.
-- Foerste arbeidsantakelse er `Street 1 -> 00:00`, `Street 2 -> 01:00` og
-  senere streets mot siste frist `02:00`, men endelige andeler skal beregnes fra
-  dispatcherhistorikk naar nok dager er hentet.
+- `004 data/build_zone_cutoff_profile.py` beregner andelene fra `ED`-rader i
+  raw dispatcher actions, fordi `ED` representerer endelig dispatch mot
+  distribusjonsfrist.
+- Mappingen er `Street 1 -> 00:00`, `Street 2 -> 01:00` og senere streets mot
+  siste frist `02:00`.
+- `004 data/zone_cutoff_profile.csv` er fylt med volumvektede andeler fra
+  `643` valgte shipping dates i perioden `2023-07-21` til `2026-04-28`:
+  `Z1=0.325311`, `Z2=0.335234`, `Z3=0.339455`.
 
 ### 5. Tiltaks- og kostnadsparametre for ekstra kapasitet
 

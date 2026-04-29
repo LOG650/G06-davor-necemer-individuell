@@ -41,9 +41,13 @@ param(
     [string[]]$AttachmentPatterns = @(
         "*Dispatcher actions (Production)*",
         "*Dispatcher actions*.csv",
+        "*Dispatcher actions*.xls",
         "*Dispatcher actions*.xlsx",
+        "*Dispatcher actions*.pdf",
         "*Crates*.csv",
+        "*Crates*.xls",
         "*Crates*.xlsx",
+        "*Crates*.pdf",
         "*Utskrifter fra Bakehuset*.pdf",
         "*produksjonsliste*.pdf",
         "*produksjonsliste*.PDF"

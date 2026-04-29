@@ -1,4 +1,4 @@
 stream_id,zone_bucket,cutoff_label,share_of_weekly_volume,basis_period,season_segment,comment
-ALL,Z1,00:00,,dispatcher_street_history,normal,"Working assumption: Street 1; share to be calculated from dispatcher history"
-ALL,Z2,01:00,,dispatcher_street_history,normal,"Working assumption: Street 2; share to be calculated from dispatcher history"
-ALL,Z3,02:00,,dispatcher_street_history,normal,"Working assumption: Street 3 and later streets; share to be calculated from dispatcher history"
+ALL,Z1,00:00,0.325311,ED dispatcher street history 2023-07-21..2026-04-28 (643 selected dates),normal,Observed ED quantity to Street 1
+ALL,Z2,01:00,0.335234,ED dispatcher street history 2023-07-21..2026-04-28 (643 selected dates),normal,Observed ED quantity to Street 2
+ALL,Z3,02:00,0.339455,ED dispatcher street history 2023-07-21..2026-04-28 (643 selected dates),normal,Observed ED quantity to Street 3 and later streets

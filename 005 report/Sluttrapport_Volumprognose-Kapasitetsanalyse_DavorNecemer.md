@@ -466,6 +466,18 @@ Begrunnelse: `2024-01` brukes ikke som basisuke fordi den påvirkes av helligdag
 - Sensitivitetsanalyse vises som relative endringer (±10% volum → ±Y% overtid)
 - Leseren kan verifisere metodologien uten å kjenne reelle volum
 
+**Datatilgjengelighet og reproduserbarhet:**
+
+Datagrunnlaget gjøres tilgjengelig på tre nivåer for å balansere etterprøvbarhet mot personvern og kommersiell konfidensialitet:
+
+1. **Publiserbare modellfiler:** Disse kan inngå som vedlegg eller ligge i prosjektmappen fordi de er anonymiserte eller aggregerte. Dette omfatter `weekly_volume_anonymized.csv`, `process_time_matrix.csv`, `zone_cutoff_profile.csv`, `capacity_assumptions.csv`, `capacity_modifier_assumptions.csv` og `action_parameters.csv`.
+
+2. **Reproduserbar kode og dataskjema:** Scripts som `anonymize_weekly_volume.py`, `build_capacity_control.py`, `build_process_time_matrix_batch.py` og `build_zone_cutoff_profile.py` dokumenterer transformasjonen fra rådata til publiserbare modellparametre. Koden gjør det mulig å kontrollere hvordan volumindeks, prosess-tider og soneandeler er beregnet, selv om råfilene ikke kan deles.
+
+3. **Lokale rådata og kontrollfiler:** Rådata fra Qlik, produksjonslister og dispatcher actions beholdes lokalt og er ikke del av publiserbart datagrunnlag. Disse filene kan inneholde reelle volum, kunde-/artikkeldetaljer, interne driftsopplysninger og i dispatcherhistorikk også personnavn. De er derfor holdt utenfor versjonskontroll. Rapporten oppgir i stedet kontrolltall, datoperioder og aggregerte resultater, for eksempel at soneprofilen bygger på 643 valgte dispatcher-datoer fra 2023-07-21 til 2026-04-28 og at andelene summerer til 1.000000.
+
+Denne løsningen innebærer at en ekstern leser ikke kan reprodusere alle interne datavaskesteg uten tilgang til virksomhetens rådata, men kan etterprøve modellstrukturen, variabeldefinisjonene, anonymiseringslogikken, enhetskoblingen mellom volum og tid, og de publiserte aggregerte parameterne. Etterprøvbarheten ligger derfor i sporbar metode, åpne beregningsregler og publiserbare kontrollsummer, ikke i offentliggjøring av sensitive rådata.
+
 Dispatcherdata brukes også anonymisert og aggregert. Personnavn fra arbeidsregistreringer erstattes av interne worker slots eller systemkategorier, og resultatet rapporteres som tidsforbruk per prosess og håndteringsenhet. Den endelige tidsmatrisen publiserer derfor ikke hvem som utførte arbeidet, hvilke konkrete artikler som ble håndtert, eller hvilke kunder/ruter volumet gjaldt. Den rapporterer bare hvor mange minutter én håndteringsenhet i gjennomsnitt krever i `P1` og `P2`.
 
 For kapasitetsmodellen skilles det mellom observerte data og modellantakelser. Observerte data omfatter blant annet ukesvolum, kampanjeflagg og tidsforbruk fra produksjons-/dispatchergrunnlaget. Antakelser omfatter blant annet sykefraværsnivå, effektivitet for tilkallingshjelp og relative kostnadsvekter for ekstra kapasitet. Disse antakelsene behandles som modellparametre og skal testes gjennom sensitivitetsanalyse, ikke presenteres som direkte målte bedriftsdata.
@@ -496,7 +508,7 @@ Noen databegrensninger må tas med i tolkningen av resultatene:
 Uke 2026-14 inneholder kun data for 30.–31. mars (2 av 7 dager). Volumene er anomalt lave (F: 39.26, S: 2.83 indeks-enheter, ~30 % av normal uke) og representerer ikke fullstendig ukesdynamikk. Uke 2026-14 ekskluderes derfor fra out-of-sample-validering for å unngå skjevhet i MAE/RMSE-beregninger.
 
 **2. Sone-/cut-off-andeler:**
-Disse er foreløpig ikke ferdigstilt og må beregnes fra dispatcherhistorikk eller dokumenteres som eksplisitte driftsantakelser. Uten disse kan ikke sonevise begrensninger håndheves fullt i LP-modellen.
+Disse er beregnet fra `ED`-rader i raw dispatcher actions, der `Street` brukes som operasjonell soneindikator. Grunnlaget dekker 643 valgte shipping dates fra 2023-07-21 til 2026-04-28. Volumvektede andeler i `zone_cutoff_profile.csv` er `Z1=0.325311`, `Z2=0.335234` og `Z3=0.339455`. Mappingen `Street 1 -> 00:00`, `Street 2 -> 01:00` og `Street 3+ -> 02:00` bør likevel tolkes som en operasjonell modellantakelse.
 
 **3. Anomali- og begrensningsflagging:**
 `anomaly_flag` og `constrained_week_flag` er foreløpig satt til `0` og er ikke validert mot en komplett avvikslogg. Dette kan gjøre at enkelte uker med reelle avvik behandles som normale observasjoner i første modellversjon.
@@ -585,9 +597,9 @@ hvor:
 
 Sonevise frister aggregeres som ukentlige andeler basert på `zone_cutoff_profile.csv`:
 
-- **Sone 1 (Z1, kl 00:00):** Andel $p_1$ av ukens distribusjonsvolum må ha gjennomgått ED innen 00:00
-- **Sone 2 (Z2, kl 01:00):** Andel $p_1 + p_2$ av ukens distribusjonsvolum må ha gjennomgått ED innen 01:00
-- **Sone 3 (Z3, kl 02:00):** Resten ($p_3 = 1 - p_1 - p_2$) må ha gjennomgått ED innen 02:00
+- **Sone 1 (Z1, kl 00:00):** $p_1 = 0.325311$ av ukens distribusjonsvolum må ha gjennomgått ED innen 00:00
+- **Sone 2 (Z2, kl 01:00):** $p_1 + p_2 = 0.660545$ av ukens distribusjonsvolum må ha gjennomgått ED innen 01:00
+- **Sone 3 (Z3, kl 02:00):** $p_1 + p_2 + p_3 = 1.000000$ må ha gjennomgått ED innen 02:00
 
 **Enkel formalisering (når alle prosesser aggregeres):**
 
@@ -601,7 +613,7 @@ hvor:
 
 **Tolking:** Hvis $W_{P2,t} > 60 \cdot (CAP + OT)$, kan ikke alt arbeidsvolum utføres, og $SLACK_t$ vil være positiv i løsningen. Høy penalty-vekt $\lambda$ sikrer at dette unngås hvis mulig.
 
-**Videre detaljering (oppnådd via scenarioanalyse):** Hvis sone-andeler $(p_1, p_2, p_3)$ blir kjente, kan modellen utvidles til å enforc sonevise frister eksplisitt ved å splitte arbeidsbelastningen per sone og gi hver sin kapasitetsgr grense.
+**Videre detaljering (oppnådd via scenarioanalyse):** Siden sone-andelene nå er kjente, kan modellen splitte arbeidsbelastningen per sone og teste sensitiviteter rundt sonemiksen, for eksempel ±10 % relativ endring i `Z1`, `Z2` og `Z3`.
 
 ---
 
@@ -707,9 +719,9 @@ Høysesong-ukene (f.eks. uke 2024-11 med kombinert F+S-topp) analyseres:
 - Hvis behov > base-kapasitet, kreves ekstra tiltak (tidlig oppstart, overtid, bemanning)
 
 **Kritiske observasjoner:**
-- Sone-andeler (`zone_cutoff_profile.csv`) er ennå ikke ferdigstilt, så detaljerte sonevise kapasitets-constraints kan ikke håndheves ennå
+- Sone-andeler (`zone_cutoff_profile.csv`) er nå beregnet fra `ED`-rader i dispatcherhistorikk og summerer til 1.000000
 - `anomaly_flag` og `constrained_week_flag` er ikke validert, så enkelte anomale uker kan være klassifisert som normale
-- LP-modellen kan ikke løses fullt ut uten zone-andeler, men struktur og logikk er klar
+- LP-modellen har nå nødvendig soneinput, men bør fortsatt valideres med sensitivitetsanalyse for sonemiks og volumavvik
 
 ## 8.0 Resultater (FORELØPIG)
 
@@ -793,7 +805,7 @@ LP er standard for aggregate production planning der målet er å minimere ressu
 - Publikum kan verifisere metodologi på indeks-skala (SARIMAX-validering, LP-struktur)
 
 **Svakheter og begrensninger:**
-- Sone-andeler mangler fortsatt: Uten $(p_1, p_2, p_3)$ kan ikke LP valideres fullt. Må enten beregnes fra dispatcherhistorikk eller implementeres som scenario-antakelse.
+- Sone-andeler er beregnet, men mappingen fra `Street` til cut-off må behandles som en operasjonell modellantakelse og testes i sensitivitet.
 - Anomaly_flag ikke validert: Kan være anomale uker klassifisert som normale
 - Campaign-flag har liten kraft for F: 99 % av F-ukene har kampanje, gir minimal differensiering
 - Datavolum grensesnitt: 104 treningsobservasjoner × 52-ukes sesong = akkurat minimum for SARIMAX
@@ -883,7 +895,7 @@ Selv om denne rapporten ikke leverer fullt implementerte resultater (SARIMAX-val
 - Metodisk robusthet (baseline-sammenligninger, dokumentasjon)
 - Transparans om begrensninger og videre arbeid
 
-**Fremtidig arbeid** bør prioritere (1) sone-andel-beregning, (2) SARIMAX-implementering, og (3) LP-validering for å gjøre modellen fullt operativ.
+**Fremtidig arbeid** bør prioritere (1) SARIMAX-implementering, (2) LP-validering med de beregnede soneandelene, og (3) sensitivitetstesting for å gjøre modellen fullt operativ.
 
 ---
 
