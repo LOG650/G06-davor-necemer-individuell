@@ -720,6 +720,14 @@ Følgende datasett ble etablert for modellering:
 
 Den publiserbare filen inneholder 236 rader fra 118 uker, men modellgrunnlaget ekskluderer uke 2026-14 fordi den bare dekker to dager. Datavasken ekskluderer `Ordretype/Navn = -` for å unngå dobbeltregistrering og produktgruppe 850 fordi denne gruppen ikke inngår i prognosevolumet for de operative varestrømmene.
 
+![Volumtrend per varestrøm 2024–2026](figures/01_volumtrend.png)
+
+**Figur 1 – Ukentlig volumtrend per varestrøm, 2024-W01 til 2026-W19.** F (ferskvare, øvre panel) ligger stabilt rundt indeks 100 med moderat variasjon, mens S (sekundærvare, nedre panel) viser kraftige sesongtopper i uke 12–14 (påske) og uke 49–52 (jul) der indeksen passerer 250. Sirkler markerer helligdagsuker; F svinger ned i jule-/påskeuker, mens S svinger opp i de samme ukene. Indeks: 2024-snitt per varestrøm = 100.
+
+![Sesongmønster per ISO-uke](figures/02_sesongmonster.png)
+
+**Figur 2 – Sesongmønster per ISO-uke (varmkart, indekssnitt).** F-volumet (venstre, blå) holder seg innenfor et smalt bånd (~80–115) gjennom året med svake topper rundt påske og jul. S-volumet (høyre, rødt) viser klare høysesonger i uke 12–14, uke 25–32 (sommer) og uke 49–52 (jul), med intensitet over indeks 200 i kampanjeintensive perioder i 2024. Mønsteret bekrefter at SARIMAX bør vekte sesongkomponenten ulikt for de to varestrømmene.
+
 ### 8.2 Prosess-tidsmatrise etablert
 
 Basert på 8 komplette produksjons-/dispatcher-par:
@@ -751,6 +759,10 @@ Minimumskjøringen i Python gir følgende valideringsresultat:
 | F | SARIMAX(1,1,1)(0,0,0)[52] + `holiday_flag` | 8.18 | 13.21 | 16.3 % | Slår SNaive på alle tre måltall |
 | S | ARIMA/SARIMAX(0,1,0)(0,0,0)[52] | 6.17 | 6.67 | 76.0 % | Slår SNaive på RMSE, men ikke MAE/MAPE |
 
+![Prognose-validering F og S](figures/03_prognose_validering.png)
+
+**Figur 3 – Out-of-sample prognose-validering, 2026-W01 til 2026-W13.** Faktisk volum (svart heltrukket) sammen med SARIMAX (farget stiplet) og SNaive (grå punktert). For F klarer SARIMAX å fange den nedjusterte indeksnivået i 2026-Q1 bedre enn SNaive (MAE 8.2 vs. 12.9). For S leverer SARIMAX bedre RMSE (6.7 vs. 7.5), men dårligere MAE/MAPE fordi modellen leverer en flat differensiert prediksjon mens faktisk S-volum er svært volatilt. Uke 2026-W14 er ekskludert grunnet kun to virkedager.
+
 For LP-kjøringen er prognosene omregnet til `indeks-minutter` med prosess-tidsmatrisen. Resultatet for publiserbar indeks-skala er:
 
 | Scenario | Ekstra indeks-timer | Slack indeks-minutter | Maks P1 indeks-timer | Maks P2 indeks-timer |
@@ -759,7 +771,19 @@ For LP-kjøringen er prognosene omregnet til `indeks-minutter` med prosess-tidsm
 | Basis | 0.00 | 0.00 | 0.00660 | 0.06384 |
 | +10 % volum | 0.00 | 0.00 | 0.00726 | 0.07022 |
 
+![Kapasitetsutnyttelse per scenario](figures/04_kapasitet_scenarioer.png)
+
+**Figur 4 – LP indeks-skala smoke-test: kapasitetsutnyttelse per scenario.** Snitt- og maks-utnyttelse målt mot referansekapasitet for P1 (24 t/uke) og P2 (144 t/uke), over de 13 valideringsukene. Selv i +10 %-scenarioet ligger maksutnyttelsen på 0.030 % (P1) og 0.049 % (P2). Dette bekrefter at LP-pipelinen er stabil, men fordi inputtet er volumindeks (ikke FPK), reflekterer prosenttallene **ikke** reelt arbeidsbehov. Konklusjon om kapasitet krever kjøring på lokal `weekly_volume.csv`.
+
 Tallene er ikke reelle mann-timer. De viser at SARIMAX-prognosene kan flyte inn i LP-formuleringen og løses uten brudd, men reell kapasitetskonklusjon krever lokal `weekly_volume.csv` med faktiske FPK-volum.
+
+![Sonefordeling og kumulativ frist-belastning](figures/05_sonefordeling.png)
+
+**Figur 5 – Sonevise andeler av ukevolum og kumulativ frist-belastning.** Volumandelene er nær jevnfordelte: Z1 (frist 00:00) 32.5 %, Z2 (frist 01:00) 33.5 %, Z3 (frist 02:00+) 33.9 %. Den kumulative kurven viser at 66.1 % av ukevolumet må være ferdig dispatchet før kl. 01:00 og 100 % før kl. 02:00. Dette er innspill til sonevise frist-constraints i LP. Basis: ED-dispatcher historikk 2023-07-21 til 2026-04-28 (643 valgte datoer).
+
+![Volatilitet kampanje vs ikke-kampanje](figures/06_volatilitet.png)
+
+**Figur 6 – Volatilitet i ukesvolumer, kampanje vs. ikke-kampanje.** Boksplott (venstre) viser at S-volumet har vesentlig større spredning enn F i begge segmenter. Variasjonskoeffisienten (CV, høyre) bekrefter dette: S uten kampanje har CV ≈ 109 %, S med kampanje ≈ 63 %, mens F-kampanje ligger på CV ≈ 14 %. Den lave kontrasten i F-segmentene skyldes at kampanjeflagget er aktivt i 117 av 118 uker (n=1 uten kampanje), noe som svekker informasjonsverdien til binær kampanje-flagg for F (jf. avsnitt 9.1).
 
 ### 8.5 Kritiske funn og gjenstående arbeid
 
