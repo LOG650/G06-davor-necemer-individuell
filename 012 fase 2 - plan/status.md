@@ -1,8 +1,8 @@
 # Prosjektstatus - Integrert volumprognose og kapasitetsanalyse
 
-**Dato:** 2026-04-28
+**Dato:** 2026-04-30
 **Prosjektleder:** Davor Necemer
-**Dager til innlevering:** 31 (2026-05-29)
+**Dager til innlevering:** 29 (2026-05-29)
 
 ---
 
@@ -12,15 +12,20 @@
 |------|--------|
 | Fase 1: Initiering | Fullfort |
 | Fase 2: Prosjektplan | Fullfort |
-| Fase 3: Gjennomforing | Pagar, men bak plan |
-| Fase 4: Sluttrapport | Pabegynt i repo, men ikke ferdigstilt |
+| Fase 3: Gjennomforing | Hovedutkast klart for peer-to-peer review |
+| Fase 4: Sluttrapport | Pabegynt; finpuss etter peer review gjenstar |
 
-Prosjektet er fortsatt forsinket i forhold til Gantt-planen, men statusen er
-bedre enn tidligere repo-gjennomgang tilsa. Det finnes na et aktivt
-rapportutkast, et tydelig datakravsdokument, CSV-maler for datainnhenting,
-forste lokale vask av Qlik-volumdata, en publiserbar anonymisert
-weekly-volume-fil, kapasitetsantakelser for dispatch og en oppdatert metodisk
-retning med SARIMAX for prognosedelen og LP for kapasitetsdelen.
+Prosjektet har tatt igjen den viktigste fase 3-risikoen. Hovedutkastet av
+rapporten er na lesbart nok til at en annen student/gruppe kan gi skriftlig
+peer-to-peer review. Rapporten inneholder sammendrag/abstract, problemstilling,
+teori/litteratur, case, metode, modellering, analyse, resultater, diskusjon,
+konklusjon, bibliografi og vedleggsoversikt.
+
+Det er ogsa gjennomfort en teknisk minimumskjoring: SNaive-baseline,
+SARIMAX/ARIMA-kandidatgrid og en LP smoke-test paa publiserbar indeks-skala.
+Kjoringen dokumenterer at prognose- og LP-leddet henger teknisk sammen. Reell
+kapasitetskonklusjon i mann-timer krever fortsatt lokal `weekly_volume.csv`
+med faktiske FPK-volum og kalibrerte sonevise fristkapasiteter.
 
 ---
 
@@ -50,21 +55,21 @@ retning med SARIMAX for prognosedelen og LP for kapasitetsdelen.
 
 | ID | Aktivitet | Planlagt slutt | Status | Merknad |
 |----|-----------|----------------|--------|---------|
-| 3.1 | Utarbeide teoretisk rammeverk | 2026-03-26 | In progress, delayed | Teori-, metode- og modelleringsutkast finnes i rapporten, men litteraturgrunnlaget ma fortsatt utvides. |
-| 3.2 | Datainnsamling og vask av bedriftsdata | 2026-03-26 | In progress, delayed | Qlik-volum, kampanjer og lansering/sanering er lastet lokalt og forste vask er gjennomfort. `weekly_volume_anonymized.csv` er generert med indeks `2024_average_per_stream=100` og kan pushes. Outlook-script for produksjonslister/dispatcher er testet, men 2024-historikk venter paa videre Outlook-synk/arkivtilgang. Sensitive raw/processed-data holdes fortsatt lokalt og ignorert av Git. |
-| 3.3 | Utvikling og trening av prognosemodell | 2026-04-09 | Prepared, delayed | SARIMAX er valgt metodisk. Anonymisert ukentlig volum dekker trening 2024-2025 og validering 2026-01 til 2026-14. Ingen modellkode er implementert ennaa. |
-| 3.4 | Utvikling av kapasitetsoptimeringsmodell | 2026-04-24 | Prepared, delayed | LP-struktur og beslutningslogikk er beskrevet i rapportutkastet. Kapasitetsbaseline for P1/P2, tidlig oppstart, sykefravaersproxy og ekstra bemanning er dokumentert som dataantakelser. Ingen optimeringsimplementasjon er laget ennaa. |
-| 3.5 | Analyse av resultater | 2026-05-01 | Not started | Avhenger av 3.2 til 3.4. |
-| 3.6 | Gjennomfore peer-to-peer review | 2026-05-08 | Not started |  |
-| 3.7 | Milepael: Godkjent hovedutkast | 2026-05-08 | Not started | Avhenger av framdrift i 3.2 til 3.6. |
+| 3.1 | Utarbeide teoretisk rammeverk | 2026-03-26 | Completed for draft | Teori-, metode- og modelleringskapitler er skrevet. Litteraturgrunnlaget er tilstrekkelig for peer review, men kan strammes videre i fase 4. |
+| 3.2 | Datainnsamling og vask av bedriftsdata | 2026-03-26 | Completed for draft | Publiserbare modellinput er etablert: `weekly_volume_anonymized.csv`, `process_time_matrix.csv`, `capacity_assumptions.csv`, `action_parameters.csv` og `zone_cutoff_profile.csv`. Sensitive raw/processed-data holdes fortsatt lokalt og ignorert av Git. |
+| 3.3 | Utvikling og trening av prognosemodell | 2026-04-09 | Completed minimum run | `005 report/scripts/run_forecast_capacity_models.py` kjorer SNaive-baseline og konservativ `statsmodels` SARIMAX/ARIMA-grid. Validering ekskluderer delvis uke 2026-14 og bruker 2026-01 til 2026-13. |
+| 3.4 | Utvikling av kapasitetsoptimeringsmodell | 2026-04-24 | Completed minimum run | LP-formulering er implementert med `scipy.optimize.linprog` som publiserbar indeks-skala smoke-test. Operativ real-skala LP gjenstar fordi reelle FPK-volum ikke publiseres. |
+| 3.5 | Analyse av resultater | 2026-05-01 | Completed for draft | Kapittel 7-8 inneholder datadeskriptiv analyse, SARIMAX/SNaive-validering og LP-resultater paa indeks-skala. |
+| 3.6 | Gjennomfore peer-to-peer review | 2026-05-08 | Next | Send hovedutkast til tildelt student/gruppe og skriv skriftlig review av en annen rapport. |
+| 3.7 | Milepael: Godkjent hovedutkast | 2026-05-08 | Ready for review | Hovedutkastet er klart til peer-to-peer review, men formell godkjenning avhenger av review- og faglaererprosess. |
 
 ### Fase 4: Sluttrapport
 
 | ID | Aktivitet | Planlagt slutt | Status | Merknad |
 |----|-----------|----------------|--------|---------|
-| 4.1 | Ferdigstille introduksjon | 2026-05-14 | Early draft exists | Rapportfilen er opprettet og har aktivt utkast, men kapitlene er ikke ferdigstilt. |
-| 4.2 | Skrive diskusjon og konklusjon | 2026-05-22 | Not started |  |
-| 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | Not started |  |
+| 4.1 | Ferdigstille introduksjon | 2026-05-14 | Draft exists | Introduksjon og problemstilling finnes, men bor leses mot konklusjonen etter peer review. |
+| 4.2 | Skrive diskusjon og konklusjon | 2026-05-22 | Draft exists | Diskusjon og konklusjon er skrevet for hovedutkastet. Revideres etter peer review. |
+| 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | Not started | Sluttvask, bibliografi, figurer/tabeller, eksportformat og menneskelig korrektur gjenstar. |
 | 4.4 | Milepael: Innlevering av rapport og kode | 2026-05-29 | Not started |  |
 | 4.5 | Forberede og gjennomfore muntlig presentasjon | 2026-06-05 | Not started |  |
 
@@ -72,24 +77,25 @@ retning med SARIMAX for prognosedelen og LP for kapasitetsdelen.
 
 ## Kritiske risikoer akkurat na
 
-1. **Datainnsamling:** Ukentlig volumgrunnlag er lastet, vasket lokalt og
-   anonymisert som indeksfil som kan pushes. Raw Qlik-, kampanje-,
-   lansering/sanering- og processed-filer er fortsatt sensitive og skal ikke
-   pushes. Historiske Outlook-vedlegg foer 2025 er forelopig ikke tilgjengelige
-   lokalt.
-2. **Litteraturgrunnlag:** Strukturen er ryddet og kompendiene er pa plass, men
-   ekstern litteratur utover kompendiet ma fortsatt bygges opp.
-3. **Implementasjon:** Metodikken er definert, men prognosemodell og
-   kapasitetsmodell er forelopig bare dokumentert konseptuelt.
+1. **Peer-to-peer review:** Hovedutkastet er klart, men arbeidskravet er ikke
+   fullfort for man ogsa har gitt skriftlig review til en annen gruppe/student.
+2. **Publiserbarhet vs. real-skala:** Rapporten bruker publiserbar indeks. LP
+   smoke-testen kan ikke tolkes som faktisk mann-timebehov uten lokal
+   `weekly_volume.csv`.
+3. **Sonevise frister:** Soneandeler er etablert, men faktisk `CAP_deadline`
+   for 00:00, 01:00 og 02:00 ma kalibreres for operativ bruk.
+4. **Sluttvask:** Bibliografi, tabell-/figurtekster, norsk/engelsk konsistens,
+   PDF/Word-eksport og menneskelig korrektur gjenstar til fase 4.
 
 ## Prioriterte tiltak
 
 | Prioritet | Tiltak |
 |-----------|--------|
-| Kritisk | Dokumenter anonymiseringstransformasjonen i rapporten og start forecast-baseline paa `weekly_volume_anonymized.csv`. Oppdater `process_time_matrix.csv` naar flere Outlook-par er hentet. |
-| Hoy | Fullfor et lite, relevant litteraturgrunnlag utover kompendiet. |
-| Hoy | Implementer en enkel baseline for SARIMAX sa snart forecast-inputen er klar. |
-| Medium | Bygg den forste operative LP-modellen nar forecast-input og kapasitetsdata foreligger. |
+| Kritisk | Del hovedutkastet med tildelt peer-review partner og avklar format (Markdown/PDF/Word). |
+| Kritisk | Skriv skriftlig peer-to-peer review av en annen rapport naar den mottas. |
+| Hoy | Les gjennom hele egen rapport manuelt og noter konkrete fase 4-endringer. |
+| Hoy | Stram bibliografi/APA, tabelltekster og begrepsbruk etter peer review. |
+| Medium | Kjor real-skala LP lokalt dersom `weekly_volume.csv` skal brukes i endelig, ikke-publiserbar analyse. |
 
 ---
 
@@ -102,21 +108,27 @@ Det viktigste som na faktisk finnes i repoet er:
 - referansestruktur med aktive kompendier i `003 references/`
 - datakrav, CSV-maler, vaskeskript, anonymiseringsskript, publiserbar
   `weekly_volume_anonymized.csv` og lokal handover-note i `004 data/`
+- prosess-tidsmatrise, kapasitetsantakelser, tiltaksparametre og soneprofil i
+  `004 data/`
+- modellskript for SARIMAX/SNaive og LP smoke-test i
+  `005 report/scripts/run_forecast_capacity_models.py`
 - aktiv sluttrapport i
   `005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md`
 
 Det viktigste som fortsatt mangler er:
 
-- kode eller notebook for forecast og optimering
-- gjennomfort analyse og review
+- gjennomfort peer-to-peer review og skriftlig reviewrapport til annen gruppe
+- sluttvask av rapport, bibliografi og eksportformat
+- eventuell real-skala LP-kjoring lokalt dersom endelig rapport skal inneholde
+  operative mann-timeestimater
 
-## Restart checkpoint 2026-04-28
+## Restart checkpoint 2026-04-30
 
 Ved neste arbeidsokt etter omstart:
 
-1. Start fra `004 data/STATUS_2026-04-26.md`.
-2. Ikke skann `000 templates/`.
-3. Bruk `004 data/weekly_volume_anonymized.csv` som publiserbart forecastgrunnlag.
-4. Hold `004 data/weekly_volume.csv`, `004 data/raw/` og `004 data/processed/` lokalt/ignorert.
-5. Neste faglige steg er aa dokumentere anonymiseringen i rapporten og lage forste forecast-baseline.
-6. Mer Outlook-data avventes til Outlook-synk/arkivtilgang er avklart.
+1. Start fra hovedutkastet i `005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md`.
+2. Ikke skann `000 templates/` med mindre template- eller forelesningsmateriale eksplisitt ettersporres.
+3. Bruk `005 report/scripts/run_forecast_capacity_models.py` for aa reprodusere minimumskjoringen.
+4. Hold `004 data/weekly_volume.csv`, `004 data/raw/` og sensitive `004 data/processed/`-filer lokalt/ignorert.
+5. Neste faglige steg er peer-to-peer review: send eget hovedutkast og skriv review av en annen rapport.
+6. Etter review: prioriter sluttvask, bibliografi, rapportformat og eventuelle faglige justeringer.

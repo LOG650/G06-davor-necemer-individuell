@@ -1,75 +1,35 @@
 # Integrert volumprognose og kapasitetsanalyse
 ## Integrated Volume Forecasting and Capacity Analysis
 
-**Forfatter(e):** Davor Necemer
-**Totalt antall sider inkludert forsiden:** _[fyll inn etter ferdigstilling]_
-**Sted og innleveringsdato:** Molde, 29. mai 2026
+**Forfatter:** Davor Necemer
+**Studium:** LOG650 – Høgskolen i Molde
+**Versjon:** Hovedutkast for peer-review, 30. april 2026
 
-## Obligatorisk egenerklæring / gruppeerklæring
-
-Den enkelte student er selv ansvarlig for å sette seg inn i hva som er lovlige hjelpemidler, retningslinjer for bruk av disse og regler om kildebruk. Erklæringen skal bevisstgjøre studentene på deres ansvar og hvilke konsekvenser fusk kan medføre. Manglende erklæring fritar ikke studentene fra sitt ansvar.
-
-Fyll ut erklæringen ved å krysse av punktene under:
-
-- [ ] 1. Jeg/vi erklærer herved at min/vår besvarelse er mitt/vårt eget arbeid, og at jeg/vi ikke har brukt andre kilder eller har mottatt annen hjelp enn det som er nevnt i besvarelsen.
-- [ ] 2a. Besvarelsen har ikke vært brukt til annen eksamen ved annen avdeling/universitet/høgskole innenlands eller utenlands.
-- [ ] 2b. Besvarelsen refererer ikke til andres arbeid uten at det er oppgitt.
-- [ ] 2c. Besvarelsen refererer ikke til eget tidligere arbeid uten at det er oppgitt.
-- [ ] 2d. Alle referanser er oppgitt i litteraturlisten.
-- [ ] 2e. Besvarelsen er ikke en kopi, duplikat eller avskrift av andres arbeid eller besvarelse.
-- [ ] 3. Jeg/vi er kjent med at brudd på ovennevnte er å betrakte som fusk og kan medføre annullering av eksamen og utestengelse fra universiteter og høgskoler i Norge, jf. Universitets- og høgskoleloven §§4-7 og 4-8 og Forskrift om eksamen §§14 og 15.
-- [ ] 4. Jeg/vi er kjent med at alle innleverte oppgaver kan bli plagiatkontrollert i URKUND, se Retningslinjer for elektronisk innlevering og publisering av studiepoenggivende studentoppgaver.
-- [ ] 5. Jeg/vi er kjent med at høgskolen vil behandle alle saker hvor det foreligger mistanke om fusk etter høgskolens retningslinjer for behandling av saker om fusk.
-- [ ] 6. Jeg/vi har satt oss inn i regler og retningslinjer for bruk av kilder og referanser på bibliotekets nettsider.
-
-## Personvern
-
-### Personopplysningsloven
-
-Forskningsprosjekt som innebærer behandling av personopplysninger iht. Personopplysningsloven skal meldes til Norsk senter for forskningsdata, NSD, for vurdering.
-
-- Har oppgaven vært vurdert av NSD? [ ] Ja [ ] Nei
-- Hvis ja, referansenummer: _[fyll inn]_
-- Hvis nei: Jeg/vi erklærer at oppgaven ikke omfattes av Personopplysningsloven.
-
-### Helseforskningsloven
-
-Dersom prosjektet faller inn under Helseforskningsloven, skal det også søkes om forhåndsgodkjenning fra Regionale komiteer for medisinsk og helsefaglig forskningsetikk, REK, i din region.
-
-- Har oppgaven vært til behandling hos REK? [ ] Ja [ ] Nei
-- Hvis ja, referansenummer: _[fyll inn]_
-
-## Publiseringsavtale
-
-**Studiepoeng:** _[fyll inn]_
-**Veileder:** _[fyll inn]_
-
-### Fullmakt til elektronisk publisering av oppgaven
-
-Forfatter(ne) har opphavsrett til oppgaven. Det betyr blant annet enerett til å gjøre verket tilgjengelig for allmennheten (Åndsverkloven §2).
-
-Alle oppgaver som fyller kriteriene vil bli registrert og publisert i Brage HiM med forfatter(ne)s godkjennelse.
-
-Oppgaver som er unntatt offentlighet eller båndlagt vil ikke bli publisert.
-
-Jeg/vi gir herved Høgskolen i Molde en vederlagsfri rett til å:
-
-- Gjøre oppgaven tilgjengelig for elektronisk publisering: [ ] Ja [ ] Nei
-- Er oppgaven båndlagt (konfidensiell)? [ ] Ja [ ] Nei
-- Hvis ja: Kan oppgaven publiseres når båndleggingsperioden er over? [ ] Ja [ ] Nei
-- Dato: _[fyll inn]_
-
-**Antall ord:** Oppgi antall ord dersom dette er et krav. Hvis ikke, slett denne linjen.
-
-**Forfattererklæring:** Skriv inn forfattererklæring dersom det er et krav til oppgaven. Hvis ikke, slett dette avsnittet.
+> Obligatoriske erklæringer (egenerklæring, NSD/REK, publiseringsavtale, sidetall, studiepoeng og veileder) fylles ut på forsiden ved endelig innlevering 29. mai 2026 og er bevisst utelatt i denne peer-review-versjonen.
 
 ## Sammendrag
 
-_Skriv sammendrag her._
+Næringsmiddelbedrifter med to konvergerende varestrømmer mot ett felles distribusjonsledd opplever regelmessige flaskehalser når begge strømmer topper samme uke, selv når den aggregerte ukekapasiteten i utgangspunktet virker tilstrekkelig. Sonevise nattlige cut-off-frister (00:00, 01:00, 02:00) gjør at problemet ikke kan leses ut av et rent ukeaggregat. Denne rapporten utvikler og dokumenterer et integrert rammeverk som kobler etterspørselsprognose og kapasitetsoptimering på ukentlig nivå for en anonymisert norsk produksjons- og distribusjonsoperasjon med ferskvare (F) og sekundærvare (S).
+
+Metoden er todelt og sekvensiell. En SARIMAX-modell prognostiserer ukentlig volum per varestrøm med kampanjekalender som eksogen variabel, mens en Seasonal Naive (SNaive) baseline brukes som faglig sammenligningsstandard og operativ fallback dersom SARIMAX ikke gir bedre validering. Prognosene oversettes til arbeidsbelastning gjennom en empirisk prosess-tidsmatrise, og en lineær programmeringsmodell minimerer samlet ekstra kapasitet (overtid og tidlig oppstart) i prosessene `P1` (PD/for-klargjøring) og `P2` (ED/endelig dispatch) under en høy straffvekt for fristbrudd. Sonevise frister er aggregert som kumulative ukentlige andeler.
+
+Empirisk grunnlag dekker 117 modelluker (2024-01 til 2026-13, uke 2026-14 ekskludert som delvis uke), to varestrømmer og totalt 234 observasjoner. Volum publiseres som indeks der 2024-gjennomsnitt per varestrøm er satt lik 100. Prosess-tider er estimert fra åtte komplette produksjons-/dispatcher-par til `P1` = 0.003885 og `P2` = 0.037555 minutter per FPK-ekvivalent. Soneprofilen er beregnet fra 643 dispatcher-datoer (Z1 = 0.325, Z2 = 0.335, Z3 = 0.339, sum 1.000). Basekapasitet er 24 mann-timer/uke for `P1` og 144 mann-timer/uke for `P2`. SNaive-validering på 2026-01 til 2026-13 gir MAE/RMSE 12.88/18.96 for F og 5.15/7.53 for S målt på indeks-skala. Den gjennomførte SARIMAX-gridkjøringen forbedrer RMSE til 13.21 for F og 6.67 for S, men S-resultatet tolkes varsomt fordi MAE/MAPE samtidig blir svakere enn SNaive.
+
+Rapporten leverer nå en teknisk minimumsimplementasjon av det integrerte rammeverket: datagrunnlag, prosess-tidsmatrise, kapasitetsbaseline, soneprofil, SARIMAX-validering og LP-løser er koblet i ett reproduserbart skript. LP-kjøringen er en publiserbar indeks-skala smoke-test, ikke et operativt estimat på reelle mann-timer; den gir 0.00 ekstra indeks-timer og 0.00 slack i valideringshorisonten fordi anonymisert indeks ikke inneholder reelle FPK-skalaer. Gjenstående arbeid er derfor reell-skala LP med lokal `weekly_volume.csv`, kalibrering av sonevise fristkapasiteter og full sensitivitetsanalyse.
+
+**Nøkkelord:** SARIMAX, lineær programmering, kapasitetsplanlegging, distribusjonsfrister, etterspørselsprognose, næringsmiddellogistikk, anonymisering.
 
 ## Abstract
 
-_Write the abstract here._
+Food production and distribution operations with two parallel product streams converging on a shared dispatch process face a recurring bottleneck when both streams peak in the same week, even when aggregate weekly capacity appears sufficient. Zone-based nightly cut-off deadlines (00:00, 01:00, 02:00) mean the problem cannot be detected from weekly totals alone. This report develops and documents an integrated weekly-level framework that links demand forecasting and capacity optimization for an anonymized Norwegian food production and distribution operation with a fresh stream (F) and a secondary stream (S).
+
+The approach is sequential and consists of two components. A SARIMAX model forecasts weekly volume per stream using the promotion calendar as an exogenous variable, with a Seasonal Naive (SNaive) model serving as both a methodological benchmark and an operational fallback when SARIMAX fails to outperform it on validation. Forecasts are translated into workload through an empirically derived process-time matrix, and a linear programming model minimises total additional capacity (overtime and early start) in processes `P1` (PD / pre-dispatch preparation) and `P2` (ED / final dispatch) under a high penalty weight for deadline violations. Zone-level deadlines are aggregated as cumulative weekly share constraints.
+
+The empirical basis covers 117 modelling weeks (2024-01 to 2026-13, week 2026-14 excluded as a partial week), two product streams and 234 observations in total. Volumes are published as an index normalised so the 2024 mean per stream equals 100. Process times are estimated from eight complete production/dispatcher pairs as `P1` = 0.003885 and `P2` = 0.037555 minutes per FPK-equivalent. The zone profile is derived from 643 dispatcher dates (Z1 = 0.325, Z2 = 0.335, Z3 = 0.339, sum 1.000). Base capacity is 24 worker-hours/week for `P1` and 144 worker-hours/week for `P2`. SNaive validation across 2026-01 to 2026-13 yields MAE/RMSE 12.88/18.96 for F and 5.15/7.53 for S on the index scale. The SARIMAX grid run improves RMSE to 13.21 for F and 6.67 for S, although the S result is interpreted cautiously because MAE/MAPE are weaker than SNaive.
+
+The report now delivers a technical minimum implementation of the integrated framework: data foundation, process-time matrix, capacity baseline, zone profile, SARIMAX validation and LP solving are connected in one reproducible script. The LP run is a publishable index-scale smoke test, not an operational estimate of real worker-hours; it produces 0.00 extra index-hours and 0.00 slack across the validation horizon because the anonymised index file does not contain real FPK scales. Remaining work is therefore real-scale LP using local `weekly_volume.csv`, calibration of zone-level deadline capacities and full sensitivity analysis.
+
+**Keywords:** SARIMAX, linear programming, capacity planning, distribution deadlines, demand forecasting, food logistics, anonymization.
 
 ## Innhold
 
@@ -89,7 +49,7 @@ _Write the abstract here._
 - 5.5 Forskningsetikk og konfidensialitet
 - 6.0 Modellering
 - 7.0 Analyse
-- 8.0 Resultat
+- 8.0 Resultater
 - 9.0 Diskusjon
 - 10.0 Konklusjon
 - 11.0 Bibliografi
@@ -338,10 +298,10 @@ Gitt at treningsdata omfatter bare 104 observasjoner (2 sesongperioder), legges 
    - Prognose: $\hat{y}_{t} = y_{t-52}$ (observasjon fra 52 uker siden)
    - **Rolle:** Enkel sammenligningsstandard. Hyndman & Athanasopoulos (2021) viser at enkle metoder bør brukes som benchmark for mer komplekse prognosemodeller. Arunraj, Ahrens & Fernandes (2016) viser at SARIMAX med kampanjevariabler kan forbedre prognosering i matvarehandel. Hvis SARIMAX ikke slår SNaive på validering, brukes SNaive som operativ prognose.
 
-2. **SARIMAX-kandidater via `auto_arima` (Hyndman & Khandakar, 2008):**
+2. **SARIMAX-kandidater via konservativ `statsmodels`-grid (auto-ARIMA-prinsipp):**
    - **Stasjonaritetstesting:** KPSS-test for trendstasjonaritet, velg $d$; Canova-Hansen-test for sesongstasjonaritet, velg $D$ (typisk $D \in \{0, 1\}$)
    - **ACF/PACF-analyse** foreslår AR/MA-lagordener $(p, q, P, Q)$
-   - **auto_arima-algoritmen** genererer kandidatmodeller systematisk med fokus på parsimoni, rangert etter AICc (Akaike Information Criterion corrected for small samples)
+   - En avgrenset kandidatgrid estimeres systematisk med fokus på parsimoni, og resultatene vurderes mot AICc, residualdiagnostikk og out-of-sample validering
 
 3. **Modellvalg:**
    - Kandidater som krever $P > 1$ eller $D > 1$ forkastes (lite data til robust estimering på sesongkomponenten)
@@ -365,9 +325,9 @@ Gitt at treningsdata omfatter bare 104 observasjoner (2 sesongperioder), legges 
 - **Beslutning:** Hvis SARIMAX RMSE > SNaive RMSE, brukes SNaive som operativ prognose
 
 **Verktøy:** Python er hovedverktøyet i prognosedelen.
-- `auto_arima` (fra `pmdarima`, implementert basert på Hyndman & Khandakar, 2008) brukes til modellseleksjon
-- `statsmodels.tsa.statespace.sarimax.SARIMAX` brukes til endelig estimering, tolkning av koeffisienter, residualdiagnostikk og prognosegenerering
-- R med `forecast::auto.arima(seasonal = TRUE)` kan brukes som alternativ ved behov
+- `005 report/scripts/run_forecast_capacity_models.py` kjører en konservativ kandidatgrid med `statsmodels.tsa.statespace.sarimax.SARIMAX`
+- `statsmodels` brukes til estimering, prognosegenerering og residualdiagnostikk, mens `scipy.optimize.linprog` brukes til LP-kjøringen
+- `pmdarima.auto_arima` eller R med `forecast::auto.arima(seasonal = TRUE)` kan brukes som alternativ senere, men er ikke nødvendig for denne rapportens reproduserbare minimumskjøring
 
 ---
 
@@ -458,13 +418,15 @@ Begrunnelse: `2024-01` brukes ikke som basisuke fordi den påvirkes av helligdag
 - Eksempler: Gjennomsnittlig utnyttelsesgrad (%), fordeling av ekstra kapasitetsbehov, frekvens av fristbrudd (%)
 - Absolutte mann-timer utelates fordi de kan avsløre reelt volum
 - Reelle FPK-tall publiseres ikke
-- `volume_index` brukes ikke direkte som input til LP
+- `volume_index` brukes ikke som operativt kapasitetsgrunnlag i LP
 
 **Etterprøvbarhet uten å avsløre volum:**
 - SARIMAX-validering rapporteres på indeks-skala (MAE/RMSE i indeks-enheter)
 - LP-logikk og struktur er transparent (begrensninger, målfunksjon)
 - Sensitivitetsanalyse vises som relative endringer (±10% volum → ±Y% overtid)
 - Leseren kan verifisere metodologien uten å kjenne reelle volum
+
+For å dokumentere at prognose- og LP-leddet er teknisk koblet, er det likevel kjørt en publiserbar **indeks-skala smoke-test** der `volume_index` multipliseres med prosess-tidene og behandles som `indeks-minutter` / `indeks-timer`. Denne kjøringen viser at løseren og datastrømmen fungerer, men den kan ikke tolkes som faktisk bemanningsbehov fordi indeksen mangler de stream-spesifikke 2024-gjennomsnittene i FPK.
 
 **Datatilgjengelighet og reproduserbarhet:**
 
@@ -710,13 +672,18 @@ MAPE for S blir høy fordi flere S-uker har lav indeksverdi; små absolutte feil
 
 **SARIMAX-kandidater og estimering:**
 
-Auto-ARIMA-algoritmen identifiserer kandidatmodeller basert på AIC/BIC-kriterier. For hver varestrøm vurderes (p,d,q)(P,D,Q,52)-kombinasjoner med fokus på parsimoniske modeller gitt det begrensede datasettet (104 treningsobservasjoner):
+Det ble kjørt en konservativ `statsmodels`-grid i `005 report/scripts/run_forecast_capacity_models.py`. Kandidatrommet var begrenset til lave ikke-sesongordener $(p,d,q)$, sesongperiode 52 og parsimoniske sesongledd $(P,D,Q) \in \{(0,0,0),(1,0,0),(0,1,0),(1,1,0)\}$. For F ble `campaign_flag` forkastet som eksogen kandidat fordi flagget er nesten konstant; `holiday_flag` var derfor eneste eksogene kandidat. For S ble både `campaign_flag` og `holiday_flag` testet.
 
-- Trend-orden $d$: Bestemt via ADF-test for stationaritet
-- Sesong-orden $D$: Bestemt via sesong-differensiering og stasjonaritetskontroll
-- AR/MA-ordener $(p,q,P,Q)$: Identifisert fra ACF/PACF-analyse, med preferanse for små verdier
+Valgt operativ modell ble definert som den konvergerte kandidaten med lavest validerings-RMSE, sammenlignet mot SNaive:
 
-Endelig modell estimeres via Maximum Likelihood Estimation (MLE) og valideres på out-of-sample data (2026-01 til 2026-13, 13 uker). SARIMAX bør bare velges dersom den gir bedre valideringsresultat enn SNaive og samtidig har rimelig residualdiagnostikk.
+| Varestrøm | Operativ modell | Eksogen input | MAE | RMSE | MAPE | SNaive RMSE | Ljung-Box p(10) |
+|---|---|---|---:|---:|---:|---:|---:|
+| F | SARIMAX(1,1,1)(0,0,0)[52] | `holiday_flag` | 8.18 | 13.21 | 16.3 % | 18.96 | 0.855 |
+| S | ARIMA/SARIMAX(0,1,0)(0,0,0)[52] | ingen | 6.17 | 6.67 | 76.0 % | 7.53 | 0.137 |
+
+Begge valgte kandidater slår SNaive på RMSE, som er beslutningskriteriet definert i metodekapitlet. F-modellen forbedrer også MAE og MAPE. S-modellen reduserer RMSE ved å dempe store feil, men gir svakere MAE og MAPE enn SNaive; derfor bør S-resultatet tolkes som en minimumskjøring og ikke som endelig operativ modell uten mer historikk eller rikere kampanjevariabler.
+
+Kjøringen skrev sporbare resultater til `004 data/processed/forecast_validation_results.csv`, `004 data/processed/sarimax_candidate_results.csv` og `004 data/processed/model_run_summary.json`.
 
 ### 7.3 Kapasitetsmodell-setup
 
@@ -735,7 +702,9 @@ Prosess-tidene bygger på åtte komplette produksjons-/dispatcher-par fra 2024, 
 **Kritiske observasjoner:**
 - Sone-andeler (`zone_cutoff_profile.csv`) er nå beregnet fra `ED`-rader i dispatcherhistorikk og summerer til 1.000000
 - `anomaly_flag` og `constrained_week_flag` er ikke validert, så enkelte anomale uker kan være klassifisert som normale
-- LP-modellen har nå nødvendig soneinput, men bør fortsatt valideres med sensitivitetsanalyse for sonemiks og volumavvik
+- LP-modellen har nå nødvendig soneinput, men sonevise fristkapasiteter (`CAP_deadline`) må kalibreres før modellen kan tolkes som en natt-for-natt bemanningsplan
+
+LP-løseren ble kjørt på de operative prognosene for valideringsperioden. Fordi publiserbar fil bare inneholder indeks og ikke reelle FPK-volum, rapporteres denne kjøringen som `indeks-minutter` og `indeks-timer`. Basisscenarioet gir 0.00 ekstra indeks-timer og 0.00 slack; maksimal beregnet indeksbelastning er 0.00660 indeks-timer for `P1` og 0.06384 indeks-timer for `P2`. Dette dokumenterer at løseren fungerer teknisk, men er ikke et bevis på at reell kapasitet er tilstrekkelig.
 
 ## 8.0 Resultater
 
@@ -773,20 +742,40 @@ Fra capacity_assumptions.csv, normal drift:
 | P2 | 3.0 | 8.0 | 6 | 144.0 | ED/ekspedering |
 | **Totalt** | **3.5** | | **6** | **168.0** | Normal apparat |
 
-### 8.4 Kritiske funn og gjenstående arbeid
+### 8.4 Prognose- og LP-kjøring
+
+Minimumskjøringen i Python gir følgende valideringsresultat:
+
+| Varestrøm | Valgt modell | MAE | RMSE | MAPE | Beslutning |
+|---|---|---:|---:|---:|---|
+| F | SARIMAX(1,1,1)(0,0,0)[52] + `holiday_flag` | 8.18 | 13.21 | 16.3 % | Slår SNaive på alle tre måltall |
+| S | ARIMA/SARIMAX(0,1,0)(0,0,0)[52] | 6.17 | 6.67 | 76.0 % | Slår SNaive på RMSE, men ikke MAE/MAPE |
+
+For LP-kjøringen er prognosene omregnet til `indeks-minutter` med prosess-tidsmatrisen. Resultatet for publiserbar indeks-skala er:
+
+| Scenario | Ekstra indeks-timer | Slack indeks-minutter | Maks P1 indeks-timer | Maks P2 indeks-timer |
+|---|---:|---:|---:|---:|
+| -10 % volum | 0.00 | 0.00 | 0.00594 | 0.05746 |
+| Basis | 0.00 | 0.00 | 0.00660 | 0.06384 |
+| +10 % volum | 0.00 | 0.00 | 0.00726 | 0.07022 |
+
+Tallene er ikke reelle mann-timer. De viser at SARIMAX-prognosene kan flyte inn i LP-formuleringen og løses uten brudd, men reell kapasitetskonklusjon krever lokal `weekly_volume.csv` med faktiske FPK-volum.
+
+### 8.5 Kritiske funn og gjenstående arbeid
 
 **Gjennomført:**
 - Datakvalitet etablert for 117 modelluker og to varestrømmer
 - SNaive-baseline beregnet på valideringsperioden 2026-01 til 2026-13
+- SARIMAX/ARIMA-kandidater estimert og validert mot SNaive
 - Prosess-tidsmatrise beregnet fra åtte produksjons-/dispatcher-par
 - Kapasitetsbaseline dokumentert for `P1` og `P2`
 - Soneandeler beregnet fra dispatcherhistorikk
-- LP-struktur formulert med konsistente enheter
+- LP-struktur formulert med konsistente enheter og kjørt som publiserbar indeks-skala smoke-test
 
 **Gjenstår før operativ bruk:**
-- SARIMAX-kandidater må estimeres og sammenlignes mot SNaive-baseline
-- LP-løser må kjøres på konkrete prognosehorisonter
-- Sensitivitetsanalyse må gjennomføres for ±10 % volum, sonemiks og kapasitetsbortfall
+- LP-løser må kjøres på reelle FPK-volum i lokal, ikke-publiserbar `weekly_volume.csv`
+- Sonevise fristkapasiteter må kalibreres før `CAP_deadline` kan tolkes operativt
+- Full sensitivitetsanalyse må gjennomføres for sonemiks, kapasitetsbortfall og mer realistiske volumscenarioer
 - Friuke- og tilkallingsbemanning trenger lokale maksimumsgrenser før de kan brukes som egne LP-variabler
 
 ## 9.0 Diskusjon
@@ -810,7 +799,7 @@ LP er standard for aggregate production planning der målet er å minimere ressu
 ### 9.2 Datagrunnlag og etterprøvbarhet
 
 **Styrker:**
-- 118 sammenhengende uker = tilstrekkelig for sesongisk mønster-analyse
+- 118 sammenhengende uker = tilstrekkelig for sesongmessig mønsteranalyse
 - Anonymisering via indekstransformasjon sikrer konfidensialitet uten å gjøre metoden uetterprøvbar
 - Prosess-tidsmatrise basert på 8 representative uker fra 3 år gir robust grunnlag
 - Publikum kan verifisere metodologi på indeks-skala (SARIMAX-validering, LP-struktur)
@@ -821,13 +810,13 @@ LP er standard for aggregate production planning der målet er å minimere ressu
 - Campaign-flag har liten kraft for F: 99 % av F-ukene har kampanje, gir minimal differensiering
 - Datavolum grensesnitt: 104 treningsobservasjoner × 52-ukes sesong = akkurat minimum for SARIMAX
 
-**Konsekvenserfor tolkning:** Prognose-feil på validering kan bli større enn ideelt. Sensitivitetsanalyse må teste hvor robust LP er under ±10 % prognose-usikkerhet.
+**Konsekvenser for tolkning:** Prognose-feil på validering kan bli større enn ideelt. Sensitivitetsanalyse må teste hvor robust LP er under ±10 % prognose-usikkerhet.
 
 ### 9.3 Operativ relevans og næringslivets perspektiv
 
 **Modellens tiltenkte verdi:**
 1. Erstatte reaktive ("vi må ringe inn ekstrahjelp på fredag") med proaktiv planlegging
-2. Identifisere kritiske høysesong-uker som påkræver tidlig oppstart eller overtid
+2. Identifisere kritiske høysesong-uker som krever tidlig oppstart eller overtid
 3. Kvantifisere kostnads-trade-offs: Hvor mye mer overtid kreves for 100 % fristoppfyllelse vs. akseptert 5 % brudd?
 
 **Operativ implementering (utenfor rapport):**
@@ -845,13 +834,13 @@ Andre logistikk-kontekster (f.eks. pharma, e-commerce) ville kreve tilpasset mod
 
 ### 9.4 Kritikk og videre forskning
 
-**Denne rapport-versjonen er et modellrammeverk, ikke full implementasjon.**
+**Denne rapport-versjonen inneholder en teknisk minimumsimplementasjon, men ikke en operativ real-skala kapasitetsplan.**
 
 Gjenstår før operativ bruk:
-1. **Full SARIMAX-implementering:** Python `statsmodels` eller R `forecast::auto.arima`
-2. **LP-løsning:** Implementer i Python (PuLP, scipy.optimize) eller Excel Solver
-3. **Validering:** Kjør på 2026-01 til 2026-13, sammenlign SARIMAX mot SNaive baseline
-4. **Scenarioanalyse:** Test under ±10 % volum-usikkerhet, variabel sykefravær, sonemiks og kapasitetsbortfall
+1. **Reell-skala LP:** Kjør samme løser på lokal, ikke-publiserbar `weekly_volume.csv` slik at prognosene omregnes fra FPK til faktiske minutter og mann-timer
+2. **Fristkapasitet:** Kalibrer `CAP_deadline` for 00:00, 01:00 og 02:00 basert på faktisk bemanning, pauser, oppstartstid og nattlig arbeidsprofil
+3. **Scenarioanalyse:** Test sonemiks, kapasitetsbortfall, sykefravær, kampanjetopper og mer realistiske volumscenarioer enn den publiserbare ±10 %-indekskjøringen
+4. **Modellrobusthet:** Re-estimer når flere sesonger foreligger, og vurder rikere eksogene variabler som kampanjeintensitet i stedet for binære flagg
 
 **Teoretisk bidrag:** Rapporten etablerer en metodisk tilnærming til integrering av SARIMAX-prognose og LP-optimering for sesongbundet etterspørsel under sonevise distribusjonsfrister. Eksisterende litteratur på APP dekker ofte enten prognose eller optimering, men sjeldnere det integrerte oppsettet.
 
@@ -879,18 +868,18 @@ Rapporten utvikler et **integrert modellrammeverk** bestående av:
 - Prosess-tidsmatrise etablert: P1 = 0.004 min/FPK, P2 = 0.038 min/FPK (basert på 8 dager)
 - Kapasitets-baseline dokumentert: P1 = 24 t/uke, P2 = 144 t/uke
 - Soneprofil etablert: Z1 = 0.325311, Z2 = 0.335234, Z3 = 0.339455
-- SARIMAX-metodikk definert med robusthet-sikringer (SNaive baseline, parsimoni, validering)
-- LP-struktur formulert med enhetskonsistente constraints
+- SARIMAX/ARIMA-kjøring gjennomført: F-modell RMSE 13.21 mot SNaive 18.96; S-modell RMSE 6.67 mot SNaive 7.53
+- LP-struktur formulert med enhetskonsistente constraints og kjørt som indeks-skala smoke-test med 0.00 ekstra indeks-timer og 0.00 slack
 
 ### Gjenstår før operativ implementasjon
 
 For at modellen skal kunne brukes til praktisk planlegging:
-- SARIMAX-estimering og validering må implementeres i Python eller R
-- LP-løsing må kjøres på konkrete testscenarioer
-- Sensitivitetsanalyse må gjennomføres for volum-, sonemiks- og kapasitetsusikkerhet
+- Reell-skala LP må kjøres på lokal `weekly_volume.csv` med faktiske FPK-volum
+- Sonevise fristkapasiteter må kalibreres mot faktisk nattlig bemanning og tidsvinduer
+- Full sensitivitetsanalyse må gjennomføres for volum-, sonemiks- og kapasitetsusikkerhet
 - Lokale maksimumsgrenser for friuke- og tilkallingsbemanning må fastsettes før disse tiltakene brukes som egne beslutningsvariabler
 
-Disse stegene ligger utenfor denne rapport-versjonen, men er detaljert planlagt i kapitlene 7–8.
+Disse stegene ligger utenfor den publiserbare minimumskjøringen, men er detaljert planlagt i kapitlene 7–8.
 
 ### Teoretisk og praktisk bidrag
 
@@ -900,18 +889,18 @@ Disse stegene ligger utenfor denne rapport-versjonen, men er detaljert planlagt 
 
 ### Avsluttende refleksjon
 
-Selv om denne rapporten ikke leverer fullt implementerte resultater (SARIMAX-valideringer, LP-løsninger), etablerer den et solid metodisk og datamessig fundament. Designen er defensibel både faglig og etisk, og prosessen demonstrerer disiplin i:
+Selv om denne rapporten ikke publiserer reell-skala kapasitetsestimat i mann-timer, leverer den nå en teknisk minimumsimplementasjon av prognose- og LP-kjeden. Designen er defensibel både faglig og etisk, og prosessen demonstrerer disiplin i:
 - Databehandling og anonymisering
 - Matematisk konsistens (enhetskontroll, formulering)
 - Metodisk robusthet (baseline-sammenligninger, dokumentasjon)
 - Transparans om begrensninger og videre arbeid
 
-**Fremtidig arbeid** bør prioritere (1) SARIMAX-implementering, (2) LP-validering med de beregnede soneandelene, og (3) sensitivitetstesting for å gjøre modellen fullt operativ.
+**Fremtidig arbeid** bør prioritere (1) reell-skala LP med faktisk FPK-grunnlag, (2) kalibrering av sonevise fristkapasiteter, og (3) sensitivitetstesting for å gjøre modellen fullt operativ.
 
 ---
 
-**Dato for sluttrapport:** 29. april 2026
-**Rammeverk-status:** Metodikk og datagrunnlag etablert, implementasjon påbegynt
+**Dato for sluttrapport:** 30. april 2026
+**Rammeverk-status:** Metodikk og datagrunnlag etablert, teknisk minimumskjøring gjennomført
 **Innlevering:** Planlagt 30. april 2026
 
 ## 11.0 Bibliografi
@@ -922,7 +911,7 @@ Hyndman, R.J., & Athanasopoulos, G. (2021). *Forecasting: principles and practic
 - *Bruk:* Kapittel 9 for ARIMA-teori, 9.9 for sesongmodeller, Kapittel 10 for eksogene variabler (ARIMAX). Sentral for modellvalg, residualdiagnostikk og hvorfor baseline-sammenligninger er kritiske.
 
 Hyndman, R.J., & Khandakar, Y. (2008). Automatic time series forecasting: The forecast package for R. *Journal of Statistical Software*, 27(3), 1–22. https://doi.org/10.18637/jss.v027.i03
-- *Bruk:* Kanonisk kilde for auto_arima stepwise-algoritmen. Sentral for 5.1.1 (modellseleksjon via AIC/BIC).
+- *Bruk:* Kanonisk kilde for auto_arima stepwise-algoritmen. Brukt som metodisk inspirasjon for parsimonisk kandidatgrid og modellseleksjon i 5.1.1.
 
 Arunraj, N.S., Ahrens, D., & Fernandes, M. (2016). Application of SARIMAX model to forecast daily sales in food retail industry. *International Journal of Operations Research and Information Systems*, 7(2), 1–21. https://doi.org/10.4018/IJORIS.2016040101
 - *Bruk:* Direkte parallell til ditt case: SARIMAX for sesongbundet matetherspørsel med eksogene variabler (promotions, holidays). Seksjon 2.1 (litteratur), 7.1 (datadeskriptiv), validering av eksogen-variabel-tilnærming.
@@ -963,8 +952,20 @@ KML Kompendium. (2026). *Quantitative methods in logistics: A framework for AI-d
 **Notat til framtidig arbeid:** Ytterligere litteratur på følgende emner anbefales:
 - Demand sensing og real-time prognoser i sesongbundne industrier
 - Supply chain resilience under kapasitets-begrensninger
-- Benchmark-studier av produksjonsbedrifter som bruker integrert prognose-optim isering
+- Benchmark-studier av produksjonsbedrifter som bruker integrert prognose-optimering
 
 ## 12.0 Vedlegg
 
-_Legg inn vedlegg her ved behov._
+Vedleggene er holdt som prosjektmappe-artefakter heller enn innlimte fulltabeller, slik at rapporten forblir lesbar og reproduserbar uten å publisere sensitive rådata.
+
+| Vedlegg | Fil / artefakt | Formål |
+|---|---|---|
+| A | `004 data/weekly_volume_anonymized.csv` | Publiserbar ukentlig volumindeks for F og S |
+| B | `004 data/process_time_matrix.csv` | Prosess-tider brukt i kapasitetsomregningen |
+| C | `004 data/capacity_assumptions.csv` og `004 data/action_parameters.csv` | Basekapasitet og dokumenterte tiltak |
+| D | `004 data/zone_cutoff_profile.csv` | Soneandeler for cut-off-modellen |
+| E | `005 report/scripts/run_forecast_capacity_models.py` | Reproduserbart skript for SARIMAX-grid, SNaive-baseline og LP smoke-test |
+| F | `004 data/processed/forecast_validation_results.csv` | Valideringsprognoser, faktiske indeksverdier og modellfeil |
+| G | `004 data/processed/sarimax_candidate_results.csv` | Oversikt over evaluerte SARIMAX/ARIMA-kandidater |
+| H | `004 data/processed/lp_capacity_validation_index.csv` og `004 data/processed/lp_zone_deadline_load_index.csv` | LP-resultater på publiserbar indeks-skala |
+| I | `004 data/processed/model_run_summary.json` | Maskinlesbar oppsummering av modellkjøringen |
