@@ -196,11 +196,13 @@ For automatisk modellvalg brukes stepwise-algoritmer som `auto_arima` (Hyndman &
 
 **Linear Programming** er en matematisk optimeringsmetode for å finne beste beslutning under lineære begrensninger (Winston, 2004). Generell form:
 
-```
-Minimiser: c₁x₁ + c₂x₂ + ... + cₙxₙ  (Målfunksjon)
-Under:     Ax ≤ b  (Lineære begrensninger)
-           x ≥ 0   (Ikke-negativitet)
-```
+$$
+\begin{aligned}
+\text{Minimiser:} \quad & c_1 x_1 + c_2 x_2 + \dots + c_n x_n \quad &(\text{Målfunksjon}) \\
+\text{Under:} \quad & A x \leq b \quad &(\text{Lineære begrensninger}) \\
+& x \geq 0 \quad &(\text{Ikke-negativitet})
+\end{aligned}
+$$
 
 hvor $c$ er en kostnads- eller vektvektor, $x$ er beslutningsvariablene, $A$ er en matrise av koeffisienter, og $b$ er høyre-side-verdier.
 
