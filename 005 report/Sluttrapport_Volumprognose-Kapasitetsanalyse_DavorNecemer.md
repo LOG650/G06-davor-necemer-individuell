@@ -103,7 +103,7 @@ Denne situasjonen oppstår fordi tradisjonelle kapasitetsplaner baseres på ukea
 
 Litteraturen på demand forecasting og aggregate production planning tilbyr vel etablerte løsninger. SARIMAX-modeller kan prognostisere etterspørsel under hensyn til sesongmønstre, planlagte kampanjer og andre eksogene faktorer, og linear programming kan optimalisere kapasitetsallokeringen under stramme restruksjoner. Integrering av disse to metodene kan gi både operasjonell effektivitet og innsikt i kritiske ressursbehov.
 
-Denne rapporten utvikler og tester en slik integrert modell på data fra en reell næringsmiddelproduksjon og distribusjonsoperasjon.
+Denne rapporten utvikler et integrert modellrammeverk og etablerer datagrunnlag for etterspørselsprognose og kapasitetsanalyse i en reell næringsmiddelproduksjon og distribusjonsoperasjon.
 
 ### 1.1 Problemstilling
 
@@ -112,7 +112,7 @@ Denne rapporten utvikler og tester en slik integrert modell på data fra en reel
 Denne problemstillingen er todelt:
 
 1. **Prognosedelen:** Utarbeide tidsserieprognose som fanger sesongvariasjoner og effekten av planlagte kampanjer (eksogene faktorer).
-2. **Optimeringsdelen:** Gitt denne prognosen, bestemme optimal allokering av ekstra kapasitet (overtid, tidlig oppstart, ekstrabemanning) som minimerer samlet ressursforbruk mens alle sonevise cut-off-frister respekteres.
+2. **Optimeringsdelen:** Gitt denne prognosen, beregne behovet for aggregert ekstra kapasitet som minimerer samlet ressursforbruk og synliggjør risiko for brudd på sonevise cut-off-frister.
 
 Problemstillingen behandler altså hvordan man *integrerer* etterspørselsprognose og operasjonell planlegging for å løse en reell distribusjonsflaske-halssituasjon.
 
@@ -132,9 +132,9 @@ Disse delproblemene er sekvensielle: prognosen fra DP1 blir input til LP-modelle
 
 **Prosessomfang:** Analysen dekker distribusjonsklargjøringen etter at volumet er klart for utsendelse. Prosessene modelleres som `P1 = PD / for-klargjøring` og `P2 = ED / endelig dispatch/ekspedering`, mens `DD` behandles som direkte eller særskilt dispatchflyt som inngår i tidsgrunnlaget ved behov, men ikke som separat hovedprosess. *Begrunnelse:* Produksjonslister og dispatcher actions for lager 310 viser at tilgjengelig tidsdata måler håndtering mot distribusjonsfrister, ikke primær eller sekundær produksjonspakking. Prosessavgrensningen må derfor følge det observerbare datagrunnlaget for å unngå at modellen estimerer kapasitet for prosesser som ikke er målt.
 
-**Geografi og personvern:** Data behandles fullt anonymisert uten personopplysninger. Bedriften er ikke identifisert. *Begrunnelse:* Sikrer personvern og forretningshemmeligheter.
+**Geografi og personvern:** Publiserte data og resultater er anonymisert eller aggregert, og bedriften er ikke identifisert. Sensitive rådata behandles lokalt og publiseres ikke. *Begrunnelse:* Sikrer personvern og forretningshemmeligheter.
 
-**Måling:** Modellen optimaliserer kapasitetsforbruk (mann-timer, overtimebehov) og omfang av fristbrudd (FPK-enheter over kapasitet), ikke faktiske norske kroner. *Begrunnelse:* Kostnadsdata er sensitive; ressursenhetsmål er generelt og reproduserbart.
+**Måling:** Modellen optimaliserer kapasitetsforbruk (ekstra mann-timer) og omfang av fristbrudd (arbeidsminutter som ikke dekkes innen kapasitet), ikke faktiske norske kroner. *Begrunnelse:* Kostnadsdata er sensitive; ressursenhetsmål er generelt og reproduserbart.
 
 **Volumenhet:** I distribusjonsleddet brukes FPK-ekvivalent som en operasjonell håndteringsenhet. Dersom en DPK, kurv eller tilsvarende salgsenhet håndteres som én fysisk plukk- eller sorteringsenhet, teller den som én enhet i modellen, selv om den inneholder flere underliggende forbrukerenheter. *Begrunnelse:* Kapasitetsbelastningen i distribusjonsklargjøring bestemmes primært av antall håndteringer, ikke av antall produkter inne i hver håndteringsenhet.
 
@@ -170,7 +170,7 @@ Fildes, Ma & Kolassa (2022) gjennomgår retail forecasting på tvers av ulike ag
 
 Holt, Modigliani & Simon (1955) etablerte den lineære beslutningsregelen som fundamentet for moderne APP, der lineære regler for bemanning og produksjon kan minimere samlede kostnader under etterspørselsusikkerhet. I dagens praksis håndteres APP under både kapasitets- og etterspørselsbegrensninger. Leung, Wu & Lai (2006) formulerer APP for flere produksjonslokasjoner med stokastisk etterspørsel og arbeidskraftsbegrensninger; denne metodiske tilnærmingen er relevant for rapportens toprosessproblem i distribusjon, selv om konteksten er annerledes.
 
-I dette prosjektet modelleres kapasitetsallokeringen som et LP-minimeringsproblem. Målfunksjonen minimerer totalt ressursforbruk (overtid, ekstrabemanning) samtidig som distribusjonsfrister respekteres. Begrensningene sikrer at arbeidsbelastningen (prognostisert volum omregnet til minutter) ikke overstiger tilgjengelig kapasitet, definert som grunnbemanning og mulig overtid. Denne strukturen følger standard APP-praksis som beskrevet av Winston (2004) og Leung et al. (2006).
+I dette prosjektet modelleres kapasitetsbehovet som et LP-minimeringsproblem. Målfunksjonen minimerer samlet ekstra kapasitet samtidig som distribusjonsfrister respekteres. Begrensningene sikrer at arbeidsbelastningen (prognostisert volum omregnet til minutter) ikke overstiger tilgjengelig kapasitet, definert som grunnbemanning og dokumentert mulig ekstra kapasitet. Denne strukturen følger standard APP-praksis som beskrevet av Winston (2004) og Leung et al. (2006).
 
 ### 2.3 Flaskehals-dynamikk i konvergerende logistikk
 
@@ -229,7 +229,7 @@ For APP-kontekster med usikker etterspørsel og flere lokasjoner henviser Leung,
 Dette prosjektet integrerer begge tilnærminger sekvensielt:
 
 1. **Fase 1 – Etterspørselsprognose:** SARIMAX-modellen estimeres basert på historiske ukentlige volumdata, sesongmønstre og kampanjekalender, separat for ferskvare og sekundærvare. Resultat: prognose per uke og varestrøm.
-2. **Fase 2 – Kapasitetsoptimering:** LP-modellen bruker denne prognosen som fast input og bestemmer optimal kapasitetsallokering for å møte etterspørselen under sonevise frister.
+2. **Fase 2 – Kapasitetsoptimering:** LP-modellen bruker denne prognosen som fast input og beregner behov for ekstra kapasitet for å møte etterspørselen under sonevise frister.
 
 Denne todelte strukturen gjør det mulig å vurdere konsekvensene av prognoseusikkerhet i kapasitetsmodellen, blant annet gjennom straffvekt for fristbrudd og scenarioanalyse. Dermed kan modellen testes under plausible volumavvik før den brukes som beslutningsstøtte.
 
@@ -262,9 +262,9 @@ Hver prosess har en grunnkapasitet (Standard Working Hours per uke). Kapasiteten
 
 Selv om den totale ukekapasiteten er tilstrekkelig når man aggregerer, oppstår regelmessige kapasitetsbrudd på grunn av **sonevise distribusjonsfrister**:
 
-- Filial A har daglige frister (f.eks. kl. 14:00) for hver kundesone
-- Filial B har også daglige frister, men senere på dagen
-- Hvis både ferskvare og sekundærvare peaker samme dag, kan distribusjonsklargjøring ikke strekke til
+- Volumet fordeles over soner med nattlige cut-off-frister kl. 00:00, 01:00 og 02:00
+- Begge varestrømmer bruker samme distribusjonsledd før utsendelse
+- Hvis både ferskvare og sekundærvare peaker samme dag, kan distribusjonsklargjøring bli presset selv om ukekapasiteten virker tilstrekkelig
 
 **Eksempel:** En tirsdag må 80 % av ukens volum ferdigstilles, mens resten av uken har lavere belastning. Selv om total ukekapasitet er tilstrekkelig, blir tirsdag en kritisk belastningsdag som krever betydelig ekstra kapasitet.
 
@@ -292,7 +292,7 @@ Med en slik modell kan ledelsen ta proaktive beslutninger i stedet for å reager
 
 ## 5.0 Metode og data
 
-### 5.1 Metode – Etterspørselsprognose (SARIMAX)
+### 5.1.1 Metode – Etterspørselsprognose (SARIMAX)
 
 **Paradigme:** Kvantitativ case-studie basert på historiske operasjonelle data fra en produksjon- og distribusjonsoperasjon.
 
@@ -371,22 +371,22 @@ Gitt at treningsdata omfatter bare 104 observasjoner (2 sesongperioder), legges 
 
 ---
 
-### 5.1b Metode – Kapasitetsoptimering (Linear Programming)
+### 5.1.2 Metode – Kapasitetsoptimering (Linear Programming)
 
 **Optimeringsproblem:** LP-modellen løser et aggregate production planning-problem (APP, se seksjon 6.0 og litteraturkapittel 2.2).
 
 **Formulering:** Modellen følger standard APP-struktur (Winston, 2004; Leung, Wu & Lai, 2006):
-- **Målfunksjon:** Minimerer totalt ressursforbruk (overtid, ekstrabemanning) og høy straffvekt for fristbrudd
+- **Målfunksjon:** Minimerer samlet ekstra kapasitet og høy straffvekt for fristbrudd
 - **Begrensninger:**
-  - Kapasitetsbegrensninger: arbeidsbelastning ≤ grunnkapasitet + overtid
+  - Kapasitetsbegrensninger: arbeidsbelastning ≤ grunnkapasitet + aggregert ekstra kapasitet
   - Sonevise frister: andel av volum må være ferdig innen cut-off-tider
   - Ikke-negativitet: alle beslutningsvariabler ≥ 0
-  - Maksimalgrenser: overtid begrenset av arbeidstidslover og realisme
+  - Maksimalgrenser: ekstra kapasitet begrenset av dokumenterte tiltaksgrenser og praktisk realisme
 
 **Løsningsmetode:**
 - **Simplex-algoritmen** eller **interiørpunktmetode** (Winston, 2004) avhengig av solver
 - Python: `scipy.optimize.linprog`, `PuLP`, eller `Gurobi/CPLEX` for større instanser
-- Løsningen gir optimal allokering av overtidsbehov per prosess per uke
+- Løsningen gir beregnet behov for ekstra kapasitet per prosess per uke
 
 **Sensitivitetsanalyse (post-optimality analysis):**
 Skyggepriser og reduserte kostnader analyseres (Winston, 2004) for å forstå:
@@ -450,12 +450,12 @@ Begrunnelse: `2024-01` brukes ikke som basisuke fordi den påvirkes av helligdag
 - Bruker reelle FPK-volum fra lokal `weekly_volume.csv`
 - Prognose: $\text{forecast\_fpk}_{s,t}$
 - Arbeidsbelastning: $\text{workload}_{j,t} = \sum_s (\text{forecast\_fpk}_{s,t} \times \text{minutes\_per\_fpk}_{j,s})$
-- LP løst med absolutte mann-timer, resulterer i $OT_{j,t}$ i timer, $SLACK_t$ i minutter
+- LP løst med absolutte mann-timer, resulterer i $X_{j,t}$ som ekstra kapasitet i timer og $SLACK_{j,t}$ som udekket arbeidsbelastning i minutter
 - Intern resultat: dimensjoner i timer og minutter, kan reproduseres med reelle FPK
 
 **Publisert resultat (rapport + vedlegg):**
 - Kapasitetsbehov rapporteres som **relative nøkkeltall**, ikke absolutte timer
-- Eksempler: Gjennomsnittlig utnyttelsesgrad (%), fordelinghistogram for overtidsbehov, frekvens av fristbrudd (%)
+- Eksempler: Gjennomsnittlig utnyttelsesgrad (%), fordeling av ekstra kapasitetsbehov, frekvens av fristbrudd (%)
 - Absolutte mann-timer utelates fordi de kan avsløre reelt volum
 - Reelle FPK-tall publiseres ikke
 - `volume_index` brukes ikke direkte som input til LP
@@ -530,26 +530,44 @@ Metoden er likevel gjort etterprøvbar på et faglig nivå. Rapporten beskriver 
 
 ## 6.0 Modellering
 
+Dette kapitlet formulerer den matematiske koblingen mellom prognostisert volum, arbeidsbelastning og tilgjengelig kapasitet. Modellen er en ukentlig planleggingsmodell, ikke en detaljert natt-for-natt bemanningsplan. Hensikten er å vise hvordan prognoser kan omsettes til kapasitetsbehov og hvordan mangel på kapasitet kan synliggjøres som ekstra kapasitet eller fristbrudd.
+
 ### 6.1 Modellstruktur
 
 Modellen består av to sekvensielle komponenter:
 
-1. **Etterspørselsprognose (SARIMAX):** Basert på historiske ukentlige volumer for ferskvare (F) og sekundærvare (S) samt kampanjekalender, produseres punkt-prognoser for volumene i hver uke. Prognosen fanger sesongmønstre, eksogene effekter (kampanjer), og genererer prediktert volum `V_F,t` og `V_S,t` for uke `t`.
+1. **Etterspørselsprognose:** Basert på historiske ukentlige volumer for ferskvare (F) og sekundærvare (S) samt kampanjekalender, produseres punktprognoser for volum i uke `t`. I den interne modellen brukes reelle FPK-ekvivalenter, mens publisert rapportering bruker indekserte volumer for å ivareta konfidensialitet.
 
-2. **Kapasitetsoptimering (LP):** Gitt prognostisert volum, bestemmes optimal kapasitetsallokering (overtimebehov, tidlig oppstart) for `P1` og `P2` i distribusjonsklargjøringen for å møte sonevise frister med minimalt ressursforbruk.
+2. **Kapasitetsoptimering:** Prognostisert volum omregnes til arbeidsbelastning ved hjelp av `process_time_matrix.csv`. LP-formuleringen beregner behov for aggregert ekstra kapasitet i `P1` og `P2`, og synliggjør eventuell restbelastning som ikke kan håndteres innen tilgjengelig kapasitet.
+
+Prosessene er:
+- `P1 = PD / for-klargjøring`
+- `P2 = ED / endelig dispatch/ekspedering`
+
+`DD` holdes utenfor hovedmodellen fordi det behandles som direkte eller særskilt dispatchflyt, ikke som et stabilt hovedledd i den ukentlige kapasitetsmodellen.
 
 ---
 
-### 6.2 Beslutningsvariabler
+### 6.2 Notasjon og beslutningsvariabler
 
-La `OT_j,t` = overtimebehov (mann-timer) i prosess j, uke t
+Indekser:
+- $j \in \{P1,P2\}$: prosessledd
+- $s \in \{F,S\}$: varestrøm
+- $t = 1,\ldots,T$: uke i planleggingshorisonten
 
-Prosesser:
-- j = 1: `P1 = PD / for-klargjøring`
-- j = 2: `P2 = ED / endelig dispatch/ekspedering`
+Parametre:
+- $\hat{V}_{s,t}$ = prognostisert volum i FPK-ekvivalenter for varestrøm $s$ i uke $t$
+- $m_{j,s}$ = minutter per FPK i prosess $j$ for varestrøm $s$
+- $CAP^{base}_{j,t}$ = ordinær kapasitet i mann-timer for prosess $j$ i uke $t$
+- $XMAX_{j,t}$ = maksimal tilgjengelig ekstra kapasitet i mann-timer
+- $c_j$ = relativ kostnadsvekt per ekstra mann-time i prosess $j$
+- $\lambda$ = penalty-vekt per minutt fristbrudd
 
-Tidsperiode:
-- t = 1, 2, ..., T (planningshorisonten, f.eks. T=52 uker)
+Beslutningsvariabler:
+- $X_{j,t} \geq 0$ = aggregert ekstra kapasitet i mann-timer for prosess $j$ i uke $t$
+- $SLACK_{j,t} \geq 0$ = arbeidsminutter som ikke dekkes av tilgjengelig kapasitet i prosess $j$ i uke $t$
+
+I denne rapportversjonen representerer $X_{j,t}$ samlet ekstra kapasitet. Praktisk kan dette komme fra overtid, tidlig oppstart eller ekstra bemanning. En mer detaljert operativ modell kan senere splitte $X_{j,t}$ i egne tiltaksvariabler.
 
 ---
 
@@ -557,39 +575,42 @@ Tidsperiode:
 
 **Minimiser:**
 
-$$Z = \sum_{t=1}^{T} \sum_{j \in \{P1,P2\}} c_j \cdot OT_{j,t} + \sum_{t=1}^{T} \lambda \cdot SLACK_t$$
+$$Z = \sum_{t=1}^{T} \sum_{j \in \{P1,P2\}} c_j X_{j,t} + \lambda \sum_{t=1}^{T} \sum_{j \in \{P1,P2\}} SLACK_{j,t}$$
 
 hvor:
-- $c_j$ = kostnads-/vektvektor per overtimetime i prosess j (ressursenhet eller relativ vekt)
-- $OT_{j,t}$ = overtimebehov (mann-timer, beslutningsvariabel)
-- $SLACK_t$ = arbeidsminutter som ikke klargjøres innen den aggregerte soneslutten (late_minutes, beslutningsvariabel)
-- $\lambda$ = penalty-vekt for sen arbeid (settes høyt slik at fristbrudd prioriteres sterkt, typisk $\lambda = 100$)
+- $X_{j,t}$ måles i mann-timer
+- $SLACK_{j,t}$ måles i minutter
+- $c_j$ er en relativ vekt, ikke en faktisk kronekostnad
+- $\lambda$ settes høyt for å gjøre fristbrudd dyrere enn normal ekstra kapasitet
 
-**Tolking:** Målfunksjonen minimerer totalt overtimebehov over planningshorisonten, samtidig som fristbrudd (SLACK i minutter) penaliseres høyt. Siden $\lambda \gg c_j$, vil modellen normalt unngå slack og velge overtid heller. Slack tillates bare hvis overtid er umulig innenfor maksimalgrenser.
+**Tolking:** Målfunksjonen prioriterer å dekke arbeidsbelastningen med minst mulig ekstra kapasitet. Dersom kapasitetstaket nås, kan modellen bruke $SLACK_{j,t}$, men den høye penalty-vekten gjør dette til en siste utvei. Dermed blir fristbrudd synlig som modellresultat, ikke skjult i kapasitetsantakelsene.
 
 ---
 
-### 6.4 Hovedkonstrants
+### 6.4 Hovedbegrensninger
 
-**Kapasitetsrestriksjon per prosess (ENHETSKONSISTENT):**
+Arbeidsbelastningen i prosess $j$ og uke $t$ beregnes som:
 
-For hver prosess j ∈ {P1, P2} og uke t:
+$$W_{j,t} = \sum_{s \in \{F,S\}} \hat{V}_{s,t} \cdot m_{j,s}$$
 
-$$W_{j,t} \leq 60 \cdot (CAP_{j,\text{base}} + OT_{j,t})$$
+hvor $W_{j,t}$ måles i minutter.
 
-hvor:
-- $W_{j,t}$ = arbeidsbelastning i **minutter** i prosess j, uke t
-  - Beregnet som: $\sum_{\text{streams}} (\text{forecast}_{s,t} \times \text{minutes\_per\_fpk}_{j,s})$
-  - Eksempel: Hvis forecast_F = 1000 FPK, minutes_per_fpk_F_P2 = 0.0376 min/FPK, da får vi 1000 × 0.0376 = 37.6 minutter
+Kapasitetsbegrensningen per prosess er:
 
-- $CAP_{j,\text{base}}$ = grunnkapasitet i **mann-timer** per uke, prosess j
-  - Fra `capacity_assumptions.csv`: P1 = 24.0 timer/uke, P2 = 144.0 timer/uke
-  - Konvertering til minutter: 24.0 × 60 = 1440 minutter
+$$W_{j,t} \leq 60 \cdot (CAP^{base}_{j,t} + X_{j,t}) + SLACK_{j,t}$$
 
-- $OT_{j,t}$ = overtimebehov i **mann-timer** (beslutningsvariabel)
-  - Konvertering: $OT_{j,t}$ multipliseres med 60 for å få minutter
+med grense:
 
-**Tolking:** Totalt arbeid (prognostisert volum × tidsstandard) må kunne utføres innenfor tilgjengelig kapasitet (base + overtid). Hvis $W_{j,t}$ > kapasitet, må modellen øke $OT_{j,t}$ eller akseptere SLACK.
+$$0 \leq X_{j,t} \leq XMAX_{j,t}$$
+
+Enhetskontrollen er sentral:
+- $W_{j,t}$ og $SLACK_{j,t}$ er minutter
+- $CAP^{base}_{j,t}$ og $X_{j,t}$ er mann-timer
+- faktoren 60 konverterer timer til minutter
+
+Eksempel: Hvis prognosen gir 1000 FPK gjennom `P2`, og `P2` har standardtid 0.037555 minutter per FPK, blir arbeidsbelastningen $1000 \cdot 0.037555 = 37.555$ minutter. Denne belastningen sammenlignes med tilgjengelige kapasitetsminutter i `P2`.
+
+For å unngå ubegrensede løsninger skal bare tiltak med dokumentert maksimalgrense aktiveres i $XMAX_{j,t}$. Tiltak som mangler lokal maksimumsgrense i `action_parameters.csv`, for eksempel friuke- eller tilkallingsbemanning, behandles som scenarioforutsetninger inntil praktiske grenser er avklart.
 
 ---
 
@@ -601,54 +622,48 @@ Sonevise frister aggregeres som ukentlige andeler basert på `zone_cutoff_profil
 - **Sone 2 (Z2, kl 01:00):** $p_1 + p_2 = 0.660545$ av ukens distribusjonsvolum må ha gjennomgått ED innen 01:00
 - **Sone 3 (Z3, kl 02:00):** $p_1 + p_2 + p_3 = 1.000000$ må ha gjennomgått ED innen 02:00
 
-**Enkel formalisering (når alle prosesser aggregeres):**
+I en soneutvidet modell deles P2-belastningen etter soneandel:
 
-$$W_{P2,t} - SLACK_t \leq 60 \cdot (CAP_{P2,\text{base}} + OT_{P2,t})$$
+$$W_{P2,z,t} = p_z \cdot W_{P2,t}$$
 
-hvor:
-- $W_{P2,t}$ = totalt arbeidsforbruk i **minutter** for endelig dispatch/ekspedering (P2) i uke t
-- $SLACK_t$ = arbeidsminutter som ikke klargjøres innen sone 3 sin 02:00 frist (late_minutes i minutter)
-- $60 \cdot CAP_{P2,\text{base}}$ = grunnkapasitet konvertert til minutter
-- $60 \cdot OT_{P2,t}$ = tilgjengelig overtid konvertert til minutter
+For hver kumulativ frist $k \in \{1,2,3\}$ kan begrensningen formuleres som:
 
-**Tolking:** Hvis $W_{P2,t} > 60 \cdot (CAP + OT)$, kan ikke alt arbeidsvolum utføres, og $SLACK_t$ vil være positiv i løsningen. Høy penalty-vekt $\lambda$ sikrer at dette unngås hvis mulig.
+$$\sum_{z=1}^{k} W_{P2,z,t} \leq 60 \cdot (CAP^{deadline}_{k,t} + X^{deadline}_{k,t}) + SLACK^{deadline}_{k,t}$$
 
-**Videre detaljering (oppnådd via scenarioanalyse):** Siden sone-andelene nå er kjente, kan modellen splitte arbeidsbelastningen per sone og teste sensitiviteter rundt sonemiksen, for eksempel ±10 % relativ endring i `Z1`, `Z2` og `Z3`.
+Her representerer $CAP^{deadline}_{k,t}$ den delen av P2-kapasiteten som er tilgjengelig frem til frist $k$. I rapportens ukentlige hovedmodell brukes soneandelene primært til å teste om kapasitetsbehovet er robust mot sonemiks. En fullt operativ modell bør kalibrere $CAP^{deadline}_{k,t}$ med daglige tidsvinduer og faktisk bemanningsprofil.
 
 ---
 
-### 6.6 Tidlig oppstart og ekstra bemanning (VALG FOR SENERE UTVIKLING)
+### 6.6 Tiltakstyper og videre detaljering
 
-I senere versjon av modellen kan tidlig oppstart (ES) eller ekstra bemanning (OFFWEEK, ONCALL) modelleres eksplisitt som beslutningsvariabler:
+Den aggregerte ekstra kapasiteten $X_{j,t}$ kan senere splittes i tiltakstyper:
 
-$$W_{j,t} \leq 60 \cdot (CAP_{j,\text{base}} + OT_{j,t} + ES_{j,t} + OFFWEEK_{j,t} + ONCALL_{j,t})$$
+$$X_{j,t} = \sum_{a \in A} x_{j,a,t}$$
 
 hvor:
-- $ES_{j,t}$ = ekstra timer fra tidlig oppstart (mann-timer)
-- $OFFWEEK_{j,t}$ = ekstra timer fra bemanning på friuke (mann-timer)
-- $ONCALL_{j,t}$ = ekstra timer fra tilkallingshjelp (mann-timer)
+- $a$ er tiltakstype, for eksempel tidlig oppstart, friukebemanning eller tilkallingshjelp
+- $x_{j,a,t}$ er timer brukt av tiltak $a$ i prosess $j$ og uke $t$
+- hver tiltakstype får egen kostnadsvekt og maksimalgrense fra `action_parameters.csv`
 
-Hver variabel har maksimalgrenser fra `action_parameters.csv` og relative kostnads-vekter som reflekterer tariff-forhold.
-
-**Notat for implementasjon:** For denne rapport-versjonen inkluderes tidlig oppstart/bemanning som forutsetninger i grunnkapasiteten (f.eks. via scenario-anta telser), ikke som eksplisitte beslutningsvariabler. Modellutvikling kan senere splitte disse ut hvis LP skal løses for å velge mellom tiltakene.
+Denne rapporten bruker den aggregerte formen for å holde modellen etterprøvbar og enhetskonsistent. Detaljert tiltaksvalg krever mer presise lokale grenser for tilgjengelig friukebemanning og tilkallingskapasitet.
 
 ---
 
 ### 6.7 Ikke-negativitet og variabelbegrensninger
 
-**Primære beslutningsvariabler:**
-$$OT_{j,t} \geq 0 \quad \forall j \in \{P1, P2\}, t \in [1, T]$$
-$$SLACK_t \geq 0 \quad \forall t \in [1, T]$$
+Primære variabler:
 
-**Maksimalgrenser (fra `action_parameters.csv` og kapasitetsforutsetninger):**
-$$OT_{j,t} \leq OT\text{\_}MAX_{j,t} \quad \text{(tidlig oppstart + normal overtid)}$$
-$$SLACK_t \text{ tillatt hvis andre tiltak ikke strekker}$$
+$$X_{j,t} \geq 0 \quad \forall j,t$$
 
-**Eksempler:**
-- P1 early_start standard holiday: maks 6 timer/uke
-- P1 early_start Easter/Christmas: maks 9 timer/uke
-- P2 early_start standard holiday: maks 36 timer/uke
-- P2 early_start Easter/Christmas: maks 54 timer/uke
+$$SLACK_{j,t} \geq 0 \quad \forall j,t$$
+
+$$X_{j,t} \leq XMAX_{j,t} \quad \forall j,t$$
+
+For aktive tidlig-start-tiltak gir `action_parameters.csv` følgende dokumenterte maksimumsgrenser:
+- `P1`: 6 timer per standard helligdagsuke eller 9 timer i påske/jul-scenario
+- `P2`: 36 timer per standard helligdagsuke eller 54 timer i påske/jul-scenario
+
+Friuke- og tilkallingsbemanning er dokumentert som mulige tiltak, men bør ikke brukes som ubundne LP-variabler før lokale maksimumsgrenser er fastsatt.
 
 ---
 
@@ -667,23 +682,31 @@ Verktøy:
 
 ### 7.1 Data-deskriptiv analyse
 
-**Sesongmønster og etterspørselsdynamikk:**
+Analysegrunnlaget består av 117 modelluker etter at den ufullstendige uke 2026-14 er ekskludert. Dette gir 234 observasjoner fordelt på to varestrømmer. Volum er publisert som indeks med 2024-gjennomsnitt per varestrøm lik 100.
 
-Forecastgrunnlaget for begge varestrømmer (F og S) dekker 118 sammenhengende uker (2024-01 til 2026-13, uke 2026-14 ekskludert). Ukedataene viser et klart sesongmønster knyttet til årlige høysesongperioder:
+| Varestrøm | Observasjoner | Gj.sn. indeks | Std.avvik | CV | Min | Maks | Kampanjeuker |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| F | 117 | 96.05 | 12.46 | 0.130 | 29.31 | 122.37 | 116 / 117 |
+| S | 117 | 80.22 | 72.00 | 0.898 | 5.27 | 287.47 | 58 / 117 |
 
-- **Høysesong F (ferskvare):** Rundt påske (uke 13–14) og jul (uke 50–52) viser F-volumet tydelige topper
-- **Høysesong S (sekundærvare):** Mindre utpreget sesongvariasjoner, men markant topp omkring jul
-- **Kampanjepåvirkning:** F har kampanje-flag aktivt 117 av 118 uker, noe som gjenspeiler kontinuerlig markedsføring. S har kampanjer på ~50 % av ukene
+F-varestrømmen har relativt stabil indeksverdi sammenlignet med S, men har samtidig nesten konstant kampanjeflagg. Det betyr at et binært kampanjeflagg trolig har begrenset forklaringskraft for F. S-varestrømmen er langt mer volatil, med høyere relativ variasjon og enkelte svært høye uker. Dette peker mot at prognosemodellen bør vurderes separat per varestrøm, og at en enkel felles modell ville skjule viktige forskjeller.
 
-**Volatilitet og stabilitet:**
-
-Volumene viser moderat volatilitet innenfor hver sesong. En full tidsserien-dekomponering (trend, sesong, residualer) er påkrevd for å identifisere stabiliteten av sesongmønsteret over tidsperioden. Denne analysen gjennomføres som del av SARIMAX-estimering.
+De høyeste kombinerte indeksukene i modellperioden er 2024-20, 2024-27, 2025-14, 2024-30 og 2024-29. Dette viser at belastningstopper ikke bare oppstår i tradisjonelle juleuker, men også rundt vår/sommer og kampanjeperioder. Den laveste kombinerte modelluken er 2026-01, som er påvirket av helligdags- og oppstartsstruktur etter nyttår.
 
 ### 7.2 Valgt prognosestrategi og modellvalg
 
-**Baseline-etablering:**
+**Baseline-etablering og valideringsresultat:**
 
 Som referanse brukes Seasonal Naive (SNaive)-prognose: $\hat{y}_{t} = y_{t-52}$. Denne enkle modellen utgør sammenligningsstandard for SARIMAX-alternativer.
+
+Validering mot 2026-01 til 2026-13 gir følgende baseline-resultater på indeks-skala:
+
+| Varestrøm | Valideringsuker | MAE | RMSE | MAPE |
+|---|---:|---:|---:|---:|
+| F | 13 | 12.88 | 18.96 | 24.4 % |
+| S | 13 | 5.15 | 7.53 | 60.2 % |
+
+MAPE for S blir høy fordi flere S-uker har lav indeksverdi; små absolutte feil gir da høy prosentfeil. Derfor bør MAE/RMSE vektlegges mer enn MAPE for S.
 
 **SARIMAX-kandidater og estimering:**
 
@@ -693,37 +716,28 @@ Auto-ARIMA-algoritmen identifiserer kandidatmodeller basert på AIC/BIC-kriterie
 - Sesong-orden $D$: Bestemt via sesong-differensiering og stasjonaritetskontroll
 - AR/MA-ordener $(p,q,P,Q)$: Identifisert fra ACF/PACF-analyse, med preferanse for små verdier
 
-Endelig modell estimeres via Maximum Likelihood Estimation (MLE) og valideres på out-of-sample data (2026-01 til 2026-13, 13 uker).
+Endelig modell estimeres via Maximum Likelihood Estimation (MLE) og valideres på out-of-sample data (2026-01 til 2026-13, 13 uker). SARIMAX bør bare velges dersom den gir bedre valideringsresultat enn SNaive og samtidig har rimelig residualdiagnostikk.
 
-### 7.3 Kapasitetsmodell-setup (foreløpig)
+### 7.3 Kapasitetsmodell-setup
 
-**Prosess-tidsmatrise:**
+Kapasitetsmodellen har nå tre nødvendige inputblokker:
 
-Grunnlag: Åtte komplette produksjons-/dispatcher-par fra 2024, 2025 og 2026.
-- **P1 (PD / for-klargj.):** 0.003885 minutter per FPK
-- **P2 (ED / endelig dispatch):** 0.037555 minutter per FPK
+| Input | Verdi / status | Bruk i modellen |
+|---|---|---|
+| Prosess-tid P1 | 0.003885 min/FPK | Omregner volum til PD-belastning |
+| Prosess-tid P2 | 0.037555 min/FPK | Omregner volum til ED-belastning |
+| Basekapasitet P1 | 24.0 mann-timer/uke | Kapasitetsgrense for for-klargjøring |
+| Basekapasitet P2 | 144.0 mann-timer/uke | Kapasitetsgrense for endelig dispatch |
+| Soneprofil | Z1=0.325311, Z2=0.335234, Z3=0.339455 | Fordeler ED-belastning mot cut-off |
 
-Disse standardtider brukes til å konvertere prognostisert volum til arbeidsbelastning (minutter).
-
-**Kapasitets-baseline:**
-
-Fra `capacity_assumptions.csv`:
-- P1: 24.0 mann-timer per uke (0.5 arbeider × 8 timer × 6 driftsnetter)
-- P2: 144.0 mann-timer per uke (3.0 arbeidere × 8 timer × 6 driftsnetter)
-
-**Kapasitets-kontroll:**
-
-Høysesong-ukene (f.eks. uke 2024-11 med kombinert F+S-topp) analyseres:
-- Prognostisert arbeidsbelastning i minutter beregnes
-- Kapasitets-behov (mann-timer) estimeres
-- Hvis behov > base-kapasitet, kreves ekstra tiltak (tidlig oppstart, overtid, bemanning)
+Prosess-tidene bygger på åtte komplette produksjons-/dispatcher-par fra 2024, 2025 og 2026. Soneprofilen bygger på 643 valgte dispatcher-datoer og summerer til 1.000000. Dette gjør at rapporten ikke lenger er avhengig av en ren antakelse for sonefordeling.
 
 **Kritiske observasjoner:**
 - Sone-andeler (`zone_cutoff_profile.csv`) er nå beregnet fra `ED`-rader i dispatcherhistorikk og summerer til 1.000000
 - `anomaly_flag` og `constrained_week_flag` er ikke validert, så enkelte anomale uker kan være klassifisert som normale
 - LP-modellen har nå nødvendig soneinput, men bør fortsatt valideres med sensitivitetsanalyse for sonemiks og volumavvik
 
-## 8.0 Resultater (FORELØPIG)
+## 8.0 Resultater
 
 ### 8.1 Datavalidering og aggregering
 
@@ -735,10 +749,7 @@ Følgende datasett ble etablert for modellering:
 | Valideringsdata | 2026-01 til 2026-13 | 13 × 2 = 26 | Out-of-sample test (uke 14 ekskludert pga. partial week) |
 | **Totalt** | 2024-01 til 2026-13 | **234 rader** | Anonymisert som indeks (2024_avg_per_stream=100) |
 
-**Datavasking:**
-- Ordretype "-" ekskludert (dobbeltregistrering)
-- Produktgruppe 850 (driftsmidler) ekskludert
-- Resultat: 236 rader fra 118 sammenhengende uker
+Den publiserbare filen inneholder 236 rader fra 118 uker, men modellgrunnlaget ekskluderer uke 2026-14 fordi den bare dekker to dager. Datavasken ekskluderer `Ordretype/Navn = -` for å unngå dobbeltregistrering og produktgruppe 850 fordi denne gruppen ikke inngår i prognosevolumet for de operative varestrømmene.
 
 ### 8.2 Prosess-tidsmatrise etablert
 
@@ -765,18 +776,18 @@ Fra capacity_assumptions.csv, normal drift:
 ### 8.4 Kritiske funn og gjenstående arbeid
 
 **Gjennomført:**
-- ✅ Datakvalitet etablert (118 uker, 2 varestrømmer, anonymisert)
-- ✅ Tidsmatrise beregnet (8-dags basis, robust)
-- ✅ Kapasitets-baseline dokumentert
-- ✅ SARIMAX-metodikk definert (med SNaive-baseline)
-- ✅ LP-struktur formulert (enheter konsistente)
+- Datakvalitet etablert for 117 modelluker og to varestrømmer
+- SNaive-baseline beregnet på valideringsperioden 2026-01 til 2026-13
+- Prosess-tidsmatrise beregnet fra åtte produksjons-/dispatcher-par
+- Kapasitetsbaseline dokumentert for `P1` og `P2`
+- Soneandeler beregnet fra dispatcherhistorikk
+- LP-struktur formulert med konsistente enheter
 
-**Gjenstår (kart for implementasjon):**
-- ❌ SARIMAX-kode implementering og validering
-- ❌ SNaive baseline-resultat
-- ❌ Sone-andeler beregnet eller dokumentert som antakelse
-- ❌ LP-løser kjørt på test-scenarioer
-- ❌ Sensitivitetsanalyse (±10 % volum, syk-fravær-variasjon)
+**Gjenstår før operativ bruk:**
+- SARIMAX-kandidater må estimeres og sammenlignes mot SNaive-baseline
+- LP-løser må kjøres på konkrete prognosehorisonter
+- Sensitivitetsanalyse må gjennomføres for ±10 % volum, sonemiks og kapasitetsbortfall
+- Friuke- og tilkallingsbemanning trenger lokale maksimumsgrenser før de kan brukes som egne LP-variabler
 
 ## 9.0 Diskusjon
 
@@ -838,12 +849,11 @@ Andre logistikk-kontekster (f.eks. pharma, e-commerce) ville kreve tilpasset mod
 
 Gjenstår før operativ bruk:
 1. **Full SARIMAX-implementering:** Python `statsmodels` eller R `forecast::auto.arima`
-2. **Sone-andeler:** Beregn fra dispatcherhistorikk eller fastsett eksplisitte antakelser med sensitivitetsanalys
-3. **LP-løsning:** Implementer i Python (PuLP, scipy.optimize) eller Excel Solver
-4. **Validering:** Kjør på 2026-01 til 2026-13, sammenlign SARIMAX mot SNaive baseline
-5. **Scenarioanalyse:** Test under ±10 % volum-usikkerhet, variabel sykefravær, kapasitetsbortfall
+2. **LP-løsning:** Implementer i Python (PuLP, scipy.optimize) eller Excel Solver
+3. **Validering:** Kjør på 2026-01 til 2026-13, sammenlign SARIMAX mot SNaive baseline
+4. **Scenarioanalyse:** Test under ±10 % volum-usikkerhet, variabel sykefravær, sonemiks og kapasitetsbortfall
 
-**Teoretisk bidrag:** Rapporten etablerer en metodisk tilnærming til integrering av SARIMAX-prognose og LP-optimering for sesongbundet etterspørsel under sonevise distribusjons-frister. Eksisterende litteratur på APP dekker ofte enten bare prognose ELLER optimer ing, sjeldent det integrerte oppsettet.
+**Teoretisk bidrag:** Rapporten etablerer en metodisk tilnærming til integrering av SARIMAX-prognose og LP-optimering for sesongbundet etterspørsel under sonevise distribusjonsfrister. Eksisterende litteratur på APP dekker ofte enten prognose eller optimering, men sjeldnere det integrerte oppsettet.
 
 **Praktisk bidrag:** Demonstrerer hvordan bedriftsinterne data (volum, produksjonslister, dispatcher actions) kan transformeres fra rådata til anonymisert, reproduserbar modellgrunnlag uten å avsløre kommersielle hemmeligheter.
 
@@ -858,26 +868,27 @@ Gjenstår før operativ bruk:
 
 Rapporten utvikler et **integrert modellrammeverk** bestående av:
 
-1. **Etterspørselsprognose via SARIMAX:** Sesongbundne ukevolumer predikeres basert på 2 år med historiske data, kampanjekalender og sesongmønstre. SARIMAX-modellen handles som et first-class komponent i prognosemiksen, sammenlignet mot SNaive-baseline for robusthet.
+1. **Etterspørselsprognose via SARIMAX/SNaive:** Sesongbundne ukevolumer predikeres basert på historiske ukedata, kampanjekalender og sesongmønstre. SNaive brukes som baseline, og SARIMAX skal bare velges dersom den gir bedre valideringsresultater og forsvarlig residualdiagnostikk.
 
-2. **Kapasitetsoptimering via Linear Programming:** Gitt prognostisert etterspørsel, formuleres et LP-problem som minimerer totalt ressursforbruk (overtid, tidlig oppstart, ekstrabemanning) under distribusjonsfrist-constraints. Modellen håndterer den sammensatte flaskehals-dynamikken ved å eksplisitt modellere sonevise frister som ukentlige aggregerte constraints.
+2. **Kapasitetsoptimering via Linear Programming:** Gitt prognostisert etterspørsel, formuleres et LP-problem som minimerer samlet ekstra kapasitetsbruk under distribusjonsfrist-constraints. Modellen håndterer den sammensatte flaskehals-dynamikken ved å modellere sonevise frister som ukentlige aggregerte constraints.
 
 3. **Anonymisering som enabler:** Bedriftsinterne data (råvolum fra Qlik, dispatcher-tidsdata fra Outlook, produksjonslister) transformeres til anonymisert, publiserbar modellgrunnlag via indekstransformasjon. Metoden sikrer konfidensialitet samtidig som metodologi blir etterprøvbar.
 
 **Konkrete funn:**
-- Datagrunnlag på plass: 118 sammenhengende uker, 2 varestrømmer, anonymisert (weekly_volume_anonymized.csv)
+- Datagrunnlag på plass: 117 modelluker, 2 varestrømmer, anonymisert publiserbar fil
 - Prosess-tidsmatrise etablert: P1 = 0.004 min/FPK, P2 = 0.038 min/FPK (basert på 8 dager)
 - Kapasitets-baseline dokumentert: P1 = 24 t/uke, P2 = 144 t/uke
+- Soneprofil etablert: Z1 = 0.325311, Z2 = 0.335234, Z3 = 0.339455
 - SARIMAX-metodikk definert med robusthet-sikringer (SNaive baseline, parsimoni, validering)
 - LP-struktur formulert med enhetskonsistente constraints
 
 ### Gjenstår før operativ implementasjon
 
 For at modellen skal kunne brukes til praktisk planlegging:
-- ❌ SARIMAX-estimering og validering (Python implementering)
-- ❌ Sone-andeler beregning (fra dispatcherhistorikk)
-- ❌ LP-løsing på test-scenarioer
-- ❌ Sensitivitetsanalyse under volum- og kapasitets-usikkerhet
+- SARIMAX-estimering og validering må implementeres i Python eller R
+- LP-løsing må kjøres på konkrete testscenarioer
+- Sensitivitetsanalyse må gjennomføres for volum-, sonemiks- og kapasitetsusikkerhet
+- Lokale maksimumsgrenser for friuke- og tilkallingsbemanning må fastsettes før disse tiltakene brukes som egne beslutningsvariabler
 
 Disse stegene ligger utenfor denne rapport-versjonen, men er detaljert planlagt i kapitlene 7–8.
 
@@ -911,7 +922,7 @@ Hyndman, R.J., & Athanasopoulos, G. (2021). *Forecasting: principles and practic
 - *Bruk:* Kapittel 9 for ARIMA-teori, 9.9 for sesongmodeller, Kapittel 10 for eksogene variabler (ARIMAX). Sentral for modellvalg, residualdiagnostikk og hvorfor baseline-sammenligninger er kritiske.
 
 Hyndman, R.J., & Khandakar, Y. (2008). Automatic time series forecasting: The forecast package for R. *Journal of Statistical Software*, 27(3), 1–22. https://doi.org/10.18637/jss.v027.i03
-- *Bruk:* Kanonisk kilde for auto_arima stepwise-algoritmen. Sentral for 5.1b (modellseleksjon via AIC/BIC).
+- *Bruk:* Kanonisk kilde for auto_arima stepwise-algoritmen. Sentral for 5.1.1 (modellseleksjon via AIC/BIC).
 
 Arunraj, N.S., Ahrens, D., & Fernandes, M. (2016). Application of SARIMAX model to forecast daily sales in food retail industry. *International Journal of Operations Research and Information Systems*, 7(2), 1–21. https://doi.org/10.4018/IJORIS.2016040101
 - *Bruk:* Direkte parallell til ditt case: SARIMAX for sesongbundet matetherspørsel med eksogene variabler (promotions, holidays). Seksjon 2.1 (litteratur), 7.1 (datadeskriptiv), validering av eksogen-variabel-tilnærming.
