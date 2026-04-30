@@ -34,23 +34,54 @@ The report now delivers a technical minimum implementation of the integrated fra
 ## Innhold
 
 - 1.0 Innledning
-- 1.1 Problemstilling
-- 1.2 Delproblemer (valgfri)
-- 1.3 Avgrensinger
-- 1.4 Antagelser
+  - 1.1 Problemstilling
+  - 1.2 Delproblemer
+  - 1.3 Avgrensinger
+  - 1.4 Antagelser
 - 2.0 Litteratur
+  - 2.1 Etterspørselsprognose med tidsseriemodeller
+  - 2.2 Kapasitetsplanlegging gjennom linear programming
+  - 2.3 Flaskehals-dynamikk i konvergerende logistikk
 - 3.0 Teori
+  - 3.1 Tidsserieanalyse og prognoser
+  - 3.2 Linear Programming og optimering
+  - 3.3 Modellintegrasjon i prosjektet
 - 4.0 Casebeskrivelse
+  - 4.1 Bedrift og bransje
+  - 4.2 Operasjonell struktur
+  - 4.3 Flaskehals-problematikk
+  - 4.4 Tilgjengelige data
+  - 4.5 Bedriftens utfordring og motivasjon
 - 5.0 Metode og data
-- 5.1 Metode
-- 5.2 Data
-- 5.3 Databehandling og anonymisering
-- 5.4 Datakvalitet og kontroll
-- 5.5 Forskningsetikk og konfidensialitet
+  - 5.1 Metode (5.1.1 SARIMAX, 5.1.2 Linear Programming)
+  - 5.2 Data
+  - 5.3 Databehandling og anonymisering
+  - 5.4 Datakvalitet og kontroll
+  - 5.5 Forskningsetikk og konfidensialitet
 - 6.0 Modellering
+  - 6.1 Modellstruktur
+  - 6.2 Notasjon og beslutningsvariabler
+  - 6.3 Målfunksjon
+  - 6.4 Hovedbegrensninger
+  - 6.5 Sonevise fristbegrensninger
+  - 6.6 Tiltakstyper og videre detaljering
+  - 6.7 Ikke-negativitet og variabelbegrensninger
+  - 6.8 Løsningsmetode
 - 7.0 Analyse
+  - 7.1 Data-deskriptiv analyse
+  - 7.2 Valgt prognosestrategi og modellvalg
+  - 7.3 Kapasitetsmodell-setup
 - 8.0 Resultater
+  - 8.1 Datavalidering og aggregering
+  - 8.2 Prosess-tidsmatrise etablert
+  - 8.3 Kapasitets-baseline etablert
+  - 8.4 Prognose- og LP-kjøring
+  - 8.5 Kritiske funn og gjenstående arbeid
 - 9.0 Diskusjon
+  - 9.1 Metodisk vurdering
+  - 9.2 Datagrunnlag og etterprøvbarhet
+  - 9.3 Operativ relevans og næringslivets perspektiv
+  - 9.4 Kritikk og videre forskning
 - 10.0 Konklusjon
 - 11.0 Bibliografi
 - 12.0 Vedlegg
@@ -310,7 +341,7 @@ Gitt at treningsdata omfatter bare 104 observasjoner (2 sesongperioder), legges 
    - Endelig modell estimeres via **Maximum Likelihood Estimation (MLE)**
 
 4. **Vurdering av eksogene variabler:**
-   - `campaign_flag` har lav variasjon for F (117/118 uker = 99% med flaggverdi 1)
+   - `campaign_flag` er aktivert i 116 av 117 modelluker for F (99 %; 117/118 før eksklusjon av 2026-14)
    - Binær flagg har minimal variasjon → liten forklaringskraft
    - **Alternativ:** Fildes et al. (2022) diskuterer kompleksiteten i kampanjeinformasjon og eksogene variabler i retail forecasting. For dette prosjektet kan kampanjeintensitet (antall kampanjer per uke) eller kampanjetype gi mer informasjon enn et nær-konstant binært flagg.
    - For S: `holiday_flag` kan ha mer effekt hvis det varierer tilstrekkelig
@@ -476,7 +507,7 @@ Disse er beregnet fra `ED`-rader i raw dispatcher actions, der `Street` brukes s
 `anomaly_flag` og `constrained_week_flag` er foreløpig satt til `0` og er ikke validert mot en komplett avvikslogg. Dette kan gjøre at enkelte uker med reelle avvik behandles som normale observasjoner i første modellversjon.
 
 **4. Kampanje-variabelen for F – lav variasjon (nær-konstant):**
-`campaign_flag=1` for 117 av 118 observasjoner i varestrøm F (99 % av ukene). En så dominerende verdi gir minimal variasjon i en binær indikator, noe som gjør det vanskelig for modellen å skille effekten av kampanjer fra baseline etterspørselen. Modellvalg må vurdere:
+`campaign_flag=1` for 116 av 117 modelluker i varestrøm F (99 %; 117 av 118 i rådata før eksklusjon av 2026-14). En så dominerende verdi gir minimal variasjon i en binær indikator, noe som gjør det vanskelig for modellen å skille effekten av kampanjer fra baseline etterspørselen. Modellvalg må vurdere:
 - Brukes binær flagg som-er (risiko: koeffisient ikke-signifikant på grunn av mangel på variasjon), eller
 - Erstattes med `campaign_intensity` (antall kampanjer per uke) eller `campaign_type` (kategorisk: chain-promo, launch, seasonal)?
 
@@ -783,7 +814,7 @@ Tallene er ikke reelle mann-timer. De viser at SARIMAX-prognosene kan flyte inn 
 
 ![Volatilitet kampanje vs ikke-kampanje](figures/06_volatilitet.png)
 
-**Figur 6 – Volatilitet i ukesvolumer, kampanje vs. ikke-kampanje.** Boksplott (venstre) viser at S-volumet har vesentlig større spredning enn F i begge segmenter. Variasjonskoeffisienten (CV, høyre) bekrefter dette: S uten kampanje har CV ≈ 109 %, S med kampanje ≈ 63 %, mens F-kampanje ligger på CV ≈ 14 %. Den lave kontrasten i F-segmentene skyldes at kampanjeflagget er aktivt i 117 av 118 uker (n=1 uten kampanje), noe som svekker informasjonsverdien til binær kampanje-flagg for F (jf. avsnitt 9.1).
+**Figur 6 – Volatilitet i ukesvolumer, kampanje vs. ikke-kampanje.** Boksplott (venstre) viser at S-volumet har vesentlig større spredning enn F i begge segmenter. Variasjonskoeffisienten (CV, høyre) bekrefter dette: S uten kampanje har CV ≈ 109 %, S med kampanje ≈ 63 %, mens F-kampanje ligger på CV ≈ 14 %. Den lave kontrasten i F-segmentene skyldes at kampanjeflagget er aktivt i 116 av 117 modelluker (n=1 uten kampanje; 117/118 i rådata), noe som svekker informasjonsverdien til binær kampanje-flagg for F (jf. avsnitt 9.1).
 
 ### 8.5 Kritiske funn og gjenstående arbeid
 
@@ -823,7 +854,7 @@ LP er standard for aggregate production planning der målet er å minimere ressu
 ### 9.2 Datagrunnlag og etterprøvbarhet
 
 **Styrker:**
-- 118 sammenhengende uker = tilstrekkelig for sesongmessig mønsteranalyse
+- 117 sammenhengende modelluker (104 trening + 13 validering) = tilstrekkelig for sesongmessig mønsteranalyse
 - Anonymisering via indekstransformasjon sikrer konfidensialitet uten å gjøre metoden uetterprøvbar
 - Prosess-tidsmatrise basert på 8 representative uker fra 3 år gir robust grunnlag
 - Publikum kan verifisere metodologi på indeks-skala (SARIMAX-validering, LP-struktur)
@@ -923,9 +954,10 @@ Selv om denne rapporten ikke publiserer reell-skala kapasitetsestimat i mann-tim
 
 ---
 
-**Dato for sluttrapport:** 30. april 2026
+**Dato for hovedutkast:** 30. april 2026
 **Rammeverk-status:** Metodikk og datagrunnlag etablert, teknisk minimumskjøring gjennomført
-**Innlevering:** Planlagt 30. april 2026
+**Peer-review-innlevering:** 30. april 2026
+**Endelig innlevering:** 29. mai 2026
 
 ## 11.0 Bibliografi
 
@@ -943,9 +975,6 @@ Arunraj, N.S., Ahrens, D., & Fernandes, M. (2016). Application of SARIMAX model 
 
 Fildes, R., Ma, S., & Kolassa, S. (2022). Retail forecasting: Research and practice. *International Journal of Forecasting*, 38(4), 1283–1318. https://doi.org/10.1016/j.ijforecast.2019.06.004
 - *Bruk:* Bredspektret gjennomgang av retail-forecasting utfordringer, aggregeringsnivåer, og håndtering av høy variabilitet. Seksjon 2.1 (litteratur om etterspørselsprognose), 7.1 (datavolatilitet og etterspørselsdynamikk).
-
-Fildes, R., Goodwin, P., & Önkal, D. (2019). Use and misuse of information in supply chain forecasting of promotion effects. *International Journal of Forecasting*, 35(1), 144–156. https://doi.org/10.1016/j.ijforecast.2017.12.006
-- *Bruk:* Valgfritt, kun hvis du diskuterer kampanjeinformasjon og forecast-justering. Seksjon 2.1 (kampanjepåvirkninger), 5.4 (høy kampanje-flagg-variasjon for F).
 
 ### Produksjonsplanlegging og Linear Programming
 
