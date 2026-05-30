@@ -34,7 +34,7 @@ Status-kolonne: `Pending` (ikke startet), `In progress`, `Done`, `Deferred` (uts
 | Funn (G05) | Lokasjon | Tiltak | Estimat | Status |
 |---|---|---|---|---|
 | Teori bør knyttes tydeligere til caset (kobler metoder, men ikke konkrete modellvalg) | Sluttrapport §2.1, §2.2 | Legg til 1 setning per kilde som forklarer hvordan den begrunner et spesifikt valg i denne rapporten | 20 min | Pending |
-| Mangler eksplisitt diskusjon av teoretiske hull (vurderingskriteriene etterspør dette) | Sluttrapport §2.3 (slutt) | Flytt opp avsnittet fra §9.4 om integrert prognose-optimering som teoretisk hull | 15 min | Pending |
+| Mangler eksplisitt diskusjon av teoretiske hull (vurderingskriteriene etterspør dette) | Sluttrapport §2.3 (slutt) | Flytt opp avsnittet fra §9.4 om integrert prognose-optimering som teoretisk hull | 15 min | Done (#13 — nytt **Teoretisk hull**-avsnitt i §2.3 m/ kilder for begge sider + callback fra §9.4; §9.4-heading utvidet til "Bidrag, kritikk og videre forskning") |
 
 ### Metode (G05 §2.3) — 3 funn
 

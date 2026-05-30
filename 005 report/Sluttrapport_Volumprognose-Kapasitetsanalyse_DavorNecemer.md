@@ -90,7 +90,7 @@ The report now delivers a technical minimum implementation of the integrated fra
   - 9.1 Metodisk vurdering
   - 9.2 Datagrunnlag og etterprøvbarhet
   - 9.3 Operativ relevans og næringslivets perspektiv
-  - 9.4 Kritikk og videre forskning
+  - 9.4 Bidrag, kritikk og videre forskning
 - 10.0 Konklusjon
 - 11.0 Bibliografi
 - 12.0 Vedlegg
@@ -203,6 +203,8 @@ I dette prosjektet modelleres kapasitetsbehovet som et LP-minimeringsproblem. M�
 Når flere varestrømmer konvergerer til felles distribusjonsledd, oppstår en kompleks kapasitetsutfordring: selv om total ukekapasitet er tilstrekkelig når man aggregerer, kan et dags- eller sonevis fristkrav bli brutt hvis volumtoppene ikke er tidssynkronisert. Dette er et kjent fenomen i distribusjonslogistikk hvor høy etterspørselsvariabilitet møter stramme operasjonelle frister.
 
 Fildes et al. (2022) diskuterer hvordan aggregering og kompleksitet i etterspørsel påvirker prognosenøyaktighet. Lignende logikk gjelder her: når man aggregerer fra daglige sonevise frister til ukentlig prognosering, risikerer man at kritiske daglige belastningstopper maskeres i ukentlige aggregater. I denne rapporten håndteres fenomenet ved å modellere sonevise frister (kl. 00:00, 01:00, 02:00) som ukentlige kapasitetsbegrensninger i LP-modellen, slik at flaskehalseffekten kan vurderes også på ukentlig aggregeringsnivå.
+
+**Teoretisk hull:** Selv om både prognose- og optimeringslitteraturen er velutviklet hver for seg, behandles de to sjelden som ett integrert oppsett i litteraturen på aggregert produksjonsplanlegging. Prognoselitteraturen (Hyndman & Athanasopoulos, 2021; Arunraj et al., 2016; Fildes et al., 2022) vektlegger typisk prediksjonspresisjon som mål i seg selv, mens optimeringslitteraturen (Winston, 2004; Leung et al., 2006) som regel forutsetter at etterspørselen er kjent og deterministisk gitt. Koblingen mellom de to – der prognosen leverer input til optimeringen, og prognoseusikkerheten dermed forplanter seg til kapasitetsbeslutningen – er mindre utforsket, særlig for terminaldrift under sonevise distribusjonsfrister. Det er dette hullet rapporten adresserer ved å koble SARIMAX og LP i ett sekvensielt rammeverk; det metodiske bidraget diskuteres nærmere i §9.4.
 
 ## 3.0 Teori
 
@@ -966,7 +968,7 @@ Modellen er designet for bedriftens todelte varestrøm-struktur (ferskvare + sek
 
 Andre logistikk-kontekster (f.eks. pharma, e-commerce) ville kreve tilpasset modellering.
 
-### 9.4 Kritikk og videre forskning
+### 9.4 Bidrag, kritikk og videre forskning
 
 **Denne rapport-versjonen inneholder en teknisk minimumsimplementasjon, men ikke en operativ real-skala kapasitetsplan.**
 
@@ -978,7 +980,7 @@ Gjenstår før operativ bruk:
 
 **Tidsoppløsning – ukentlig modell mot dagsvise og sonevise frister:** Den mest grunnleggende begrensningen er at rammeverket opererer på *ukentlig* aggregat, mens selve flaskehalsen oppstår *daglig* mot sonevise nattfrister (kl 00:00, 01:00, 02:00). I denne versjonen er fristene aggregert til kumulative ukentlige andeler (§6.5), noe som forenkler LP-formuleringen, men som per konstruksjon ikke kan fange en uke der totalvolumet er innenfor kapasitet samtidig som enkeltdøgn eller enkeltsoner bryter fristen. Modellen synliggjør dermed *når på året* belastningen topper seg, men ikke *hvilken natt eller sone* som først ryker, og SLACK-verdien kan foreløpig ikke tolkes som et direkte mål på operativ fristrisiko. En naturlig videreutvikling er å disaggregere både prognosen og LP-modellen til dags- og sonenivå ved hjelp av de daglige dispatcher-dataene som allerede ligger til grunn for soneprofilen (643 dispatcher-datoer), slik at fristbegrensningene settes per sone per natt i stedet for som ukentlige andeler. Dette er en forutsetning for at rammeverket skal kunne brukes som operativt fristverktøy, ikke bare som sesong- og ukeindikator.
 
-**Teoretisk bidrag:** Rapporten etablerer en metodisk tilnærming til integrering av SARIMAX-prognose og LP-optimering for sesongbundet etterspørsel under sonevise distribusjonsfrister. Eksisterende litteratur på APP dekker ofte enten prognose eller optimering, men sjeldnere det integrerte oppsettet.
+**Teoretisk bidrag:** Rapporten etablerer en metodisk tilnærming til integrering av SARIMAX-prognose og LP-optimering for sesongbundet etterspørsel under sonevise distribusjonsfrister, og fyller dermed det teoretiske hullet som ble identifisert i §2.3: eksisterende litteratur på APP dekker ofte enten prognose eller optimering, men sjeldnere det integrerte oppsettet der prognoseusikkerheten forplanter seg til kapasitetsbeslutningen.
 
 **Praktisk bidrag:** Demonstrerer hvordan bedriftsinterne data (volum, produksjonslister, dispatcher actions) kan transformeres fra rådata til anonymisert, reproduserbar modellgrunnlag uten å avsløre kommersielle hemmeligheter.
 

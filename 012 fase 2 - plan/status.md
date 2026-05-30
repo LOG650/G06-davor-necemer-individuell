@@ -14,7 +14,7 @@
 | Fase 1: Initiering | Fullfort |
 | Fase 2: Prosjektplan | Fullfort |
 | Fase 3: Gjennomforing | Fullfort (peer-to-peer levert og mottatt) |
-| Fase 4: Sluttrapport | Pagar; G05 "MA"-funn integrert (ea25e47); "BOR" #5/#6/#10/#11 (c417590/fdf0a6f) + #7/#8/#9 (a1a726d) integrert; #13 KAN + endelig PDF + merge gjenstaar |
+| Fase 4: Sluttrapport | Pagar; G05 "MA"-funn integrert (ea25e47); "BOR" #5/#6/#10/#11 + #7/#8/#9 + #13 (teoretisk hull §2.3) integrert; menneskelig korrektur + merge til main gjenstaar |
 
 Fase 3 er fullfort: hovedutkastet ble klart innen Eriks frist 30.04, og
 peer-to-peer-utveksling med G05 (kontaktperson Birgitte) ble gjennomfort
