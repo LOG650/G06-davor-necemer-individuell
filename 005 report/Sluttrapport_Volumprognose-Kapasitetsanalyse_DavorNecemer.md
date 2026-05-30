@@ -1,3 +1,10 @@
+---
+header-includes: |
+  \usepackage[htt]{hyphenat}
+  \setlength{\emergencystretch}{3em}
+  \sloppy
+---
+
 # Integrert volumprognose og kapasitetsanalyse
 ## Integrated Volume Forecasting and Capacity Analysis
 
@@ -33,6 +40,7 @@ The report now delivers a technical minimum implementation of the integrated fra
 
 ## Innhold
 
+- Forkortelser og symboler
 - 1.0 Innledning
   - 1.1 Problemstilling
   - 1.2 Delproblemer
@@ -85,6 +93,28 @@ The report now delivers a technical minimum implementation of the integrated fra
 - 10.0 Konklusjon
 - 11.0 Bibliografi
 - 12.0 Vedlegg
+
+## Forkortelser og symboler
+
+Sentrale forkortelser forklares også ved første naturlige bruk i teksten; denne listen samler dem for oppslag.
+
+| Forkortelse | Betydning |
+|---|---|
+| F | Ferskvare – den ferske varestrømmen |
+| S | Sekundærvare – den sekundære (lengre holdbarhet) varestrømmen |
+| FPK | Forbrukerpakning. *FPK-ekvivalent* brukes som operasjonell håndteringsenhet i distribusjonsleddet (én fysisk plukk-/sorteringsenhet) |
+| DPK | Distribusjonspakning – salgsenhet som kan håndteres som én FPK-ekvivalent |
+| P1 | Prosess 1 i modellen: PD / for-klargjøring |
+| P2 | Prosess 2 i modellen: ED / endelig dispatch |
+| PD | Pre-dispatch – forberedende klargjøring/sortering før ekspedering (datalabel for P1) |
+| ED | Endelig dispatch / ekspedering mot distribusjonsfristene (datalabel for P2) |
+| DD | Direkte/særskilt dispatchflyt; holdes utenfor hovedmodellen pga. lavt volum |
+| LP | Linear Programming (lineær programmering) |
+| APP | Aggregate Production Planning |
+| SARIMAX | Seasonal AutoRegressive Integrated Moving Average with eXogenous variables |
+| SNaive | Seasonal Naive – sesongbasert baseline-/fallback-modell |
+| MAE / RMSE / MAPE | Feilmål: gjennomsnittlig absoluttfeil / kvadratisk gjennomsnittsfeil / gjennomsnittlig absolutt prosentfeil |
+| Z1, Z2, Z3 | Soner med nattlige cut-off-frister (00:00, 01:00, 02:00) |
 
 ## 1.0 Innledning
 
@@ -679,10 +709,14 @@ Verktøy:
 
 Analysegrunnlaget består av 117 modelluker etter at den ufullstendige uke 2026-14 er ekskludert. Dette gir 234 observasjoner fordelt på to varestrømmer. Volum er publisert som indeks med 2024-gjennomsnitt per varestrøm lik 100.
 
+\begingroup\footnotesize
+
 | Varestrøm | Observasjoner (modell) | Gj.sn. indeks | Std.avvik (indeks) | CV | Min (indeks) | Maks (indeks) | Kampanjeuker |
 |---|---:|---:|---:|---:|---:|---:|---:|
 | F | 117 | 96.05 | 12.46 | 0.130 | 29.31 | 122.37 | 116 / 117 |
 | S | 117 | 80.22 | 72.00 | 0.898 | 5.27 | 287.47 | 58 / 117 |
+
+\endgroup
 
 *Indeks-skala: 2024-snitt per varestrøm = 100. CV = std.avvik / gj.sn.*
 
@@ -711,14 +745,22 @@ Det ble kjørt en konservativ `statsmodels`-grid i `005 report/scripts/run_forec
 
 Valgt operativ modell ble definert som den konvergerte kandidaten med lavest validerings-RMSE, sammenlignet mot SNaive:
 
+\begingroup\footnotesize
+
 | Varestrøm | Operativ modell | Eksogen input | MAE | RMSE | MAPE | SNaive RMSE | Ljung-Box p(10) |
-|---|---|---|---:|---:|---:|---:|---:|
-| F | SARIMAX(1,1,1)(0,0,0)[52] | `holiday_flag` | 8.18 | 13.21 | 16.3 % | 18.96 | 0.855 |
-| S | ARIMA/SARIMAX(0,1,0)(0,0,0)[52] | ingen | 6.17 | 6.67 | 76.0 % | 7.53 | 0.137 |
+|:--------|:------------------------|:----------|----:|----:|-----:|-------:|--------:|
+| F | SARIMAX(1,1,1)\allowbreak(0,0,0)[52] | `holiday_flag` | 8.18 | 13.21 | 16.3 % | 18.96 | 0.855 |
+| S | ARIMA/\allowbreak SARIMAX(0,1,0)\allowbreak(0,0,0)[52] | ingen | 6.17 | 6.67 | 76.0 % | 7.53 | 0.137 |
+
+\endgroup
 
 Begge valgte kandidater slår SNaive på RMSE, som er beslutningskriteriet definert i metodekapitlet. F-modellen forbedrer også MAE og MAPE. S-modellen reduserer RMSE ved å dempe store feil, men gir svakere MAE og MAPE enn SNaive; derfor bør S-resultatet tolkes som en minimumskjøring og ikke som endelig operativ modell uten mer historikk eller rikere kampanjevariabler.
 
-Kjøringen skrev sporbare resultater til `004 data/processed/forecast_validation_results.csv`, `004 data/processed/sarimax_candidate_results.csv` og `004 data/processed/model_run_summary.json`.
+Kjøringen skrev sporbare resultater til tre filer:
+
+- `004 data/processed/forecast_validation_results.csv`
+- `004 data/processed/sarimax_candidate_results.csv`
+- `004 data/processed/model_run_summary.json`
 
 ### 7.3 Kapasitetsmodell-setup
 
@@ -757,11 +799,15 @@ Den publiserbare filen inneholder 236 rader fra 118 uker, men modellgrunnlaget e
 
 ![Volumtrend per varestrøm 2024–2026](figures/01_volumtrend.png)
 
-**Figur 1 – Ukentlig volumtrend per varestrøm, 2024-W01 til 2026-W19.** F (ferskvare, øvre panel) ligger stabilt rundt indeks 100 med moderat variasjon, mens S (sekundærvare, nedre panel) viser kraftige sesongtopper rundt påske (2024-W13, 2025-W16, 2026-W14, dvs. uka før påskedag) og jul (uke 49–52) der indeksen passerer 250. Sirkler markerer helligdagsuker; F svinger ned i jule-/påskeuker, mens S svinger opp i de samme ukene. Indeks: 2024-snitt per varestrøm = 100.
+**Figur 1 – Ukentlig volumtrend per varestrøm, 2024-W01 til 2026-W19.** F (ferskvare) i øvre panel, S (sekundærvare) i nedre panel; sirkler markerer helligdagsuker. Indeks: 2024-snitt per varestrøm = 100.
+
+Figur 1 viser at F ligger stabilt rundt indeks 100 med moderat variasjon, mens S har kraftige sesongtopper rundt påske (2024-W13, 2025-W16, 2026-W14, dvs. uka før påskedag) og jul (uke 49–52) der indeksen passerer 250. F svinger ned i jule-/påskeuker, mens S svinger opp i de samme ukene.
 
 ![Sesongmønster per ISO-uke](figures/02_sesongmonster.png)
 
-**Figur 2 – Sesongmønster per ISO-uke (varmkart, indekssnitt).** F-volumet (venstre, blå) holder seg for det meste innenfor et bånd på ca. 70–125 gjennom året med svake topper rundt påske og jul; enkeltobservasjoner (uke 2026-01) ligger lavere grunnet helligdagsstruktur etter nyttår. S-volumet (høyre, rødt) viser klare høysesonger i uke 12–14 (påske), uke 25–32 (sommer) og uke 49–52 (jul), med intensitet over indeks 200 i kampanjeintensive perioder i 2024. Mønsteret bekrefter at SARIMAX bør vekte sesongkomponenten ulikt for de to varestrømmene.
+**Figur 2 – Sesongmønster per ISO-uke (varmkart, indekssnitt).** F-volum til venstre (blå), S-volum til høyre (rødt).
+
+Figur 2 viser at F for det meste holder seg innenfor et bånd på ca. 70–125 gjennom året med svake topper rundt påske og jul; enkeltobservasjoner (uke 2026-01) ligger lavere grunnet helligdagsstruktur etter nyttår. S har klare høysesonger i uke 12–14 (påske), uke 25–32 (sommer) og uke 49–52 (jul), med intensitet over indeks 200 i kampanjeintensive perioder i 2024. Mønsteret bekrefter at SARIMAX bør vekte sesongkomponenten ulikt for de to varestrømmene.
 
 ### 8.2 Prosess-tidsmatrise etablert
 
@@ -779,11 +825,15 @@ Eksempel på arbeidsforbruk:
 
 Fra capacity_assumptions.csv, normal drift:
 
+\begingroup\footnotesize
+
 | Prosess | Bemanning (FTE) | Timer/dag | Driftsnetter/uke | Timer/uke | Betegnelse |
-|---------|---:|---:|---:|---:|------------|
+|:--------|--------:|------:|-------------:|------:|:-----------|
 | P1 | 0.5 | 8.0 | 6 | 24.0 | PD/grovfordeling |
 | P2 | 3.0 | 8.0 | 6 | 144.0 | ED/ekspedering |
 | **Totalt** | **3.5** | | **6** | **168.0** | Normal apparat |
+
+\endgroup
 
 *FTE = full-time equivalent (årsverksbrøk per natt). 0.5 FTE i P1 betyr at én person brukes halvt på P1-oppgaver i løpet av nattskiftet.*
 
@@ -791,14 +841,20 @@ Fra capacity_assumptions.csv, normal drift:
 
 Minimumskjøringen i Python gir følgende valideringsresultat:
 
+\begingroup\footnotesize
+
 | Varestrøm | Valgt modell | MAE | RMSE | MAPE | Beslutning |
-|---|---|---:|---:|---:|---|
-| F | SARIMAX(1,1,1)(0,0,0)[52] + `holiday_flag` | 8.18 | 13.21 | 16.3 % | Slår SNaive på alle tre måltall |
-| S | ARIMA/SARIMAX(0,1,0)(0,0,0)[52] | 6.17 | 6.67 | 76.0 % | Slår SNaive på RMSE, men ikke MAE/MAPE |
+|:--------|:----------------------|----:|----:|-----:|:----------------|
+| F | SARIMAX(1,1,1)\allowbreak(0,0,0)[52] + `holiday_flag` | 8.18 | 13.21 | 16.3 % | Slår SNaive på alle tre måltall |
+| S | ARIMA/\allowbreak SARIMAX(0,1,0)\allowbreak(0,0,0)[52] | 6.17 | 6.67 | 76.0 % | Slår SNaive på RMSE, men ikke MAE/MAPE |
+
+\endgroup
 
 ![Prognose-validering F og S](figures/03_prognose_validering.png)
 
-**Figur 3 – Out-of-sample prognose-validering, 2026-W01 til 2026-W13.** Faktisk volum (svart heltrukket) sammen med SARIMAX (farget stiplet) og SNaive (grå punktert). For F klarer SARIMAX å fange den nedjusterte indeksnivået i 2026-Q1 bedre enn SNaive (MAE 8.2 vs. 12.9). For S leverer SARIMAX bedre RMSE (6.7 vs. 7.5), men dårligere MAE/MAPE fordi modellen leverer en flat differensiert prediksjon mens faktisk S-volum er svært volatilt. Uke 2026-W14 er ekskludert grunnet kun to virkedager.
+**Figur 3 – Out-of-sample prognose-validering, 2026-W01 til 2026-W13.** Faktisk volum (svart heltrukket), SARIMAX (farget stiplet) og SNaive (grå punktert). Uke 2026-W14 er ekskludert grunnet kun to virkedager.
+
+Figur 3 viser at SARIMAX for F fanger det nedjusterte indeksnivået i 2026-Q1 bedre enn SNaive (MAE 8.2 vs. 12.9). For S gir SARIMAX bedre RMSE (6.7 vs. 7.5), men dårligere MAE/MAPE fordi modellen leverer en flat differensiert prediksjon mens faktisk S-volum er svært volatilt.
 
 For LP-kjøringen er prognosene omregnet til `indeks-minutter` med prosess-tidsmatrisen. Resultatet for publiserbar indeks-skala er:
 
@@ -810,17 +866,23 @@ For LP-kjøringen er prognosene omregnet til `indeks-minutter` med prosess-tidsm
 
 ![Kapasitetsutnyttelse per scenario](figures/04_kapasitet_scenarioer.png)
 
-**Figur 4 – LP indeks-skala smoke-test: kapasitetsutnyttelse per scenario.** Snitt- og maks-utnyttelse målt mot referansekapasitet for P1 (24 t/uke) og P2 (144 t/uke), over de 13 valideringsukene. Selv i +10 %-scenarioet ligger maksutnyttelsen på 0.030 % (P1) og 0.049 % (P2). Dette bekrefter at LP-pipelinen er stabil, men fordi inputtet er volumindeks (ikke FPK), reflekterer prosenttallene **ikke** reelt arbeidsbehov. Konklusjon om kapasitet krever kjøring på lokal `weekly_volume.csv`.
+**Figur 4 – LP indeks-skala smoke-test: kapasitetsutnyttelse per scenario.** Snitt- og maks-utnyttelse målt mot referansekapasitet for P1 (24 t/uke) og P2 (144 t/uke), over de 13 valideringsukene.
+
+Figur 4 viser at selv i +10 %-scenarioet ligger maksutnyttelsen på 0.030 % (P1) og 0.049 % (P2). Dette bekrefter at LP-pipelinen er stabil, men fordi inputtet er volumindeks (ikke FPK), reflekterer prosenttallene **ikke** reelt arbeidsbehov.
 
 Tallene er ikke reelle mann-timer. De viser at SARIMAX-prognosene kan flyte inn i LP-formuleringen og løses uten brudd, men reell kapasitetskonklusjon krever lokal `weekly_volume.csv` med faktiske FPK-volum. Verdien 0.00 ekstra indeks-timer er ikke et bevis på tilstrekkelig kapasitet: P2-basekapasitet er 144 t/uke = 8 640 minutter, mens den maksimale indeks-belastningen er ~3.83 indeks-minutter (0.06384 indeks-timer). Smoke-testen kan derfor ikke vise overskridelse av kapasitet på indeks-skala, og 0.00-resultatet er en konsekvens av skala, ikke av en validert kapasitetsmargin.
 
 ![Sonefordeling og kumulativ frist-belastning](figures/05_sonefordeling.png)
 
-**Figur 5 – Sonevise andeler av ukevolum og kumulativ frist-belastning.** Volumandelene er nær jevnfordelte: Z1 (frist 00:00) 32.5 %, Z2 (frist 01:00) 33.5 %, Z3 (frist 02:00+) 33.9 %. Den kumulative kurven viser at 66.1 % av ukevolumet må være ferdig dispatchet før kl. 01:00 og 100 % før kl. 02:00. Dette er innspill til sonevise frist-constraints i LP. Basis: ED-dispatcher historikk 2023-07-21 til 2026-04-28 (643 valgte datoer).
+**Figur 5 – Sonevise andeler av ukevolum og kumulativ frist-belastning.** Basis: ED-dispatcher-historikk 2023-07-21 til 2026-04-28 (643 valgte datoer).
+
+Figur 5 viser at volumandelene er nær jevnfordelte: Z1 (frist 00:00) 32.5 %, Z2 (frist 01:00) 33.5 %, Z3 (frist 02:00+) 33.9 %. Den kumulative kurven viser at 66.1 % av ukevolumet må være ferdig dispatchet før kl. 01:00 og 100 % før kl. 02:00. Dette er innspill til sonevise frist-constraints i LP.
 
 ![Volatilitet kampanje vs ikke-kampanje](figures/06_volatilitet.png)
 
-**Figur 6 – Volatilitet i ukesvolumer, kampanje vs. ikke-kampanje.** Boksplott (venstre) viser at S-volumet har vesentlig større spredning enn F i begge segmenter. Variasjonskoeffisienten (CV, høyre) bekrefter dette: S uten kampanje har CV ≈ 109 %, S med kampanje ≈ 63 %, mens F-kampanje ligger på CV ≈ 14 %. Den lave kontrasten i F-segmentene skyldes at kampanjeflagget er aktivt i 116 av 117 modelluker (n=1 uten kampanje; 117/118 i rådata), noe som svekker informasjonsverdien til binær kampanje-flagg for F (jf. avsnitt 9.1).
+**Figur 6 – Volatilitet i ukesvolumer, kampanje vs. ikke-kampanje.** Boksplott til venstre, variasjonskoeffisient (CV) til høyre.
+
+Figur 6 viser at S-volumet har vesentlig større spredning enn F i begge segmenter. CV bekrefter dette: S uten kampanje ≈ 109 %, S med kampanje ≈ 63 %, mens F med kampanje ligger på ≈ 14 %. Den lave kontrasten i F-segmentene skyldes at kampanjeflagget er aktivt i 116 av 117 modelluker (n=1 uten kampanje; 117/118 i rådata), noe som svekker informasjonsverdien til binær kampanjeflagg for F (jf. avsnitt 9.1).
 
 ### 8.5 Kritiske funn og gjenstående arbeid
 
@@ -935,44 +997,35 @@ Problemstillingen (§1.1) spør hvordan etterspørselsprognoser og kapasitetsopt
 
 ## 11.0 Bibliografi
 
+Referansene følger APA 7. En oversikt over hvordan hver kilde er anvendt i rapporten finnes i Vedlegg J (Anvendelse av kilder).
+
 ### Primær litteratur – Tidsserieprognose og SARIMAX
 
-Hyndman, R.J., & Athanasopoulos, G. (2021). *Forecasting: principles and practice* (3. utg.). OTexts. https://otexts.com/fpp3/
-- *Bruk:* Kapittel 9 for ARIMA-teori, 9.9 for sesongmodeller, Kapittel 10 for eksogene variabler (ARIMAX). Sentral for modellvalg, residualdiagnostikk og hvorfor baseline-sammenligninger er kritiske.
-
-Hyndman, R.J., & Khandakar, Y. (2008). Automatic time series forecasting: The forecast package for R. *Journal of Statistical Software*, 27(3), 1–22. https://doi.org/10.18637/jss.v027.i03
-- *Bruk:* Kanonisk kilde for auto_arima stepwise-algoritmen. Brukt som metodisk inspirasjon for parsimonisk kandidatgrid og modellseleksjon i 5.1.1.
-
 Arunraj, N.S., Ahrens, D., & Fernandes, M. (2016). Application of SARIMAX model to forecast daily sales in food retail industry. *International Journal of Operations Research and Information Systems*, 7(2), 1–21. https://doi.org/10.4018/IJORIS.2016040101
-- *Bruk:* Direkte parallell til ditt case: SARIMAX for sesongbundet matetherspørsel med eksogene variabler (promotions, holidays). Seksjon 2.1 (litteratur), 7.1 (datadeskriptiv), validering av eksogen-variabel-tilnærming.
-- *Merk:* Deres case er daglig butikkvolum; ditt case er ukentlig distribusjonsvolum. Metodologien er overførbar.
 
 Fildes, R., Ma, S., & Kolassa, S. (2022). Retail forecasting: Research and practice. *International Journal of Forecasting*, 38(4), 1283–1318. https://doi.org/10.1016/j.ijforecast.2019.06.004
-- *Bruk:* Bredspektret gjennomgang av retail-forecasting utfordringer, aggregeringsnivåer, og håndtering av høy variabilitet. Seksjon 2.1 (litteratur om etterspørselsprognose), 7.1 (datavolatilitet og etterspørselsdynamikk).
+
+Hyndman, R.J., & Athanasopoulos, G. (2021). *Forecasting: principles and practice* (3. utg.). OTexts. https://otexts.com/fpp3/
+
+Hyndman, R.J., & Khandakar, Y. (2008). Automatic time series forecasting: The forecast package for R. *Journal of Statistical Software*, 27(3), 1–22. https://doi.org/10.18637/jss.v027.i03
 
 ### Produksjonsplanlegging og Linear Programming
 
-Winston, W.L. (2004). *Operations Research: Applications and Algorithms* (4. utg.). Thomson Brooks/Cole.
-- *Bruk:* Lærebok for LP-formulering, Simplex-algoritme, og formuleringsteknikk. Seksjon 2.2, 3.2, 6.0 (LP-metodikk og løsningsapproach).
-
 Holt, C.C., Modigliani, F., & Simon, H.A. (1955). A linear decision rule for production and employment scheduling. *Management Science*, 2(1), 1–30.
-- *Bruk:* Historisk kontekst for APP-metodikk. Seksjon 2.2 (litteratur om kapasitetsplanlegging). Merk: Ikke samme formulering som ditt problem; brukes kun for grunnleggende APP-perspektiv.
 
 Leung, S.C.H., Wu, Y., & Lai, K.K. (2006). A stochastic programming approach for multi-site aggregate production planning. *Journal of the Operational Research Society*, 57(2), 123–132. https://doi.org/10.1057/palgrave.jors.2601988
-- *Bruk:* APP under usikkerhet, arbeidskraftsnivåer, og etterspørsel med medium-range planlegging. Seksjon 2.2 (APP under kapasitets-begrensninger), 6.3–6.4 (formuleringsinspirasjoner for kapasitets-constraints).
+
+Winston, W.L. (2004). *Operations Research: Applications and Algorithms* (4. utg.). Thomson Brooks/Cole.
 
 ### Statistikk og datakilder
 
-Statistisk sentralbyrå (SSB). (2024). *Sykefraværet i industri og andre næringer*. Norges offisielle statistikk. https://www.ssb.no/
-- *Bruk:* Norsk sykefraværsrate (~6 %) som kapasitets-justerings-parameter. Seksjon 5.4 (datakvalitet, kapasitets-antakelser), 6.3 (kapasitets-baseline og justering).
-
 Norsk Næringsmiddel- og Landbruksarbeiderforbund (NNN). (2024–2026). *Mat- og drikkevareoverenskomsten*. Tariffavtale, lokalt forankret.
-- *Bruk:* Bakgrunnsdokument for norsk tariff-struktur (grunnlønn, overtid, tilkallingshjelp) som referanse for fremtidig kalibrering av relative kostnads-vekter $c_j$ i LP-modellen. Brukes ikke som direkte inline-sitering i denne hovedutkast-versjonen fordi $c_j$ holdes som generiske relative vekter (ikke kronekostnader).
+
+Statistisk sentralbyrå (SSB). (2024). *Sykefraværet i industri og andre næringer*. Norges offisielle statistikk. https://www.ssb.no/
 
 ### Undervisningsmateriale
 
 KML Kompendium. (2026). *Quantitative methods in logistics: A framework for AI-driven research*. [Online]. Tilgjengelig fra: https://kml-site-production.up.railway.app/
-- *Bruk:* Kompendium for LOG650, brukt som metodisk bakgrunn for valg av SARIMAX og LP. Ikke direkte inline-sitert i §1–§9 fordi de spesifikke teoretiske påstandene støttes av primærkildene (Hyndman & Athanasopoulos 2021, Winston 2004 m.fl.).
 
 ---
 
@@ -985,6 +1038,8 @@ KML Kompendium. (2026). *Quantitative methods in logistics: A framework for AI-d
 
 Vedleggene er holdt som prosjektmappe-artefakter heller enn innlimte fulltabeller, slik at rapporten forblir lesbar og reproduserbar uten å publisere sensitive rådata.
 
+\begingroup\footnotesize
+
 | Vedlegg | Fil / artefakt | Formål |
 |---|---|---|
 | A | `004 data/weekly_volume_anonymized.csv` | Publiserbar ukentlig volumindeks for F og S |
@@ -996,3 +1051,23 @@ Vedleggene er holdt som prosjektmappe-artefakter heller enn innlimte fulltabelle
 | G | `004 data/processed/sarimax_candidate_results.csv` | Oversikt over evaluerte SARIMAX/ARIMA-kandidater |
 | H | `004 data/processed/lp_capacity_validation_index.csv` og `004 data/processed/lp_zone_deadline_load_index.csv` | LP-resultater på publiserbar indeks-skala |
 | I | `004 data/processed/model_run_summary.json` | Maskinlesbar oppsummering av modellkjøringen |
+| J | Tabell nedenfor (Anvendelse av kilder) | Hvordan hver bibliografi-kilde er brukt i rapporten |
+
+\endgroup
+
+### Vedlegg J — Anvendelse av kilder
+
+Tabellen viser hvordan hver kilde i §11 er anvendt. Dette holdes adskilt fra selve referanselisten for å bevare ren APA 7-formatering der.
+
+| Kilde | Anvendelse i rapporten |
+|---|---|
+| Hyndman & Athanasopoulos (2021) | Kapittel 9 for ARIMA-teori, 9.9 for sesongmodeller, kapittel 10 for eksogene variabler (ARIMAX). Sentral for modellvalg, residualdiagnostikk og hvorfor baseline-sammenligninger er kritiske. |
+| Hyndman & Khandakar (2008) | Kanonisk kilde for auto_arima stepwise-algoritmen. Metodisk inspirasjon for parsimonisk kandidatgrid og modellseleksjon i §5.1.1. |
+| Arunraj, Ahrens & Fernandes (2016) | Direkte parallell til caset: SARIMAX for sesongbundet matetterspørsel med eksogene variabler (kampanjer, helligdager). Brukt i §2.1, §7.1 og validering av eksogen-variabel-tilnærmingen. Merk: deres case er daglig butikkvolum, dette caset er ukentlig distribusjonsvolum — metodologien er overførbar. |
+| Fildes, Ma & Kolassa (2022) | Bredspektret gjennomgang av retail-forecasting-utfordringer, aggregeringsnivåer og høy variabilitet. Brukt i §2.1 (etterspørselsprognose) og §7.1 (datavolatilitet). |
+| Winston (2004) | Lærebok for LP-formulering, Simplex-algoritmen og formuleringsteknikk. Brukt i §2.2, §3.2 og §6.0. |
+| Holt, Modigliani & Simon (1955) | Historisk kontekst for APP-metodikk, §2.2. Ikke samme formulering som dette problemet; brukes kun for grunnleggende APP-perspektiv. |
+| Leung, Wu & Lai (2006) | APP under usikkerhet, arbeidskraftsnivåer og etterspørsel med medium-range planlegging. Brukt i §2.2 og som formuleringsinspirasjon for kapasitets-constraints i §6.3–6.4. |
+| SSB (2024) | Norsk sykefraværsrate (~6 %) som kapasitets-justeringsparameter. Brukt i §5.4 og §6.3. |
+| NNN (2024–2026) | Bakgrunn for norsk tariffstruktur (grunnlønn, overtid, tilkallingshjelp) som referanse for fremtidig kalibrering av relative kostnadsvekter $c_j$ i LP-modellen. Ikke inline-sitert i hovedutkastet fordi $c_j$ holdes som generiske relative vekter, ikke kronekostnader. |
+| KML Kompendium (2026) | Metodisk bakgrunn for valg av SARIMAX og LP. Ikke inline-sitert i §1–§9 fordi de spesifikke teoretiske påstandene støttes av primærkildene (Hyndman & Athanasopoulos 2021, Winston 2004 m.fl.). |
