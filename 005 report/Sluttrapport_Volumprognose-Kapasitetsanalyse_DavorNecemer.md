@@ -1,4 +1,5 @@
 ---
+lang: nb
 header-includes: |
   \usepackage[htt]{hyphenat}
   \setlength{\emergencystretch}{3em}

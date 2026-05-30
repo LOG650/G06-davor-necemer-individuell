@@ -8,6 +8,8 @@ Prerequisites (one-time setup, no admin required):
 - Pandoc via `winget install JohnMacFarlane.Pandoc --scope user`
 - TinyTeX via `quarto install tinytex --no-prompt` (Quarto ships with RStudio
   at C:\\Program Files\\RStudio\\resources\\app\\bin\\quarto\\bin\\quarto.exe)
+- Norwegian hyphenation (report uses `lang: nb`):
+  `tlmgr install babel-norsk hyphen-norwegian`
 """
 
 from __future__ import annotations
@@ -59,6 +61,9 @@ def build(md_path: Path, pdf_path: Path) -> None:
     cmd = [
         str(pandoc),
         str(md_path.name),
+        # Disable implicit_figures: images keep our manual "**Figur N – ...**"
+        # captions instead of an extra auto-caption ("Figure N:") from alt text.
+        "-f", "markdown-implicit_figures",
         "--pdf-engine=xelatex",
         "--pdf-engine-opt=-interaction=nonstopmode",
         "-V", "geometry:margin=22mm",
