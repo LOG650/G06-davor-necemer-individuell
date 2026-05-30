@@ -15,7 +15,7 @@ header-includes: |
 
 **Versjon:** Endelig innlevering, 1. juni 2026
 
-**Totalt antall sider inkludert forsiden:** 35
+**Totalt antall sider inkludert forsiden:** 36
 
 Molde, 1. juni 2026
 
@@ -52,9 +52,17 @@ Er oppgaven båndlagt (konfidensiell)? **Nei.** Rapporten bygger utelukkende på
 
 **Dato:** 1. juni 2026
 
-### Forfattererklæring – bruk av kunstig intelligens
+### Bruk av KI-verktøy
 
-I tråd med emnets retningslinjer er kunstig intelligens (Claude / Claude Code) brukt som verktøy under min styring og kontroll – blant annet til datavask, koding, tekstutkast, LaTeX-oppsett og uavhengig gjennomgang. Denne bruken er det hjelpemiddelet som egenerklæringen punkt 1 viser til med «det som er nevnt i besvarelsen». Alle faglige valg, tolkninger og konklusjoner er mine egne. Jeg har lest, forstått og kvalitetssikret innholdet slik at jeg kan stå inne for og forsvare rapporten. Alle referanser er verifisert som reelle og etterprøvbare kilder: lenker og DOI er kontrollert, og kildene er lastet ned der forlagstilgang tillot det.
+Denne besvarelsen er utarbeidet med kunstig intelligens (Claude / Claude Code, Anthropic) som verktøy under min styring og kontroll, i tråd med Høgskolen i Molde sine retningslinjer for bruk av KI på hjemmeeksamen og det innsendte KI-egenerklæringsskjemaet. I samsvar med egenerklæringen punkt 1 («det som er nevnt i besvarelsen») beskrives bruken her. KI-verktøy er benyttet til følgende formål:
+
+- **Tekst og skrivehjelp:** utkast og omformulering av kapitteltekst, som jeg deretter har bearbeidet, kontrollert og godkjent.
+- **Språkvask og korrekturlesing:** retting av språk, struktur og konsistens.
+- **Programmering og kodehjelp:** Python-skript for datavask, anonymisering, SARIMAX/SNaive-modellering, LP-løser og automatisk PDF-bygging.
+- **Analyse av digitale data:** databehandling og kjøring av prognose- og kapasitetsmodellene som ligger til grunn for resultatene.
+- **Bilder og figurer:** generering av rapportens figurer (volumtrend, prognose-validering, soneprofil m.fl.) via kode.
+
+Alle faglige valg, tolkninger og konklusjoner er mine egne. Jeg har lest, forstått og kvalitetssikret hele besvarelsen, kan stå inne for og forsvare innholdet, og bekrefter at all bruk av KI-verktøy er beskrevet her. Alle referanser er verifisert som reelle og etterprøvbare kilder: lenker og DOI er kontrollert, og kildene er lastet ned der forlagstilgang tillot det.
 
 \newpage
 

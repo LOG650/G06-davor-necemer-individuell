@@ -4,7 +4,7 @@
 **Prosjektleder:** Davor Necemer
 **Dager til innlevering:** frist 2026-06-01 kl. 14:00 (utvidet fra 31.05)
 **Aktiv branch:** `Fase_4_report`
-**Sluttvask 2026-05-31:** Forside + obligatoriske erklæringer fylt ut og verifisert (adversarisk Explore-sjekk: tall/dato/struktur OK); endelig PDF rebygd til 35 sider. Gjenstår: menneskelig korrektur, deretter merge `Fase_4_report` → `main`.
+**Sluttvask 2026-05-31:** Forside + obligatoriske erklæringer fylt ut og verifisert (adversarisk Explore-sjekk: tall/dato/struktur OK); endelig PDF rebygd til 36 sider (inkl. eksplisitt «Bruk av KI-verktøy»-seksjon, kreves av innsendt KI-egenerklæringsskjema). Gjenstår: menneskelig korrektur, deretter merge `Fase_4_report` → `main`.
 
 ---
 
