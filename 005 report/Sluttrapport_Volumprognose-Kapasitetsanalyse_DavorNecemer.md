@@ -154,7 +154,7 @@ Disse delproblemene er sekvensielle: prognosen fra DP1 blir input til LP-modelle
 
 ### 1.3 Avgrensinger
 
-**Aggregeringsnivå – fra dag/sone til uke:** Selv om problemet manifesteres daglig gjennom sonevise frister (kl 00:00, 01:00, 02:00), modelleres det på *ukentlig* nivå. *Begrunnelse:* Sonevise frister aggregeres som ukentlige kapasitets- og fristbegrensninger basert på sonestruktur. Fordi sonene er operasjonelt like (samme ressursbemanning, samme skiftlengde), er forskjellen primært avgangstidspunkt, ikke kapasitetskarakteristikk. Aggregering til uke tillater bruk av tidsseriedata for de to varestrømmene og forenkler LP-formulering betydelig. Daglig operativ planlegging (mann-allokering per natt) ligger utenfor modellomfanget.
+**Aggregeringsnivå – fra dag/sone til uke:** Selv om problemet manifesteres daglig gjennom sonevise frister (kl 00:00, 01:00, 02:00), modelleres det på *ukentlig* nivå. Dette er en bevisst praktisk forenkling med en kjent kostnad, ikke en antakelse om at dagsvariasjonen er uvesentlig. *Begrunnelse:* Sonevise frister aggregeres som ukentlige kapasitets- og fristbegrensninger basert på sonestruktur. Fordi sonene er operasjonelt like (samme ressursbemanning, samme skiftlengde), er forskjellen primært avgangstidspunkt, ikke kapasitetskarakteristikk. Aggregering til uke tillater bruk av tidsseriedata for de to varestrømmene og forenkler LP-formuleringen betydelig. *Kjent kostnad:* En ukentlig modell kan ikke skille en uke der totalvolumet er innenfor kapasitet, men der enkeltdøgn eller enkeltsoner likevel bryter fristen; den viser *når på året* belastningen topper, ikke *hvilken natt eller sone* som først ryker. Dagsvis og sonevis modellering ligger derfor utenfor dette prosjektets scope, men er kritisk for faktisk operativ bruk, og er pekt ut som den sentrale videreutviklingen i §9.4. Daglig operativ planlegging (mann-allokering per natt) ligger utenfor modellomfanget.
 
 **Prosessomfang:** Analysen dekker distribusjonsklargjøringen etter at volumet er klart for utsendelse. Prosessene modelleres som `P1 = PD / for-klargjøring` og `P2 = ED / endelig dispatch/ekspedering`, mens `DD` behandles som direkte eller særskilt dispatchflyt som inngår i tidsgrunnlaget ved behov, men ikke som separat hovedprosess. *Begrunnelse:* Produksjonslister og dispatcher actions for lager 310 viser at tilgjengelig tidsdata måler håndtering mot distribusjonsfrister, ikke primær eller sekundær produksjonspakking. Prosessavgrensningen må derfor følge det observerbare datagrunnlaget for å unngå at modellen estimerer kapasitet for prosesser som ikke er målt.
 
@@ -951,6 +951,8 @@ LP er standard for aggregate production planning der målet er å minimere ressu
 2. Identifisere kritiske høysesong-uker som krever tidlig oppstart eller overtid
 3. Kvantifisere kostnads-trade-offs: Hvor mye mer overtid kreves for 100 % fristoppfyllelse vs. akseptert 5 % brudd?
 
+Den viktigste operative verdien ligger i skiftet fra *reaktiv* til *proaktiv* kapasitetsstyring. I dagens praksis håndteres kapasitetstopper ofte etter at de har oppstått – typisk ved at man ringer inn ekstrahjelp eller beordrer overtid sent i uken, når køen mot natten allerede har bygd seg opp. En slik reaktiv modell er både dyrere (akutt innleie og overtidstillegg) og mer sårbar, fordi beslutningen tas under tidspress og uten oversikt over hele ukens belastningsbilde. Rammeverket flytter beslutningspunktet fremover i tid: når SARIMAX-prognosen foreligger ved ukestart og LP-modellen oversetter den til et konkret kapasitetsbehov per prosess, kan planleggeren se *før* uken begynner hvilke prosesser som vil kreve tidlig oppstart eller ekstra bemanning. Det gir tid til å varsle ansatte, fordele tiltak jevnt og unngå improvisasjon når fristen nærmer seg. På sikt muliggjør det også en lærende sløyfe der faktiske fristbrudd sammenlignes med modellens prognostiserte SLACK, slik at både prognose og kapasitetsantakelser kalibreres uke for uke. Verdien forutsetter likevel at den ukentlige oppløsningen videreutvikles mot dags- og sonenivå (§9.4), slik at flagget kan knyttes til den natten og sonen som faktisk er utsatt.
+
 **Operativ implementering (utenfor rapport):**
 - Modellen kan brukes ugentlig: Prognose beregnes mandag, LP løses for kapasitets-allokeringen for uka
 - Hvis SARIMAX viser høy etterspørsel, flagges uken for ekstrabemanning eller tidlig oppstart
@@ -974,6 +976,8 @@ Gjenstår før operativ bruk:
 3. **Scenarioanalyse:** Test sonemiks, kapasitetsbortfall, sykefravær, kampanjetopper og mer realistiske volumscenarioer enn den publiserbare ±10 %-indekskjøringen
 4. **Modellrobusthet:** Re-estimer når flere sesonger foreligger, og vurder rikere eksogene variabler som kampanjeintensitet i stedet for binære flagg
 
+**Tidsoppløsning – ukentlig modell mot dagsvise og sonevise frister:** Den mest grunnleggende begrensningen er at rammeverket opererer på *ukentlig* aggregat, mens selve flaskehalsen oppstår *daglig* mot sonevise nattfrister (kl 00:00, 01:00, 02:00). I denne versjonen er fristene aggregert til kumulative ukentlige andeler (§6.5), noe som forenkler LP-formuleringen, men som per konstruksjon ikke kan fange en uke der totalvolumet er innenfor kapasitet samtidig som enkeltdøgn eller enkeltsoner bryter fristen. Modellen synliggjør dermed *når på året* belastningen topper seg, men ikke *hvilken natt eller sone* som først ryker, og SLACK-verdien kan foreløpig ikke tolkes som et direkte mål på operativ fristrisiko. En naturlig videreutvikling er å disaggregere både prognosen og LP-modellen til dags- og sonenivå ved hjelp av de daglige dispatcher-dataene som allerede ligger til grunn for soneprofilen (643 dispatcher-datoer), slik at fristbegrensningene settes per sone per natt i stedet for som ukentlige andeler. Dette er en forutsetning for at rammeverket skal kunne brukes som operativt fristverktøy, ikke bare som sesong- og ukeindikator.
+
 **Teoretisk bidrag:** Rapporten etablerer en metodisk tilnærming til integrering av SARIMAX-prognose og LP-optimering for sesongbundet etterspørsel under sonevise distribusjonsfrister. Eksisterende litteratur på APP dekker ofte enten prognose eller optimering, men sjeldnere det integrerte oppsettet.
 
 **Praktisk bidrag:** Demonstrerer hvordan bedriftsinterne data (volum, produksjonslister, dispatcher actions) kan transformeres fra rådata til anonymisert, reproduserbar modellgrunnlag uten å avsløre kommersielle hemmeligheter.
@@ -984,19 +988,30 @@ Problemstillingen (§1.1) spør hvordan etterspørselsprognoser og kapasitetsopt
 
 **Svar:** Rapporten utvikler et integrert modellrammeverk i to sekvensielle ledd. Først prognostiseres ukevolum per varestrøm med SARIMAX og kampanjekalender som eksogen variabel, med Seasonal Naive som metodisk benchmark og operativ fallback. Deretter løser en lineær programmeringsmodell ekstra kapasitet i `P1` (PD/for-klargjøring) og `P2` (ED/endelig dispatch) under en høy straffvekt for fristbrudd, med sonevise frister modellert som kumulative ukentlige andeler. Anonymisering via 2024-snitt-indeks per varestrøm gjør metoden etterprøvbar uten å avsløre forretningssensitive volumer.
 
-**Hovedfunn:**
+**Utviklet og testet teknisk:**
 
-- Datagrunnlag etablert: 117 modelluker × 2 varestrømmer (234 obs.); uke 2026-14 ekskludert som delvis uke.
-- Prosess-tidsmatrise: P1 = 0.004 og P2 = 0.038 minutter per FPK, basert på åtte komplette produksjons-/dispatcher-par fra 2024–2026.
-- Basekapasitet P1 = 24 t/uke og P2 = 144 t/uke. Soneprofil fra 643 dispatcher-datoer: Z1 = 0.325, Z2 = 0.335, Z3 = 0.339 (sum 1.000).
-- SARIMAX-validering på 2026-01 til 2026-13: F-modell RMSE 13.21 mot SNaive 18.96 (også bedre MAE og MAPE); S-modell RMSE 6.67 mot SNaive 7.53 men svakere MAE/MAPE og tolkes derfor varsomt.
-- LP-pipeline kjørt som publiserbar indeks-skala smoke-test med 0.00 ekstra indeks-timer og 0.00 slack, som verifiserer at løseren og datastrømmen henger sammen, men ikke gir et operativt mann-timer-estimat.
+- Et integrert, sekvensielt rammeverk (SARIMAX → LP) er koblet i ett reproduserbart skript, slik problemstillingen i §1.1 etterspør.
+- SARIMAX/ARIMA-kandidater er estimert og validert mot en Seasonal Naive-baseline på 2026-01 til 2026-13, med eksplisitt fallback-regel når SARIMAX ikke slår baselinen.
+- LP-løseren er kjørt som publiserbar indeks-skala smoke-test (0.00 ekstra indeks-timer, 0.00 slack), som verifiserer at løser og datastrøm henger korrekt sammen – ikke et operativt mann-timer-estimat (jf. §8.4).
+- En indeks-skala robusthetssjekk med ±10 % volum er gjennomført; full sensitivitetsanalyse gjenstår (se nedenfor).
+
+**Dokumentert med data:**
+
+- Datagrunnlag: 117 modelluker × 2 varestrømmer (234 obs.); uke 2026-14 ekskludert som delvis uke.
+- Prosess-tidsmatrise: P1 = 0.003885 og P2 = 0.037555 minutter per FPK, basert på åtte komplette produksjons-/dispatcher-par fra 2024–2026.
+- Basekapasitet P1 = 24 t/uke og P2 = 144 t/uke; soneprofil fra 643 dispatcher-datoer: Z1 = 0.325, Z2 = 0.335, Z3 = 0.339 (sum 1.000).
+- Prognosepresisjon på validering: F-modellen forbedrer RMSE til 13.21 mot SNaive 18.96 (og er bedre på både MAE og MAPE); S-modellen forbedrer kun RMSE (6.67 mot 7.53) og er samtidig svakere på MAE og MAPE, og tolkes derfor varsomt.
+
+**Gjenstår før operativ bruk:**
+
+- Reell-skala LP-kjøring med lokal, ikke-publiserbar `weekly_volume.csv`, slik at prognosene omregnes fra indeks til faktiske FPK, minutter og mann-timer.
+- Kalibrering av sonevise fristkapasiteter (`CAP_deadline`) mot faktisk bemanning og nattlige tidsvinduer.
+- Full sensitivitetsanalyse for volum, sonemiks og kapasitetsbortfall, ut over den publiserbare ±10 %-indekskjøringen.
+- Lokale maksimumsgrenser for friuke- og tilkallingsbemanning før disse aktiveres som egne LP-variabler.
 
 **Praktisk implikasjon:** Når reelle FPK-volum kobles inn lokalt, kan rammeverket brukes som ukentlig planleggingsverktøy: prognosen oppdateres ved ukestart, LP løser kapasitetsallokeringen, og SLACK-verdien flagger uker hvor overtid eller tidlig oppstart må iverksettes før sonevise frister brytes. Dette flytter beslutningene fra reaktiv ekstrahjelp-praksis til proaktiv ukesplanlegging.
 
 **Begrensninger:** 104 treningsobservasjoner (to sesonger) ligger på grensen for stabil SARIMAX-estimering; `campaign_flag` har minimal variasjon for F (aktiv i 116 av 117 modelluker); sonevise fristkapasiteter (`CAP_deadline`) er ikke kalibrert mot daglig nattprofil; LP er ikke testet på reell-skala FPK i denne publiserbare versjonen.
-
-**Gjenstående arbeid før operativ bruk:** (1) reell-skala LP-kjøring med lokal `weekly_volume.csv`, (2) kalibrering av sonevise fristkapasiteter mot faktisk bemanning og tidsvinduer, (3) full sensitivitetsanalyse for volum, sonemiks og kapasitetsbortfall, og (4) lokale maksimumsgrenser for friuke- og tilkallingsbemanning før disse aktiveres som egne LP-variabler.
 
 ---
 
