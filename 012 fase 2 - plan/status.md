@@ -16,8 +16,10 @@
 | Fase 3: Gjennomforing | Fullfort (peer-to-peer levert og mottatt) |
 | Fase 4: Sluttrapport | Pagar; G05-funn skal integreres innen 31. mai |
 
-Fase 3 er fullfort: hovedutkastet ble levert 30.04 og peer-to-peer-utveksling
-med G05 er gjennomfort. G05s skriftlige tilbakemelding (datert 2026-05-07) ligger
+Fase 3 er fullfort: hovedutkastet ble klart innen Eriks frist 30.04, og
+peer-to-peer-utveksling med G05 (kontaktperson Birgitte) ble gjennomfort
+04.-08.05 (Davor sendte hovedutkast 04.05, leverte review til G05 06.05,
+mottok G05s review 08.05). G05s skriftlige tilbakemelding (datert 2026-05-07) ligger
 i `013 fase 3 - review/peer review Integrert volumprognose og kapasitetsanalyse_G05_G06.md`
 (.md og .docx). Var egen review til G05 ligger samme sted som `Peer-review_G06_G05.md`
 og `.pdf`. Hovedutkast-PDF-en som G05 reviewet ligger i samme mappe.
@@ -65,7 +67,7 @@ en dag - se G05_INTEGRATION_PLAN.md for ærlig scoping).
 | 3.3 | Utvikling og trening av prognosemodell | 2026-04-09 | Completed minimum run | `005 report/scripts/run_forecast_capacity_models.py` kjorer SNaive-baseline og konservativ `statsmodels` SARIMAX/ARIMA-grid. Validering ekskluderer delvis uke 2026-14 og bruker 2026-01 til 2026-13. |
 | 3.4 | Utvikling av kapasitetsoptimeringsmodell | 2026-04-24 | Completed minimum run | LP-formulering er implementert med `scipy.optimize.linprog` som publiserbar indeks-skala smoke-test. Operativ real-skala LP gjenstar fordi reelle FPK-volum ikke publiseres. |
 | 3.5 | Analyse av resultater | 2026-05-01 | Completed for draft | Kapittel 7-8 inneholder datadeskriptiv analyse, SARIMAX/SNaive-validering og LP-resultater paa indeks-skala. |
-| 3.6 | Gjennomfore peer-to-peer review | 2026-05-08 | Completed | Hovedutkast sendt til G05 30.04; G05s review mottatt 07.05; var review til G05 levert innen 08.05. Erik bekreftet "bestatt arbeidskravet" 30.05. |
+| 3.6 | Gjennomfore peer-to-peer review | 2026-05-08 | Completed | Hovedutkast sendt til G05 (Birgitte) 04.05; var review til G05 levert 06.05; G05s review mottatt 08.05 (dokumentet internt datert 07.05). Erik bekreftet "bestatt arbeidskravet" 30.05. |
 | 3.7 | Milepael: Godkjent hovedutkast | 2026-05-08 | Completed | Arbeidskravet for peer-to-peer review er bestatt per Eriks bekreftelse 30.05. |
 
 ### Fase 4: Sluttrapport

@@ -1,8 +1,8 @@
 # G05 peer-review — integrasjonsplan for sluttrapport
 
 **Kilde:** [`013 fase 3 - review/peer review Integrert volumprognose og kapasitetsanalyse_G05_G06.md`](../013%20fase%203%20-%20review/peer%20review%20Integrert%20volumprognose%20og%20kapasitetsanalyse_G05_G06.md)
-**Reviewer:** G05 – BirgitteVera
-**Dato review:** 2026-05-07
+**Reviewer:** G05 – Birgitte Bellsund og Vera
+**Dato review:** 2026-05-07 (dokument internt datert), mottatt 2026-05-08 13:01
 **Frist sluttrapport:** 2026-05-31 (1 dag fra plan-dato 2026-05-30)
 **Mål-fil:** [`005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md`](../005%20report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md)
 

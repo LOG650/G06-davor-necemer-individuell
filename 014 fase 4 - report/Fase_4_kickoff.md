@@ -14,8 +14,8 @@
 
 - Aktiv branch: **`Fase_4_report`** (skapt fra `main` 30.05; ingen rapport-innhold endret ennå)
 - Fase 1, 2, 3 er fullført. Erik bekreftet "bestått arbeidskravet" 30.05.
-- Hovedutkast levert peer-review 30.04, peer-to-peer-utveksling gjennomført med G05.
-- G05s tilbakemelding (datert 2026-05-07) mottatt; **denne sesjonens jobb er å integrere de 19 funnene innen 2026-05-31.**
+- Hovedutkastet var klart innen Eriks frist 30.04. Direkte peer-to-peer-utveksling med G05 (Birgitte og Vera) skjedde 04.05–08.05: Davor sendte hovedutkast 04.05, leverte review til G05 06.05, mottok G05s review 08.05.
+- G05s tilbakemelding (dokumentet internt datert 2026-05-07, mottatt 2026-05-08) inneholder 19 funn; **denne sesjonens jobb er å integrere dem innen 2026-05-31.**
 
 ## Filer å lese FØRST (i denne rekkefølgen)
 
