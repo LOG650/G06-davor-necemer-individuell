@@ -40,7 +40,7 @@ Status-kolonne: `Pending` (ikke startet), `In progress`, `Done`, `Deferred` (uts
 
 | Funn (G05) | Lokasjon | Tiltak | Estimat | Status |
 |---|---|---|---|---|
-| Intern spenning i §1.3: uke-aggregering forsvares uten å erkjenne at det skjuler dagsvise topper | Sluttrapport §1.3 (Aggregeringsnivå) | Reformuler avgrensning: "praktisk forenkling med kjent kostnad — dagsvis modellering ligger utenfor scope men er kritisk for operativ bruk" | 15 min | Pending |
+| Intern spenning i §1.3: uke-aggregering forsvares uten å erkjenne at det skjuler dagsvise topper | Sluttrapport §1.3 (Aggregeringsnivå) | Reformuler avgrensning: "praktisk forenkling med kjent kostnad — dagsvis modellering ligger utenfor scope men er kritisk for operativ bruk" | 15 min | Done (a1a726d — §1.3 omformulert m/ *Kjent kostnad*-setning, kryssref §9.4) |
 | Prosess-tidsmatrise (n=8) ignorerer sesongvariasjon i håndteringstid | Sluttrapport §5.4 + §8.2 | Legg inn 1 avsnitt om sesongvariasjons-risiko som begrensning | 20 min | Pending |
 | Validitet/reliabilitet bør forklares tydeligere; tekniske detaljer (skriptbaner, filnavn) til vedlegg | Sluttrapport §5.4 + §5.5 | Add validitet/reliabilitet-avsnitt; flytt §5.3-paths til Vedlegg | 30 min | Deferred (tidskrevende, lavest ROI) |
 
@@ -56,14 +56,14 @@ Status-kolonne: `Pending` (ikke startet), `In progress`, `Done`, `Deferred` (uts
 
 | Funn (G05) | Lokasjon | Tiltak | Estimat | Status |
 |---|---|---|---|---|
-| Funn bør knyttes tydeligere til problemstilling — gap mellom ukentlig modell og dagsvise frister | Sluttrapport §9.2 eller §9.4 | Legg til avsnitt som eksplisitt erkjenner gap-et og foreslår videreutvikling med dag/sone-data | 20 min | Pending |
-| Implikasjoner berøres kort — proaktiv ukesplanlegging fortjener eget avsnitt | Sluttrapport §9.3 | Utvid "Modellens tiltenkte verdi"-listen til et fullt avsnitt om proaktiv-vs-reaktiv-skiftet | 20 min | Pending |
+| Funn bør knyttes tydeligere til problemstilling — gap mellom ukentlig modell og dagsvise frister | Sluttrapport §9.2 eller §9.4 | Legg til avsnitt som eksplisitt erkjenner gap-et og foreslår videreutvikling med dag/sone-data | 20 min | Done (a1a726d — nytt "Tidsoppløsning"-gap-avsnitt i §9.4, foreslår dag/sone-disaggregering fra dispatcher-data) |
+| Implikasjoner berøres kort — proaktiv ukesplanlegging fortjener eget avsnitt | Sluttrapport §9.3 | Utvid "Modellens tiltenkte verdi"-listen til et fullt avsnitt om proaktiv-vs-reaktiv-skiftet | 20 min | Done (a1a726d — nytt proaktiv-vs-reaktiv-avsnitt i §9.3) |
 
 ### Konklusjon (G05 §2.6) — 1 funn
 
 | Funn (G05) | Lokasjon | Tiltak | Estimat | Status |
 |---|---|---|---|---|
-| Skille klarere mellom utviklet+testet, dokumentert, og gjenstår | Sluttrapport §10 | Restrukturer §10 i tre eksplisitte bolker: "Utviklet og testet teknisk" / "Dokumentert med data" / "Gjenstår før operativ bruk" | 20 min | Pending |
+| Skille klarere mellom utviklet+testet, dokumentert, og gjenstår | Sluttrapport §10 | Restrukturer §10 i tre eksplisitte bolker: "Utviklet og testet teknisk" / "Dokumentert med data" / "Gjenstår før operativ bruk" | 20 min | Done (a1a726d — §10 tre-bolk + Praktisk implikasjon/Begrensninger; prosess-tid rettet til eksakt 0.003885/0.037555) |
 
 ### Skriveflyt og formelle aspekter (G05 §2.7) — 6 funn
 

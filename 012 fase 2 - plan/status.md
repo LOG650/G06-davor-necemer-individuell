@@ -14,7 +14,7 @@
 | Fase 1: Initiering | Fullfort |
 | Fase 2: Prosjektplan | Fullfort |
 | Fase 3: Gjennomforing | Fullfort (peer-to-peer levert og mottatt) |
-| Fase 4: Sluttrapport | Pagar; G05 "MA"-funn ferdig integrert (commit ea25e47), "BOR"-funn gjenstaar |
+| Fase 4: Sluttrapport | Pagar; G05 "MA"-funn integrert (ea25e47); "BOR" #5/#6/#10/#11 (c417590/fdf0a6f) + #7/#8/#9 (a1a726d) integrert; #13 KAN + endelig PDF + merge gjenstaar |
 
 Fase 3 er fullfort: hovedutkastet ble klart innen Eriks frist 30.04, og
 peer-to-peer-utveksling med G05 (kontaktperson Birgitte) ble gjennomfort
@@ -107,9 +107,9 @@ en dag - se G05_INTEGRATION_PLAN.md for ærlig scoping).
 | Ma | Figurtekst-skille: kort figurtekst, tolkning til brodtekst med kryssreferanse. | 45 min | Done (ea25e47) |
 | Bor | Innledning: rammeverk+smoke-test eksplisitt, faglig bidrag fra 9.4 hentes opp. | 30 min | Done |
 | Bor | Modellvalg S (§7.2, §8.4): begrunn hvorfor RMSE prioriteres over MAE/MAPE. | 30 min | Done |
-| Bor | Diskusjon: dag/sone vs uke-gap eksplisitt, implikasjoner-avsnitt utvides. | 45 min | Pending |
-| Bor | Konklusjon: tydeligere skille utviklet vs dokumentert vs gjenstar. | 30 min | Pending |
-| Bor | Metode §1.3: "praktisk forenkling med kjent kostnad"-formulering. | 15 min | Pending |
+| Bor | Diskusjon: dag/sone vs uke-gap eksplisitt, implikasjoner-avsnitt utvides. | 45 min | Done (a1a726d) |
+| Bor | Konklusjon: tydeligere skille utviklet vs dokumentert vs gjenstar. | 30 min | Done (a1a726d) |
+| Bor | Metode §1.3: "praktisk forenkling med kjent kostnad"-formulering. | 15 min | Done (a1a726d) |
 | Bor | LP smoke-test-framing §8.4 (styrk overskrift/forste setning). | 10 min | Done |
 | Bor | Sensitivitetsanalyse-metode (§5.1.2 + §8.4) justert mot faktisk arbeid. | 25 min | Done |
 | Kan | Reell sensitivitetsanalyse paa indeks-skala med varierte parametre. | 1-2 t | Pending |
