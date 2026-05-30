@@ -110,8 +110,8 @@ en dag - se G05_INTEGRATION_PLAN.md for ærlig scoping).
 | Bor | Diskusjon: dag/sone vs uke-gap eksplisitt, implikasjoner-avsnitt utvides. | 45 min | Pending |
 | Bor | Konklusjon: tydeligere skille utviklet vs dokumentert vs gjenstar. | 30 min | Pending |
 | Bor | Metode §1.3: "praktisk forenkling med kjent kostnad"-formulering. | 15 min | Pending |
-| Bor | LP smoke-test-framing §8.4 (styrk overskrift/forste setning). | 10 min | Pending |
-| Bor | Sensitivitetsanalyse-metode (§5.1.2 + §8.4) justert mot faktisk arbeid. | 25 min | Pending |
+| Bor | LP smoke-test-framing §8.4 (styrk overskrift/forste setning). | 10 min | Done |
+| Bor | Sensitivitetsanalyse-metode (§5.1.2 + §8.4) justert mot faktisk arbeid. | 25 min | Done |
 | Kan | Reell sensitivitetsanalyse paa indeks-skala med varierte parametre. | 1-2 t | Pending |
 
 ---

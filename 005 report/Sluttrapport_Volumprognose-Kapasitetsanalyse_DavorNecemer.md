@@ -84,7 +84,7 @@ The report now delivers a technical minimum implementation of the integrated fra
   - 8.1 Datavalidering og aggregering
   - 8.2 Prosess-tidsmatrise etablert
   - 8.3 Kapasitets-baseline etablert
-  - 8.4 Prognose- og LP-kjøring
+  - 8.4 Prognosevalidering og LP smoke-test
   - 8.5 Kritiske funn og gjenstående arbeid
 - 9.0 Diskusjon
   - 9.1 Metodisk vurdering
@@ -172,7 +172,7 @@ Disse delproblemene er sekvensielle: prognosen fra DP1 blir input til LP-modelle
 
 **Antagelse 2 – Kampanjekalender er kjent:** Vi antar at planlagte tilbud og kampanjer er kjent på planleggingstidspunktet. *Konsekvens:* Dette er realistisk for bedriftens strategiske planlegging, men ikke for uforutsette markedshendelser.
 
-**Antagelse 3 – Kapasitet er deterministisk:** Vi antar at grunnkapasitet per uke i hver prosess er kjent og stabil. *Konsekvens:* Modellen håndterer ikke stokastisk kapasitetsbortfall (sykdom, maskinbrudd). Sensitivitetsanalyse brukes til å teste robusthet.
+**Antagelse 3 – Kapasitet er deterministisk:** Vi antar at grunnkapasitet per uke i hver prosess er kjent og stabil. *Konsekvens:* Modellen håndterer ikke stokastisk kapasitetsbortfall (sykdom, maskinbrudd). Robusthet er tenkt testet gjennom sensitivitets- og scenarioanalyse; i denne publiserbare versjonen er bare en indeks-skala smoke-test med ±10 % volum gjennomført, mens full sensitivitetsanalyse gjenstår (se §5.1.2 og §10).
 
 **Antagelse 4 – Lineær kapasitetsrespons:** Vi antar at ekstra kapasitet (overtid, ekstrabemanning) kan skaleres lineært (ingen massive overheadkostnader ved små mengder, eller tapende economies of scale). *Konsekvens:* LP-modellen blir løsbar, men praktisk implementering må verifisere denne antagelsen case-for-case.
 
@@ -416,19 +416,21 @@ Gitt at treningsdata omfatter bare 104 observasjoner (2 sesongperioder), legges 
 - Python: `scipy.optimize.linprog`, `PuLP`, eller `Gurobi/CPLEX` for større instanser
 - Løsningen gir beregnet behov for ekstra kapasitet per prosess per uke
 
-**Sensitivitetsanalyse (post-optimality analysis):**
-Skyggepriser og reduserte kostnader analyseres (Winston, 2004) for å forstå:
+**Sensitivitetsanalyse (post-optimality analysis) – metodisk ramme:**
+En fullstendig LP-sensitivitetsanalyse bruker skyggepriser og reduserte kostnader (Winston, 2004) for å besvare:
 - Hvilke begrensninger er bindende? (identifiserer kritiske ressurser)
 - **Skyggepris:** Hva er verdien av 1 ekstra mann-time kapasitet i hver prosess? (informerer investeringsbeslutninger)
 - Hvordan påvirker ulike straffvekter for fristbrudd løsningen?
 - Robusthet av løsningen under parameter-endringer
 
-**Scenarioanalyse:** Løsningen testes under usikkerhetskilder (Leung, Wu & Lai, 2006):
+Dette er den metodiske rammen for en operativ modell. I denne publiserbare versjonen er slik post-optimality-analyse **ikke** gjennomført, fordi indeks-skala LP-kjøringen gir trivielle løsninger (0.00 ekstra kapasitet, ingen bindende begrensninger; se §8.4). Skyggepriser og straffvekt-følsomhet blir først meningsfulle med reell-skala FPK-input, og full sensitivitetsanalyse står derfor som gjenstående arbeid (§8.5, §9.4 og §10).
+
+**Scenarioanalyse – planlagt omfang vs. faktisk gjennomført:** Den operative modellen er tenkt testet under flere usikkerhetskilder (Leung, Wu & Lai, 2006):
 - **Prognoseusikkerhet:** ±10 % volumavvik (SARIMAX validerings-usikkerhet)
 - **Kapasitetsbortfall:** sykefravær (~6 % årlig; SSB, 2024), maskinbrudd, turnover
 - **Ekstreme høysesonger:** topptyngde-uker (påske, jul) som krever maksimal kapasitet
 
-Disse scenarioene evalueres for å fastsette en robust overtidsbuffer.
+I denne rapporten er bare det første scenarioet faktisk kjørt, og kun som en publiserbar **indeks-skala smoke-test** med ±10 % volum (de tre banene i §8.4). Smoke-testen dokumenterer at prognose- og LP-leddet henger teknisk sammen, men gir ikke en robust overtidsbuffer. Kapasitetsbortfall- og høysesong-scenarioene krever reell-skala input og gjenstår (§8.5, §9.4 og §10).
 
 ### 5.2 Data
 
@@ -844,7 +846,7 @@ Fra capacity_assumptions.csv, normal drift:
 
 *FTE = full-time equivalent (årsverksbrøk per natt). 0.5 FTE i P1 betyr at én person brukes halvt på P1-oppgaver i løpet av nattskiftet.*
 
-### 8.4 Prognose- og LP-kjøring
+### 8.4 Prognosevalidering og LP smoke-test
 
 Minimumskjøringen i Python gir følgende valideringsresultat:
 
@@ -863,7 +865,7 @@ Minimumskjøringen i Python gir følgende valideringsresultat:
 
 Figur 3 viser at SARIMAX for F fanger det nedjusterte indeksnivået i 2026-Q1 bedre enn SNaive (MAE 8.2 vs. 12.9). For S gir SARIMAX bedre RMSE (6.7 vs. 7.5), men dårligere MAE/MAPE fordi modellen leverer en flat differensiert prediksjon mens faktisk S-volum er svært volatilt.
 
-For LP-kjøringen er prognosene omregnet til `indeks-minutter` med prosess-tidsmatrisen. Resultatet for publiserbar indeks-skala er:
+**LP-kjøringen nedenfor er en teknisk smoke-test på publiserbar indeks-skala, ikke et operativt kapasitetsestimat.** Prognosene er omregnet til `indeks-minutter` med prosess-tidsmatrisen, og resultatet for publiserbar indeks-skala er:
 
 | Scenario | Ekstra indeks-timer | Slack indeks-minutter | Maks P1 indeks-timer | Maks P2 indeks-timer |
 |---|---:|---:|---:|---:|
