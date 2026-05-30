@@ -105,8 +105,8 @@ en dag - se G05_INTEGRATION_PLAN.md for ærlig scoping).
 | Ma | Forkortelser introduseres ved forste forekomst (FPK, P1, P2, DD, ED, PD, LP). | 30 min | Done (ea25e47) |
 | Ma | Layout-fix: tabell-tekstbrekking i §7.2, §8.4, §12 (+ §7.1, §8.3 funnet). | 30 min | Done (ea25e47) |
 | Ma | Figurtekst-skille: kort figurtekst, tolkning til brodtekst med kryssreferanse. | 45 min | Done (ea25e47) |
-| Bor | Innledning: rammeverk+smoke-test eksplisitt, faglig bidrag fra 9.4 hentes opp. | 30 min | Pending (neste okt) |
-| Bor | Modellvalg S (§7.2, §8.4): begrunn hvorfor RMSE prioriteres over MAE/MAPE. | 30 min | Pending |
+| Bor | Innledning: rammeverk+smoke-test eksplisitt, faglig bidrag fra 9.4 hentes opp. | 30 min | Done |
+| Bor | Modellvalg S (§7.2, §8.4): begrunn hvorfor RMSE prioriteres over MAE/MAPE. | 30 min | Done |
 | Bor | Diskusjon: dag/sone vs uke-gap eksplisitt, implikasjoner-avsnitt utvides. | 45 min | Pending |
 | Bor | Konklusjon: tydeligere skille utviklet vs dokumentert vs gjenstar. | 30 min | Pending |
 | Bor | Metode §1.3: "praktisk forenkling med kjent kostnad"-formulering. | 15 min | Pending |

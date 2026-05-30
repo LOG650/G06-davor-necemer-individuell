@@ -127,6 +127,8 @@ Litteraturen på demand forecasting og aggregate production planning tilbyr vel 
 
 Denne rapporten utvikler et integrert modellrammeverk og etablerer datagrunnlag for etterspørselsprognose og kapasitetsanalyse i en reell næringsmiddelproduksjon og distribusjonsoperasjon.
 
+Det faglige bidraget ligger ikke i å utvikle nye statistiske metoder, men i å koble to veletablerte metoder som litteraturen på aggregert produksjonsplanlegging oftest behandler hver for seg – sesongbasert tidsserieprognose (SARIMAX) og lineær programmering (LP) – i ett sammenhengende rammeverk rettet mot et konkret kapasitetsproblem under sonevise nattfrister. Prognoselitteraturen vektlegger typisk prediksjonspresisjon, mens optimeringslitteraturen forutsetter at etterspørselen er kjent. Koblingen, der prognosen leverer input til optimeringen og prognoseusikkerheten får konsekvenser for kapasitetsbeslutningen, er mindre utforsket for terminaldrift. Dette bidraget utdypes i §9.4.
+
 ### 1.1 Problemstilling
 
 **Hvordan kan vi kombinere etterspørselsprognoser og kapasitetsoptimering for å minimalisere ressursforbruk ved å sikre at prognostiserte volumer ferdigstilles innenfor sonevise distribusjons-cut-offs i en flerprosess næringsmiddelproduksjon?**
@@ -137,6 +139,8 @@ Denne problemstillingen er todelt:
 2. **Optimeringsdelen:** Gitt denne prognosen, beregne behovet for aggregert ekstra kapasitet som minimerer samlet ressursforbruk og synliggjør risiko for brudd på sonevise cut-off-frister.
 
 Problemstillingen behandler altså hvordan man *integrerer* etterspørselsprognose og operasjonell planlegging for å løse en reell distribusjonsflaske-halssituasjon.
+
+Det er samtidig viktig å presisere ambisjonsnivået: rapporten leverer et *teknisk rammeverk* med en gjennomført *smoke-test* på publiserbar indeks-skala, ikke en ferdig operativ kapasitetsanalyse. Prognosedelen er validert på reelle, men indekserte, volumdata, mens optimeringsdelen demonstrerer at løseren kjører korrekt og gir konsistente resultater på indeks-skala. Et operativt beslutningsgrunnlag uttrykt i kolli og mann-timer krever reelle volum og kalibrerte sonefrister, og avgrenses derfor til videre arbeid (se §9.4 og §10).
 
 ### 1.2 Delproblemer
 
@@ -756,6 +760,8 @@ Valgt operativ modell ble definert som den konvergerte kandidaten med lavest val
 \endgroup
 
 Begge valgte kandidater slår SNaive på RMSE, som er beslutningskriteriet definert i metodekapitlet. F-modellen forbedrer også MAE og MAPE. S-modellen reduserer RMSE ved å dempe store feil, men gir svakere MAE og MAPE enn SNaive; derfor bør S-resultatet tolkes som en minimumskjøring og ikke som endelig operativ modell uten mer historikk eller rikere kampanjevariabler.
+
+Begrunnelsen for å la RMSE være det primære beslutningskriteriet ligger i kapasitetsplanleggingens kostnadsstruktur. RMSE kvadrerer avvikene og straffer dermed store prognosefeil hardere enn MAE og MAPE, som vekter alle avvik lineært. I en kapasitetssammenheng er nettopp de store feilene mest kostbare: et stort underestimat gir brutte nattfrister og overtid, mens et stort overestimat gir betalt tomgang. Kostnaden vokser raskere enn avviket selv, slik at noen få store bom er dyrere enn mange små. En modell som demper de største avvikene (lav RMSE) er derfor å foretrekke for kapasitetsformål selv om det gjennomsnittlige absolutte avviket (MAE) skulle være marginalt høyere. For F er valget robust på tvers av alle tre feilmål, mens det for S hviler på dette ene kriteriet: SARIMAX vinner kun på RMSE (6.67 mot SNaive 7.53) og er svakere på både MAE (6.17 mot 5.15) og MAPE (76.0 % mot 60.2 %). Dette er grunnen til at S-modellen tolkes varsomt over.
 
 Kjøringen skrev sporbare resultater til tre filer:
 

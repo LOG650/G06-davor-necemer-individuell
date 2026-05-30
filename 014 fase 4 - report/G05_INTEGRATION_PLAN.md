@@ -26,8 +26,8 @@ Status-kolonne: `Pending` (ikke startet), `In progress`, `Done`, `Deferred` (uts
 
 | Funn (G05) | Lokasjon | Tiltak | Estimat | Status |
 |---|---|---|---|---|
-| Tydeliggjør at rapporten leverer teknisk rammeverk + smoke-test, ikke ferdig operativ analyse | Sluttrapport §1.1 (problemstilling) | Legg til 1–2 setninger som eksplisitt skiller rammeverk fra operativt resultat | 15 min | Pending |
-| Faglig bidrag fra §9.4 (integrert SARIMAX+LP sjelden samlet i litteratur) bør fremheves allerede i innledningen | Sluttrapport §1.0 (innledning) | Legg til 1 avsnitt med faglig bidrag før §1.1 | 15 min | Pending |
+| Tydeliggjør at rapporten leverer teknisk rammeverk + smoke-test, ikke ferdig operativ analyse | Sluttrapport §1.1 (problemstilling) | Legg til 1–2 setninger som eksplisitt skiller rammeverk fra operativt resultat | 15 min | Done (eget avsnitt i §1.1 etter den todelte problemstillingen: "teknisk rammeverk + smoke-test, ikke ferdig operativ analyse", operativt grunnlag → §9.4/§10) |
+| Faglig bidrag fra §9.4 (integrert SARIMAX+LP sjelden samlet i litteratur) bør fremheves allerede i innledningen | Sluttrapport §1.0 (innledning) | Legg til 1 avsnitt med faglig bidrag før §1.1 | 15 min | Done (faglig-bidrag-avsnitt løftet opp i innledningen, krysshenviser §9.4) |
 
 ### Litteratur (G05 §2.2) — 2 funn
 
@@ -48,7 +48,7 @@ Status-kolonne: `Pending` (ikke startet), `In progress`, `Done`, `Deferred` (uts
 
 | Funn (G05) | Lokasjon | Tiltak | Estimat | Status |
 |---|---|---|---|---|
-| Modellvalg for S ikke tilstrekkelig begrunnet (RMSE prioriteres over MAE/MAPE) | Sluttrapport §7.2 + §8.4 | Legg inn 1 avsnitt som begrunner RMSE-prioritet for kapasitetsplanlegging (store feil = store kapasitetsavvik = dyrere). Erkjenn at MAE/MAPE indikerer S-modellen bør tolkes varsomt | 20 min | Pending |
+| Modellvalg for S ikke tilstrekkelig begrunnet (RMSE prioriteres over MAE/MAPE) | Sluttrapport §7.2 + §8.4 | Legg inn 1 avsnitt som begrunner RMSE-prioritet for kapasitetsplanlegging (store feil = store kapasitetsavvik = dyrere). Erkjenn at MAE/MAPE indikerer S-modellen bør tolkes varsomt | 20 min | Done (§7.2: RMSE-begrunnelse via konveks kostnadsstruktur — store avvik = dyre kapasitetsavvik; eksplisitt at S kun vinner på RMSE 6.67<7.53, SNaive bedre på MAE 5.15<6.17 og MAPE 60.2%<76.0%, S tolkes varsomt; F robust på alle tre) |
 | LP-resultat på indeksskala må forklares tydeligere som smoke-test (ikke faktisk behov) | Sluttrapport §8.4 | Allerede delvis gjort i tidligere round-2-review; styrk overskrift og første setning | 10 min | Pending |
 | Lovet sensitivitetsanalyse fra §1.4 og §5.1.2 er i praksis bare indeks-kjøring med 0.00 utfall — metode og resultat matcher ikke | Sluttrapport §5.1.2 + §8.4 | Reformuler metodebeskrivelsen til å matche faktisk gjennomført arbeid; flytt full sensitivitetsanalyse til "Gjenstår" | 25 min | Pending |
 
