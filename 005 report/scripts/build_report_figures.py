@@ -314,7 +314,11 @@ def fig_zone_distribution() -> None:
 
     ax2 = ax1.twinx()
     ax2.plot(labels, cum, color="black", marker="o", linewidth=1.4, label="Kumulativ andel")
-    for x, y in zip(labels, cum):
+    for i, (x, y) in enumerate(zip(labels, cum)):
+        # Hopp over Z1: kumulativ andel = søyleandel der, så labelen ville
+        # overlappe (og duplisere) den fete søylelabelen.
+        if i == 0:
+            continue
         ax2.text(x, y + 2, f"{y:.1f} %", ha="center", va="bottom", fontsize=8)
     ax2.set_ylabel("Kumulativ andel ved frist (%)")
     ax2.set_ylim(0, 110)
