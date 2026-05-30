@@ -10,10 +10,53 @@ header-includes: |
 ## Integrated Volume Forecasting and Capacity Analysis
 
 **Forfatter:** Davor Necemer
-**Studium:** LOG650 – Høgskolen i Molde
-**Versjon:** Hovedutkast for peer-review, 30. april 2026
 
-> Obligatoriske erklæringer (egenerklæring, NSD/REK, publiseringsavtale, sidetall, studiepoeng og veileder) fylles ut på forsiden ved endelig innlevering 29. mai 2026 og er bevisst utelatt i denne peer-review-versjonen.
+**Studium:** LOG650 – Høgskolen i Molde
+
+**Versjon:** Endelig innlevering, 1. juni 2026
+
+**Totalt antall sider inkludert forsiden:** 35
+
+Molde, 1. juni 2026
+
+\newpage
+
+## Obligatoriske erklæringer
+
+### Obligatorisk egenerklæring/gruppeerklæring
+
+Den enkelte student er selv ansvarlig for å sette seg inn i hva som er lovlige hjelpemidler, retningslinjer for bruk av disse og regler om kildebruk. Erklæringen skal bevisstgjøre studenten på eget ansvar og hvilke konsekvenser fusk kan medføre. Jeg bekrefter herved punktene 1–6 (alle avkrysset «ja»):
+
+1. Jeg erklærer at min besvarelse er mitt eget arbeid, og at jeg ikke har brukt andre kilder eller mottatt annen hjelp enn det som er nevnt i besvarelsen. **(Ja)**
+2. Jeg erklærer videre at besvarelsen ikke har vært brukt til annen eksamen ved annen avdeling/institusjon innenlands eller utenlands; ikke refererer til andres eller eget tidligere arbeid uten at det er oppgitt; har alle referansene oppgitt i litteraturlisten; og ikke er en kopi, et duplikat eller en avskrift av andres arbeid. **(Ja)**
+3. Jeg er kjent med at brudd på ovennevnte er å betrakte som fusk og kan medføre annullering av eksamen og utestengelse fra universiteter og høgskoler i Norge, jf. universitets- og høyskoleloven §§ 4-7 og 4-8 og forskrift om eksamen §§ 14 og 15. **(Ja)**
+4. Jeg er kjent med at alle innleverte oppgaver kan bli plagiatkontrollert. **(Ja)**
+5. Jeg er kjent med at høgskolen vil behandle alle saker der det foreligger mistanke om fusk etter høgskolens retningslinjer. **(Ja)**
+6. Jeg har satt meg inn i regler og retningslinjer for bruk av kilder og referanser. **(Ja)**
+
+### Personvern
+
+**Personopplysningsloven – vurdert av NSD (Sikt)?** Nei. Jeg erklærer at oppgaven ikke omfattes av personopplysningsloven: alt datagrunnlag er anonymisert og publiseres som indeks (2024-snitt per varestrøm = 100), uten personopplysninger.
+
+**Helseforskningsloven – behandlet hos REK?** Nei. Prosjektet er ikke medisinsk eller helsefaglig forskning og faller ikke inn under helseforskningsloven.
+
+### Publiseringsavtale
+
+**Studiepoeng:** 15
+
+**Veileder:** Per Kristian Rekdal og Bård-Inge Pettersen
+
+Jeg gir herved Høgskolen i Molde en vederlagsfri rett til å gjøre oppgaven tilgjengelig for elektronisk publisering i Brage HiM: **Ja**.
+
+Er oppgaven båndlagt (konfidensiell)? **Nei.** Rapporten bygger utelukkende på anonymisert indeksdata; reelle volum, prosess-tider i absolutt skala og kostnader inngår ikke.
+
+**Dato:** 1. juni 2026
+
+### Forfattererklæring – bruk av kunstig intelligens
+
+I tråd med emnets retningslinjer er kunstig intelligens (Claude / Claude Code) brukt som verktøy under min styring og kontroll – blant annet til datavask, koding, tekstutkast, LaTeX-oppsett og uavhengig gjennomgang. Denne bruken er det hjelpemiddelet som egenerklæringen punkt 1 viser til med «det som er nevnt i besvarelsen». Alle faglige valg, tolkninger og konklusjoner er mine egne. Jeg har lest, forstått og kvalitetssikret innholdet slik at jeg kan stå inne for og forsvare rapporten. Alle referanser er verifisert som reelle og etterprøvbare kilder: lenker og DOI er kontrollert, og kildene er lastet ned der forlagstilgang tillot det.
+
+\newpage
 
 ## Sammendrag
 
@@ -1017,9 +1060,9 @@ Problemstillingen (§1.1) spør hvordan etterspørselsprognoser og kapasitetsopt
 
 ---
 
-**Dato for hovedutkast:** 30. april 2026
-**Peer-review-innlevering:** 30. april 2026
-**Endelig innlevering:** 29. mai 2026
+**Dato for hovedutkast (peer-review):** 30. april 2026
+
+**Endelig innlevering:** 1. juni 2026
 
 ## 11.0 Bibliografi
 
@@ -1095,5 +1138,5 @@ Tabellen viser hvordan hver kilde i §11 er anvendt. Dette holdes adskilt fra se
 | Holt, Modigliani & Simon (1955) | Historisk kontekst for APP-metodikk, §2.2. Ikke samme formulering som dette problemet; brukes kun for grunnleggende APP-perspektiv. |
 | Leung, Wu & Lai (2006) | APP under usikkerhet, arbeidskraftsnivåer og etterspørsel med medium-range planlegging. Brukt i §2.2 og som formuleringsinspirasjon for kapasitets-constraints i §6.3–6.4. |
 | SSB (2024) | Norsk sykefraværsrate (~6 %) som kapasitets-justeringsparameter. Brukt i §5.4 og §6.3. |
-| NNN (2024–2026) | Bakgrunn for norsk tariffstruktur (grunnlønn, overtid, tilkallingshjelp) som referanse for fremtidig kalibrering av relative kostnadsvekter $c_j$ i LP-modellen. Ikke inline-sitert i hovedutkastet fordi $c_j$ holdes som generiske relative vekter, ikke kronekostnader. |
+| NNN (2024–2026) | Bakgrunn for norsk tariffstruktur (grunnlønn, overtid, tilkallingshjelp) som referanse for fremtidig kalibrering av relative kostnadsvekter $c_j$ i LP-modellen. Ikke inline-sitert i rapporten fordi $c_j$ holdes som generiske relative vekter, ikke kronekostnader. |
 | KML Kompendium (2026) | Metodisk bakgrunn for valg av SARIMAX og LP. Ikke inline-sitert i §1–§9 fordi de spesifikke teoretiske påstandene støttes av primærkildene (Hyndman & Athanasopoulos 2021, Winston 2004 m.fl.). |
