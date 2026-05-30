@@ -1,8 +1,9 @@
 # Prosjektstatus - Integrert volumprognose og kapasitetsanalyse
 
-**Dato:** 2026-04-30
+**Dato:** 2026-05-30
 **Prosjektleder:** Davor Necemer
-**Dager til innlevering:** 29 (2026-05-29)
+**Dager til innlevering:** 1 (2026-05-31)
+**Aktiv branch:** `Fase_4_report`
 
 ---
 
@@ -12,20 +13,24 @@
 |------|--------|
 | Fase 1: Initiering | Fullfort |
 | Fase 2: Prosjektplan | Fullfort |
-| Fase 3: Gjennomforing | Hovedutkast klart for peer-to-peer review |
-| Fase 4: Sluttrapport | Pabegynt; finpuss etter peer review gjenstar |
+| Fase 3: Gjennomforing | Fullfort (peer-to-peer levert og mottatt) |
+| Fase 4: Sluttrapport | Pagar; G05-funn skal integreres innen 31. mai |
 
-Prosjektet har tatt igjen den viktigste fase 3-risikoen. Hovedutkastet av
-rapporten er na lesbart nok til at en annen student/gruppe kan gi skriftlig
-peer-to-peer review. Rapporten inneholder sammendrag/abstract, problemstilling,
-teori/litteratur, case, metode, modellering, analyse, resultater, diskusjon,
-konklusjon, bibliografi og vedleggsoversikt.
+Fase 3 er fullfort: hovedutkastet ble levert 30.04 og peer-to-peer-utveksling
+med G05 er gjennomfort. G05s skriftlige tilbakemelding (datert 2026-05-07) ligger
+i `013 fase 3 - review/peer review Integrert volumprognose og kapasitetsanalyse_G05_G06.md`
+(.md og .docx). Var egen review til G05 ligger samme sted som `Peer-review_G06_G05.md`
+og `.pdf`. Hovedutkast-PDF-en som G05 reviewet ligger i samme mappe.
 
-Det er ogsa gjennomfort en teknisk minimumskjoring: SNaive-baseline,
-SARIMAX/ARIMA-kandidatgrid og en LP smoke-test paa publiserbar indeks-skala.
-Kjoringen dokumenterer at prognose- og LP-leddet henger teknisk sammen. Reell
-kapasitetskonklusjon i mann-timer krever fortsatt lokal `weekly_volume.csv`
-med faktiske FPK-volum og kalibrerte sonevise fristkapasiteter.
+Strukturert integrasjonsplan for G05s 19 funn er na i
+`014 fase 4 - report/G05_INTEGRATION_PLAN.md`. En selvstendig hand-off for nye
+chat-sesjoner ligger i `014 fase 4 - report/Fase_4_kickoff.md`.
+
+Teknisk grunnlag fra fase 3 staar fortsatt: SNaive-baseline,
+SARIMAX/ARIMA-kandidatgrid og LP smoke-test paa publiserbar indeks-skala.
+Reell-skala LP, kalibrering av sonevise fristkapasiteter og full sensitivitetsanalyse
+er fortsatt aktivt arbeidsomraade for fase 4 (men bare delvis realistisk innen
+en dag - se G05_INTEGRATION_PLAN.md for ærlig scoping).
 
 ---
 
@@ -60,42 +65,49 @@ med faktiske FPK-volum og kalibrerte sonevise fristkapasiteter.
 | 3.3 | Utvikling og trening av prognosemodell | 2026-04-09 | Completed minimum run | `005 report/scripts/run_forecast_capacity_models.py` kjorer SNaive-baseline og konservativ `statsmodels` SARIMAX/ARIMA-grid. Validering ekskluderer delvis uke 2026-14 og bruker 2026-01 til 2026-13. |
 | 3.4 | Utvikling av kapasitetsoptimeringsmodell | 2026-04-24 | Completed minimum run | LP-formulering er implementert med `scipy.optimize.linprog` som publiserbar indeks-skala smoke-test. Operativ real-skala LP gjenstar fordi reelle FPK-volum ikke publiseres. |
 | 3.5 | Analyse av resultater | 2026-05-01 | Completed for draft | Kapittel 7-8 inneholder datadeskriptiv analyse, SARIMAX/SNaive-validering og LP-resultater paa indeks-skala. |
-| 3.6 | Gjennomfore peer-to-peer review | 2026-05-08 | Next | Send hovedutkast til tildelt student/gruppe og skriv skriftlig review av en annen rapport. |
-| 3.7 | Milepael: Godkjent hovedutkast | 2026-05-08 | Ready for review | Hovedutkastet er klart til peer-to-peer review, men formell godkjenning avhenger av review- og faglaererprosess. |
+| 3.6 | Gjennomfore peer-to-peer review | 2026-05-08 | Completed | Hovedutkast sendt til G05 30.04; G05s review mottatt 07.05; var review til G05 levert innen 08.05. Erik bekreftet "bestatt arbeidskravet" 30.05. |
+| 3.7 | Milepael: Godkjent hovedutkast | 2026-05-08 | Completed | Arbeidskravet for peer-to-peer review er bestatt per Eriks bekreftelse 30.05. |
 
 ### Fase 4: Sluttrapport
 
 | ID | Aktivitet | Planlagt slutt | Status | Merknad |
 |----|-----------|----------------|--------|---------|
-| 4.1 | Ferdigstille introduksjon | 2026-05-14 | Draft exists | Introduksjon og problemstilling finnes, men bor leses mot konklusjonen etter peer review. |
-| 4.2 | Skrive diskusjon og konklusjon | 2026-05-22 | Draft exists | Diskusjon og konklusjon er skrevet for hovedutkastet. Revideres etter peer review. |
-| 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | Not started | Sluttvask, bibliografi, figurer/tabeller, eksportformat og menneskelig korrektur gjenstar. |
-| 4.4 | Milepael: Innlevering av rapport og kode | 2026-05-29 | Not started |  |
+| 4.1 | Ferdigstille introduksjon | 2026-05-14 | In progress | Hovedutkast finnes. G05 ber om (a) tydeligere ramme om rammeverk+smoke-test og (b) at faglig bidrag fra 9.4 trekkes inn allerede her. Se G05_INTEGRATION_PLAN.md. |
+| 4.2 | Skrive diskusjon og konklusjon | 2026-05-22 | In progress | Hovedutkast finnes. G05 ber om gap-erkjennelse (uke vs dag/sone), tydeligere implikasjoner og bedre skille mellom utviklet/dokumentert/gjenstaar. |
+| 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | In progress | G05-funn: APA-rydding (Bruk-kommentarer ut), forkortelser FPK/P1/P2/DD/ED/PD/LP introduseres, tabell-layout (s.19,23,29,30), figurtekst-skille. PDF-bygges med build_report_pdf_latex.py. |
+| 4.4 | Milepael: Innlevering av rapport og kode | 2026-05-31 | Not started | Frist 31.05 per Eriks senere kommunikasjon (skiftet fra opprinnelig 29.05). |
 | 4.5 | Forberede og gjennomfore muntlig presentasjon | 2026-06-05 | Not started |  |
 
 ---
 
 ## Kritiske risikoer akkurat na
 
-1. **Peer-to-peer review:** Hovedutkastet er klart, men arbeidskravet er ikke
-   fullfort for man ogsa har gitt skriftlig review til en annen gruppe/student.
+1. **Tidsbudsjett:** Bare en dag til frist. G05s top-3 (real-skala LP, kalibrere
+   sonevise fristkapasiteter, full sensitivitetsanalyse) er ikke realistisk
+   fullskala innen tidsrommet. Realistisk fokus: skriveflyt, APA, layout, og
+   tydeligere smoke-test-ramme.
 2. **Publiserbarhet vs. real-skala:** Rapporten bruker publiserbar indeks. LP
    smoke-testen kan ikke tolkes som faktisk mann-timebehov uten lokal
-   `weekly_volume.csv`.
+   `weekly_volume.csv`. G05 ber om at dette tydeliggjores enda mer i 1.1, 7.2, 8.4.
 3. **Sonevise frister:** Soneandeler er etablert, men faktisk `CAP_deadline`
    for 00:00, 01:00 og 02:00 ma kalibreres for operativ bruk.
-4. **Sluttvask:** Bibliografi, tabell-/figurtekster, norsk/engelsk konsistens,
-   PDF/Word-eksport og menneskelig korrektur gjenstar til fase 4.
+4. **Sluttvask:** Bibliografi (APA 7), tabell-/figurtekster, forkortelses-
+   forklaringer (FPK/P1/P2/DD/ED/PD/LP), layout-fix av brutte tabeller paa
+   side 19/23/29/30, og menneskelig korrektur.
 
-## Prioriterte tiltak
+## Prioriterte tiltak (fase 4, fra G05-review)
 
-| Prioritet | Tiltak |
-|-----------|--------|
-| Kritisk | Del hovedutkastet med tildelt peer-review partner og avklar format (Markdown/PDF/Word). |
-| Kritisk | Skriv skriftlig peer-to-peer review av en annen rapport naar den mottas. |
-| Hoy | Les gjennom hele egen rapport manuelt og noter konkrete fase 4-endringer. |
-| Hoy | Stram bibliografi/APA, tabelltekster og begrepsbruk etter peer review. |
-| Medium | Kjor real-skala LP lokalt dersom `weekly_volume.csv` skal brukes i endelig, ikke-publiserbar analyse. |
+| Prioritet | Tiltak | Estimat |
+|-----------|--------|---------|
+| Ma | APA 7: fjern "Bruk:"-kommentarer i bibliografi (§11). | 15 min |
+| Ma | Forkortelser introduseres ved forste forekomst (FPK, P1, P2, DD, ED, PD, LP). | 30 min |
+| Ma | Layout-fix: tabell-tekstbrekking i §7.2, §8.4, §12. | 30 min |
+| Ma | Figurtekst-skille: kort figurtekst, tolkning til brodtekst med kryssreferanse. | 45 min |
+| Bor | Innledning: rammeverk+smoke-test eksplisitt, faglig bidrag fra 9.4 hentes opp. | 30 min |
+| Bor | Modellvalg S (§7.2, §8.4): begrunn hvorfor RMSE prioriteres over MAE/MAPE. | 30 min |
+| Bor | Diskusjon: dag/sone vs uke-gap eksplisitt, implikasjoner-avsnitt utvides. | 45 min |
+| Bor | Konklusjon: tydeligere skille utviklet vs dokumentert vs gjenstar. | 30 min |
+| Kan | Reell sensitivitetsanalyse paa indeks-skala med varierte parametre. | 1-2 t |
 
 ---
 
@@ -122,13 +134,18 @@ Det viktigste som fortsatt mangler er:
 - eventuell real-skala LP-kjoring lokalt dersom endelig rapport skal inneholde
   operative mann-timeestimater
 
-## Restart checkpoint 2026-04-30
+## Restart checkpoint 2026-05-30
 
-Ved neste arbeidsokt etter omstart:
+Ved neste arbeidsokt (sannsynligvis ny chat-session for tokens):
 
-1. Start fra hovedutkastet i `005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md`.
-2. Ikke skann `000 templates/` med mindre template- eller forelesningsmateriale eksplisitt ettersporres.
-3. Bruk `005 report/scripts/run_forecast_capacity_models.py` for aa reprodusere minimumskjoringen.
-4. Hold `004 data/weekly_volume.csv`, `004 data/raw/` og sensitive `004 data/processed/`-filer lokalt/ignorert.
-5. Neste faglige steg er peer-to-peer review: send eget hovedutkast og skriv review av en annen rapport.
-6. Etter review: prioriter sluttvask, bibliografi, rapportformat og eventuelle faglige justeringer.
+1. **Les forst** `014 fase 4 - report/Fase_4_kickoff.md` - selvstendig hand-off-dokument.
+2. **Deretter** `014 fase 4 - report/G05_INTEGRATION_PLAN.md` - 19 G05-funn med tiltak og estimat.
+3. **Start arbeidet** med "Ma"-listen i tiltakstabellen over (APA, forkortelser, layout, figurtekst).
+4. Bruk `python "005 report/scripts/build_report_pdf_latex.py"` for endelig PDF (Pandoc + xelatex).
+5. Hovedrapporten er `005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md` -
+   det er den eneste filen som faktisk endres for innholdet i sluttleveransen.
+6. Ikke skann `000 templates/` (auto-memory-regel).
+7. Ikke endre filer i `013 fase 3 - review/` - peer-to-peer-mappen er frosset.
+8. Hold `004 data/weekly_volume.csv`, `004 data/raw/` og sensitive `004 data/processed/`-filer
+   lokalt/ignorert.
+9. Aktiv branch er `Fase_4_report`. Commit klart, push hyppig.
