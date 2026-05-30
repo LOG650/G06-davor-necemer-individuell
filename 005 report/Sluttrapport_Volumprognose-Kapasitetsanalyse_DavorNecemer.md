@@ -46,9 +46,9 @@ Den enkelte student er selv ansvarlig for å sette seg inn i hva som er lovlige 
 
 **Veileder:** Per Kristian Rekdal og Bård-Inge Pettersen
 
-Jeg gir herved Høgskolen i Molde en vederlagsfri rett til å gjøre oppgaven tilgjengelig for elektronisk publisering i Brage HiM: **Ja**.
+Jeg gir herved Høgskolen i Molde en vederlagsfri rett til å gjøre oppgaven tilgjengelig for elektronisk publisering i Brage HiM: **Nei.** Bedriftens/arbeidsgivers samtykke til publisering er ikke innhentet, og datagrunnlaget er hentet via studentens yrkesrolle; oppgaven leveres til vurdering uten å samtykke til åpen publisering.
 
-Er oppgaven båndlagt (konfidensiell)? **Nei.** Rapporten bygger utelukkende på anonymisert indeksdata; reelle volum, prosess-tider i absolutt skala og kostnader inngår ikke.
+Er oppgaven båndlagt (konfidensiell)? **Nei.** Det foreligger ingen signert båndleggings-/taushetsavtale. Rapporten bygger utelukkende på anonymisert indeksdata; reelle volum, prosess-tider i absolutt skala og kostnader inngår ikke.
 
 **Dato:** 1. juni 2026
 
