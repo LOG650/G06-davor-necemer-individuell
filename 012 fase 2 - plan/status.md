@@ -14,7 +14,7 @@
 | Fase 1: Initiering | Fullfort |
 | Fase 2: Prosjektplan | Fullfort |
 | Fase 3: Gjennomforing | Fullfort (peer-to-peer levert og mottatt) |
-| Fase 4: Sluttrapport | Pagar; G05-funn skal integreres innen 31. mai |
+| Fase 4: Sluttrapport | Pagar; G05 "MA"-funn ferdig integrert (commit ea25e47), "BOR"-funn gjenstaar |
 
 Fase 3 er fullfort: hovedutkastet ble klart innen Eriks frist 30.04, og
 peer-to-peer-utveksling med G05 (kontaktperson Birgitte) ble gjennomfort
@@ -76,7 +76,7 @@ en dag - se G05_INTEGRATION_PLAN.md for ærlig scoping).
 |----|-----------|----------------|--------|---------|
 | 4.1 | Ferdigstille introduksjon | 2026-05-14 | In progress | Hovedutkast finnes. G05 ber om (a) tydeligere ramme om rammeverk+smoke-test og (b) at faglig bidrag fra 9.4 trekkes inn allerede her. Se G05_INTEGRATION_PLAN.md. |
 | 4.2 | Skrive diskusjon og konklusjon | 2026-05-22 | In progress | Hovedutkast finnes. G05 ber om gap-erkjennelse (uke vs dag/sone), tydeligere implikasjoner og bedre skille mellom utviklet/dokumentert/gjenstaar. |
-| 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | In progress | G05-funn: APA-rydding (Bruk-kommentarer ut), forkortelser FPK/P1/P2/DD/ED/PD/LP introduseres, tabell-layout (s.19,23,29,30), figurtekst-skille. PDF-bygges med build_report_pdf_latex.py. |
+| 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | MA-del fullfort | MA-lista ferdig (commit ea25e47): APA-bibliografi + Vedlegg J, forkortelsesliste, tabell-layout (0 Overfull \hbox verifisert), figurtekst-skille Figur 1-6. Endelig PDF: `014 fase 4 - report/Sluttrapport_..._endelig.pdf`. Gjenstaar: BOR-finpuss (#6 modellvalg S, #10 LP-framing, #11 sensitivitet-metode). |
 | 4.4 | Milepael: Innlevering av rapport og kode | 2026-05-31 | Not started | Frist 31.05 per Eriks senere kommunikasjon (skiftet fra opprinnelig 29.05). |
 | 4.5 | Forberede og gjennomfore muntlig presentasjon | 2026-06-05 | Not started |  |
 
@@ -99,17 +99,20 @@ en dag - se G05_INTEGRATION_PLAN.md for ærlig scoping).
 
 ## Prioriterte tiltak (fase 4, fra G05-review)
 
-| Prioritet | Tiltak | Estimat |
-|-----------|--------|---------|
-| Ma | APA 7: fjern "Bruk:"-kommentarer i bibliografi (§11). | 15 min |
-| Ma | Forkortelser introduseres ved forste forekomst (FPK, P1, P2, DD, ED, PD, LP). | 30 min |
-| Ma | Layout-fix: tabell-tekstbrekking i §7.2, §8.4, §12. | 30 min |
-| Ma | Figurtekst-skille: kort figurtekst, tolkning til brodtekst med kryssreferanse. | 45 min |
-| Bor | Innledning: rammeverk+smoke-test eksplisitt, faglig bidrag fra 9.4 hentes opp. | 30 min |
-| Bor | Modellvalg S (§7.2, §8.4): begrunn hvorfor RMSE prioriteres over MAE/MAPE. | 30 min |
-| Bor | Diskusjon: dag/sone vs uke-gap eksplisitt, implikasjoner-avsnitt utvides. | 45 min |
-| Bor | Konklusjon: tydeligere skille utviklet vs dokumentert vs gjenstar. | 30 min |
-| Kan | Reell sensitivitetsanalyse paa indeks-skala med varierte parametre. | 1-2 t |
+| Prioritet | Tiltak | Estimat | Status |
+|-----------|--------|---------|--------|
+| Ma | APA 7: fjern "Bruk:"-kommentarer i bibliografi (§11). | 15 min | Done (ea25e47) |
+| Ma | Forkortelser introduseres ved forste forekomst (FPK, P1, P2, DD, ED, PD, LP). | 30 min | Done (ea25e47) |
+| Ma | Layout-fix: tabell-tekstbrekking i §7.2, §8.4, §12 (+ §7.1, §8.3 funnet). | 30 min | Done (ea25e47) |
+| Ma | Figurtekst-skille: kort figurtekst, tolkning til brodtekst med kryssreferanse. | 45 min | Done (ea25e47) |
+| Bor | Innledning: rammeverk+smoke-test eksplisitt, faglig bidrag fra 9.4 hentes opp. | 30 min | Pending (neste okt) |
+| Bor | Modellvalg S (§7.2, §8.4): begrunn hvorfor RMSE prioriteres over MAE/MAPE. | 30 min | Pending |
+| Bor | Diskusjon: dag/sone vs uke-gap eksplisitt, implikasjoner-avsnitt utvides. | 45 min | Pending |
+| Bor | Konklusjon: tydeligere skille utviklet vs dokumentert vs gjenstar. | 30 min | Pending |
+| Bor | Metode §1.3: "praktisk forenkling med kjent kostnad"-formulering. | 15 min | Pending |
+| Bor | LP smoke-test-framing §8.4 (styrk overskrift/forste setning). | 10 min | Pending |
+| Bor | Sensitivitetsanalyse-metode (§5.1.2 + §8.4) justert mot faktisk arbeid. | 25 min | Pending |
+| Kan | Reell sensitivitetsanalyse paa indeks-skala med varierte parametre. | 1-2 t | Pending |
 
 ---
 
@@ -136,18 +139,28 @@ Det viktigste som fortsatt mangler er:
 - eventuell real-skala LP-kjoring lokalt dersom endelig rapport skal inneholde
   operative mann-timeestimater
 
-## Restart checkpoint 2026-05-30
+## Restart checkpoint 2026-05-30 (oppdatert etter MA-okt)
 
-Ved neste arbeidsokt (sannsynligvis ny chat-session for tokens):
+**Status:** Hele MA-lista er ferdig, committet (ea25e47) og pushet til origin.
+Endelig PDF bygd til `014 fase 4 - report/Sluttrapport_..._endelig.pdf` med 0 Overfull \hbox.
 
-1. **Les forst** `014 fase 4 - report/Fase_4_kickoff.md` - selvstendig hand-off-dokument.
-2. **Deretter** `014 fase 4 - report/G05_INTEGRATION_PLAN.md` - 19 G05-funn med tiltak og estimat.
-3. **Start arbeidet** med "Ma"-listen i tiltakstabellen over (APA, forkortelser, layout, figurtekst).
-4. Bruk `python "005 report/scripts/build_report_pdf_latex.py"` for endelig PDF (Pandoc + xelatex).
-5. Hovedrapporten er `005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md` -
-   det er den eneste filen som faktisk endres for innholdet i sluttleveransen.
-6. Ikke skann `000 templates/` (auto-memory-regel).
-7. Ikke endre filer i `013 fase 3 - review/` - peer-to-peer-mappen er frosset.
-8. Hold `004 data/weekly_volume.csv`, `004 data/raw/` og sensitive `004 data/processed/`-filer
-   lokalt/ignorert.
-9. Aktiv branch er `Fase_4_report`. Commit klart, push hyppig.
+Ved neste arbeidsokt (ny chat for tokens) - **start rett pa BOR-lista**:
+
+1. **Les forst** `014 fase 4 - report/Fase_4_kickoff.md`, deretter
+   `014 fase 4 - report/G05_INTEGRATION_PLAN.md` (per-funn status er oppdatert der).
+2. **Start arbeidet** med "Bor"-listen i tiltakstabellen over. Foreslatt forste gruppe:
+   #5 innledning (ramme + faglig bidrag) + #6 modellvalg S (RMSE-begrunnelse).
+3. Bruk `python "005 report/scripts/build_report_pdf_latex.py" --output "014 fase 4 - report/Sluttrapport_..._endelig.pdf"`
+   (--output peker bevisst til fase 4 sa peer-review-PDF-en i `013 fase 3 - review/` ikke overskrives).
+4. Hovedrapporten er `005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md` -
+   eneste innholdsfil som endres.
+5. Ikke skann `000 templates/`. Ikke endre `013 fase 3 - review/` (frosset).
+   Hold sensitive `004 data/`-filer lokalt/ignorert.
+6. Aktiv branch `Fase_4_report`. Commit etter logiske grupper, push hyppig.
+
+**Layout-teknikk (ikke-apenbar, fra MA-okt):** pandoc respekterer antall bindestreker
+i pipe-tabellens separatorlinje som relativ kolonnebredde. Det er spaken for a hindre
+at lange tokens (modellnavn, filstier) flyter inn i nabokolonner - kombinert med
+`\allowbreak` i navn, `\footnotesize`-wrap og preamble `\usepackage[htt]{hyphenat}` +
+`\sloppy` + `\emergencystretch` (NB: `xurl` finnes ikke i denne TinyTeX). Verifiser
+alltid med xelatex-loggen: tell "Overfull \hbox"-advarsler (skal vaere 0).

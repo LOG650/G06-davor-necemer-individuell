@@ -2,6 +2,8 @@
 
 **Du leser dette først.** Dette dokumentet gir all kontekst en frisk Claude-sesjon trenger for å fortsette fase 4-arbeidet uten å lese hele kurs-historikken.
 
+> **Oppdatering 2026-05-30 (etter MÅ-økt):** Hele "MÅ"-lista er ferdig, committet (`ea25e47`) og pushet. Live-status og neste steg (BØR-lista) ligger i [`012 fase 2 - plan/status.md`](../012%20fase%202%20-%20plan/status.md) under "Restart checkpoint". Per-funn-status i [`G05_INTEGRATION_PLAN.md`](G05_INTEGRATION_PLAN.md) er oppdatert.
+
 ## Prosjekt
 
 - **Tittel:** Integrert volumprognose og kapasitetsanalyse (LOG650 individuell, HiMolde)
@@ -62,9 +64,11 @@ Fallback: [`005 report/scripts/build_report_pdf.py`](../005%20report/scripts/bui
 Anbefalt åpningsmelding fra brukeren til ny Claude-sesjon:
 
 ```
-Les 014 fase 4 - report/Fase_4_kickoff.md først for kontekst.
-Deretter 014 fase 4 - report/G05_INTEGRATION_PLAN.md. Vi skal starte
-på "MÅ gjøre"-listen — begynn med APA-fix i §11 bibliografi.
+Les 014 fase 4 - report/Fase_4_kickoff.md først for kontekst, deretter
+012 fase 2 - plan/status.md (Restart checkpoint) og
+014 fase 4 - report/G05_INTEGRATION_PLAN.md. MÅ-lista er ferdig — vi
+starter på "BØR gjøre"-listen: begynn med #5 innledning (ramme +
+faglig bidrag) og #6 modellvalg S (RMSE-begrunnelse).
 ```
 
 ## Hva som er gjort i denne (forrige) sesjonen
