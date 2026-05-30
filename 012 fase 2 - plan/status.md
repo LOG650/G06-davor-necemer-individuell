@@ -1,8 +1,8 @@
 # Prosjektstatus - Integrert volumprognose og kapasitetsanalyse
 
-**Dato:** 2026-05-30
+**Dato:** 2026-05-31
 **Prosjektleder:** Davor Necemer
-**Dager til innlevering:** 1 (2026-05-31)
+**Dager til innlevering:** frist 2026-06-01 kl. 14:00 (utvidet fra 31.05)
 **Aktiv branch:** `Fase_4_report`
 
 ---
@@ -77,7 +77,7 @@ en dag - se G05_INTEGRATION_PLAN.md for ærlig scoping).
 | 4.1 | Ferdigstille introduksjon | 2026-05-14 | In progress | Hovedutkast finnes. G05 ber om (a) tydeligere ramme om rammeverk+smoke-test og (b) at faglig bidrag fra 9.4 trekkes inn allerede her. Se G05_INTEGRATION_PLAN.md. |
 | 4.2 | Skrive diskusjon og konklusjon | 2026-05-22 | In progress | Hovedutkast finnes. G05 ber om gap-erkjennelse (uke vs dag/sone), tydeligere implikasjoner og bedre skille mellom utviklet/dokumentert/gjenstaar. |
 | 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | MA-del fullfort | MA-lista ferdig (commit ea25e47): APA-bibliografi + Vedlegg J, forkortelsesliste, tabell-layout (0 Overfull \hbox verifisert), figurtekst-skille Figur 1-6. Endelig PDF: `014 fase 4 - report/Sluttrapport_..._endelig.pdf`. Gjenstaar: BOR-finpuss (#6 modellvalg S, #10 LP-framing, #11 sensitivitet-metode). |
-| 4.4 | Milepael: Innlevering av rapport og kode | 2026-05-31 | Not started | Frist 31.05 per Eriks senere kommunikasjon (skiftet fra opprinnelig 29.05). |
+| 4.4 | Milepael: Innlevering av rapport og kode | 2026-06-01 14:00 | Not started | Frist utvidet til mandag 01.06 kl. 14:00 (skiftet fra 31.05, opprinnelig 29.05). |
 | 4.5 | Forberede og gjennomfore muntlig presentasjon | 2026-06-05 | Not started |  |
 
 ---

@@ -42,7 +42,7 @@ Verifiser alltid selv med `git log --oneline -5` ved oppstart.
   scope (se «Ikke gjør» under), ikke prøv i én økt.
 
 **AVSLUTNING:**
-2. Bekreft endelig frist med Erik i Teams (31.05 per siste kommunikasjon).
+2. Frist bekreftet utvidet til mandag 1. juni 2026 kl. 14:00.
 3. **Merge `Fase_4_report` → `main`** først når korrektur er låst (ikke før).
 4. Forbered muntlig presentasjon (05.06).
 
@@ -110,4 +110,4 @@ samme fil kan låse/korruptere). Oppdater `012 fase 2 - plan/status.md` OG
 
 ## Frist
 
-Innlevering 31.05.2026. Muntlig presentasjon 05.06.2026.
+Innlevering **mandag 1. juni 2026 kl. 14:00** (utvidet fra 31.05). Muntlig presentasjon 05.06.2026.

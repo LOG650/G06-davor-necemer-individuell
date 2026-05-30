@@ -9,7 +9,7 @@
 - **Tittel:** Integrert volumprognose og kapasitetsanalyse (LOG650 individuell, HiMolde)
 - **Student:** Davor Necemer
 - **Kanonisk rapport:** [`005 report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md`](../005%20report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.md)
-- **Frist sluttrapport:** **2026-05-31** (Eriks senere kommunikasjon; original 29.05 ble utvidet)
+- **Frist sluttrapport:** **2026-06-01 kl. 14:00** (utvidet fra 31.05; original 29.05)
 - **Eksamensform etter innlevering:** muntlig presentasjon 2026-06-05
 
 ## Status akkurat nå (2026-05-30)
@@ -96,6 +96,6 @@ faglig bidrag) og #6 modellvalg S (RMSE-begrunnelse).
 
 ## Ved tvil
 
-- Om frist: 31.05.2026 per Eriks senere kommunikasjon. Hvis brukeren tviler, foreslå å bekrefte med Erik i Teams.
+- Om frist: 2026-06-01 kl. 14:00 (utvidet fra 31.05). Hvis brukeren tviler, foreslå å bekrefte med Erik i Teams.
 - Om scope: hold deg til G05_INTEGRATION_PLAN.md prioritering. Ikke prøv top-3-gjenstår-listen i en enkelt sesjon.
 - Om PDF ser rart ut: bygg på nytt med xelatex-pipelinen, ikke Edge.
