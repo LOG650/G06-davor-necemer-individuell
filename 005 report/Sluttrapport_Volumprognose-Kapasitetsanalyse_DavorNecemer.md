@@ -15,7 +15,7 @@ header-includes: |
 
 **Versjon:** Endelig innlevering, 1. juni 2026
 
-**Totalt antall sider inkludert forsiden:** 36
+**Totalt antall sider inkludert forsiden:** 54
 
 Molde, 1. juni 2026
 
