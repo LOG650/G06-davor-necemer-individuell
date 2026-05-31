@@ -4,7 +4,7 @@
 **Prosjektleder:** Davor Necemer
 **Dager til innlevering:** frist 2026-06-01 kl. 14:00 (utvidet fra 31.05)
 **Aktiv branch:** `Fase_4_report`
-**Sluttvask 2026-05-31:** Forside + obligatoriske erklæringer fylt ut og verifisert (adversarisk Explore-sjekk: tall/dato/struktur OK); endelig PDF rebygd til 36 sider (inkl. eksplisitt «Bruk av KI-verktøy»-seksjon, kreves av innsendt KI-egenerklæringsskjema). Gjenstår: menneskelig korrektur, deretter merge `Fase_4_report` → `main`.
+**Sluttvask 2026-05-31:** Forside + obligatoriske erklæringer (inkl. «Bruk av KI-verktøy»-seksjon) fylt ut; publiseringsavtale Brage=Nei; logo-forside (mal-oppsett) + Calibri 11pt + sideombrekking-polish + nummererte Tabell 1-11. Uavhengig sluttreview (6 agenter + Codex-kryssjekk, arkivert i `005 report/internal_reviews/REVIEW_FINAL_2026-05-31.md`) → alle MÅ/BØR/KAN rettet (metode↔kode-konsistens, kampanje-/sonefrist-overclaim dempet, SSB-tittel, personvern-erklæring presisert, Figur 1 W14 m.fl.), adversarisk re-verifisert (tall OK, residual-overclaim lukket). Endelig PDF: 37 sider. Gjenstår: menneskelig korrektur, deretter merge `Fase_4_report` → `main`.
 
 ---
 

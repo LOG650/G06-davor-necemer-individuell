@@ -106,7 +106,7 @@ def fig_volume_trend(volume: pd.DataFrame) -> None:
     axes[1].xaxis.set_major_formatter(mdates.DateFormatter("%Y-%m"))
     axes[1].legend(loc="upper left", ncol=2, fontsize=8)
     fig.suptitle(
-        "Ukentlig volumtrend per varestrøm, 2024-W01 – 2026-W19",
+        "Ukentlig volumtrend per varestrøm, 2024-W01 – 2026-W14",
         fontsize=13, fontweight="bold", y=0.995,
     )
     fig.text(
