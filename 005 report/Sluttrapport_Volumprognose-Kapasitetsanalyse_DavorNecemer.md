@@ -7,6 +7,9 @@ header-includes: |
   \makeatletter
   \@beginparpenalty=10000
   \makeatother
+  \clubpenalty=10000
+  \widowpenalty=10000
+  \displaywidowpenalty=10000
 ---
 
 ```{=latex}
