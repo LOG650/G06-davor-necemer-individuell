@@ -58,7 +58,7 @@ Den enkelte student er selv ansvarlig for å sette seg inn i hva som er lovlige 
 
 ### Personvern
 
-**Personopplysningsloven – vurdert av NSD (Sikt)?** Nei, for innlevert og publisert materiale. Rapporten publiserer kun anonymiserte og aggregerte data, og analysegrunnlaget som inngår i rapporten inneholder ingen personopplysninger. Eventuelle lokale arbeidsregistreringer med personidentifiserende informasjon er ikke inkludert i modellfilene, rapporten eller andre publiserbare prosjektfiler. Dersom lokal forbehandling av slike data vurderes som meldepliktig, håndteres dette utenfor den publiserbare leveransen i dialog med veileder/institusjonen.
+**Personopplysningsloven – vurdert av NSD (Sikt)?** Nei. Etter avklaring med veileder er vurderingen at innlevert og publisert materiale ikke krever NSD/Sikt-melding. Rapporten publiserer kun anonymiserte og aggregerte data, og analysegrunnlaget som inngår i rapporten inneholder ingen personopplysninger. Eventuelle lokale arbeidsregistreringer med personidentifiserende informasjon er ikke inkludert i modellfilene, rapporten eller andre publiserbare prosjektfiler.
 
 **Helseforskningsloven – behandlet hos REK?** Nei. Prosjektet er ikke medisinsk eller helsefaglig forskning og faller ikke inn under helseforskningsloven.
 
@@ -74,9 +74,11 @@ Er oppgaven båndlagt (konfidensiell)? **Nei.** Det foreligger ingen signert bå
 
 **Dato:** 1. juni 2026
 
+\clearpage
+
 ### Bruk av KI-verktøy
 
-Denne besvarelsen er utarbeidet med kunstig intelligens (Claude / Claude Code, Anthropic) som verktøy under min styring og kontroll, i tråd med Høgskolen i Molde sine retningslinjer for bruk av KI på hjemmeeksamen og det innsendte KI-egenerklæringsskjemaet. I samsvar med egenerklæringen punkt 1 («det som er nevnt i besvarelsen») beskrives bruken her. KI-verktøy er benyttet til følgende formål:
+Denne besvarelsen er utarbeidet med kunstig intelligens (Claude / Claude Code fra Anthropic og Codex fra OpenAI) som verktøy under min styring og kontroll, i tråd med Høgskolen i Molde sine retningslinjer for bruk av KI på hjemmeeksamen og det innsendte KI-egenerklæringsskjemaet. I samsvar med egenerklæringen punkt 1 («det som er nevnt i besvarelsen») beskrives bruken her. KI-verktøy er benyttet til følgende formål:
 
 - **Tekst og skrivehjelp:** utkast og omformulering av kapitteltekst, som jeg deretter har bearbeidet, kontrollert og godkjent.
 - **Språkvask og korrekturlesing:** retting av språk, struktur og konsistens.
@@ -525,7 +527,7 @@ Minimumssettet av data som kreves i prosjektet er:
 - **Aggregerte sone- og fristparametre:** andeler av ukentlig volum som knyttes til de ulike sonevise cut-off-fristene
 - **Tiltaksparametre:** regler og relative vekter for overtid, ekstra skift og eventuell tidlig oppstart
 
-For datavasken defineres `volume_fpk_eq` som operasjonelle håndteringsenheter i distribusjonsleddet. Hvis `Antall fakturert` i Qlik representerer DPK, kurv eller annen enhet som plukkes og sorteres som én fysisk enhet, kan verdien brukes direkte som FPK-ekvivalent i modellen. Hvis datakilden i stedet teller underliggende forbrukerenheter, må volumet omregnes eller dokumenteres som avvik.
+For datavasken defineres `volume_fpk_eq` som operasjonelle håndteringsenheter i distribusjonsleddet. Hvis `Antall fakturert` i Qlik Sense representerer DPK, kurv eller annen enhet som plukkes og sorteres som én fysisk enhet, kan verdien brukes direkte som FPK-ekvivalent i modellen. Hvis datakilden i stedet teller underliggende forbrukerenheter, må volumet omregnes eller dokumenteres som avvik.
 
 Det mest kritiske datakravet i prosjektet er koblingen mellom:
 
@@ -577,6 +579,8 @@ Begrunnelse: `2024-01` brukes ikke som basisuke fordi den påvirkes av helligdag
 
 For å dokumentere at prognose- og LP-leddet er teknisk koblet, er det likevel kjørt en publiserbar **indeks-skala smoke-test** der `volume_index` multipliseres med prosess-tidene og behandles som `indeks-minutter` / `indeks-timer`. Denne kjøringen viser at løseren og datastrømmen fungerer, men den kan ikke tolkes som faktisk bemanningsbehov fordi indeksen mangler de stream-spesifikke 2024-gjennomsnittene i FPK.
 
+\clearpage
+
 **Datatilgjengelighet og reproduserbarhet:**
 
 Datagrunnlaget gjøres tilgjengelig på tre nivåer for å balansere etterprøvbarhet mot personvern og kommersiell konfidensialitet:
@@ -585,7 +589,7 @@ Datagrunnlaget gjøres tilgjengelig på tre nivåer for å balansere etterprøvb
 
 2. **Reproduserbar kode og dataskjema:** Scripts som `anonymize_weekly_volume.py`, `build_capacity_control.py`, `build_process_time_matrix_batch.py` og `build_zone_cutoff_profile.py` dokumenterer transformasjonen fra rådata til publiserbare modellparametre. Koden gjør det mulig å kontrollere hvordan volumindeks, prosess-tider og soneandeler er beregnet, selv om råfilene ikke kan deles.
 
-3. **Lokale rådata og kontrollfiler:** Rådata fra Qlik, produksjonslister og dispatcher actions beholdes lokalt og er ikke del av publiserbart datagrunnlag. Disse filene kan inneholde reelle volum, kunde-/artikkeldetaljer, interne driftsopplysninger og i dispatcherhistorikk også personnavn. De er derfor holdt utenfor versjonskontroll. Rapporten oppgir i stedet kontrolltall, datoperioder og aggregerte resultater, for eksempel at soneprofilen bygger på 643 valgte dispatcher-datoer fra 2023-07-21 til 2026-04-28 og at andelene summerer til 1.000000.
+3. **Lokale rådata og kontrollfiler:** Rådata fra Qlik Sense, produksjonslister og dispatcher actions beholdes lokalt og er ikke del av publiserbart datagrunnlag. Disse filene kan inneholde reelle volum, kunde-/artikkeldetaljer, interne driftsopplysninger og i dispatcherhistorikk også personnavn. De er derfor holdt utenfor versjonskontroll. Rapporten oppgir i stedet kontrolltall, datoperioder og aggregerte resultater, for eksempel at soneprofilen bygger på 643 valgte dispatcher-datoer fra 2023-07-21 til 2026-04-28 og at andelene summerer til 1.000000.
 
 Denne løsningen innebærer at en ekstern leser ikke kan reprodusere alle interne datavaskesteg uten tilgang til virksomhetens rådata, men kan etterprøve modellstrukturen, variabeldefinisjonene, anonymiseringslogikken, enhetskoblingen mellom volum og tid, og de publiserte aggregerte parameterne. Etterprøvbarheten ligger derfor i sporbar metode, åpne beregningsregler og publiserbare kontrollsummer, ikke i offentliggjøring av sensitive rådata.
 
@@ -633,7 +637,7 @@ Valget dokumenteres i modellvalgsresultater (seksjon 7.2).
 
 ### 5.5 Forskningsetikk og konfidensialitet
 
-Rapportens analysegrunnlag og publiserbare filer inneholder ingen personopplysninger. Rådata fra dispatcher-/arbeidsregistreringer kunne imidlertid inneholde personnavn knyttet til arbeidstid; slike opplysninger inngår ikke i modellfilene, rapporten eller andre publiserbare prosjektfiler. Personvernvurderingen i denne rapporten gjelder derfor den innleverte leveransen: anonymiserte og aggregerte data, uten navn, kunder, produktidentifikatorer eller andre direkte identifiserende opplysninger. Dersom lokal forbehandling av personidentifiserende arbeidsregistreringer vurderes som meldepliktig, håndteres dette utenfor den publiserbare leveransen i dialog med veileder/institusjonen. Prosjektet bygger dessuten på bedriftsinterne data som kan være kommersielt sensitive, så forskningsetisk håndtering handler ikke bare om personvern, men også om å beskytte virksomhetens identitet, interne volumer, kunderelasjoner og operative detaljer.
+Rapportens analysegrunnlag og publiserbare filer inneholder ingen personopplysninger. Rådata fra dispatcher-/arbeidsregistreringer kunne imidlertid inneholde personnavn knyttet til arbeidstid; slike opplysninger inngår ikke i modellfilene, rapporten eller andre publiserbare prosjektfiler. Etter avklaring med veileder er vurderingen at den innleverte leveransen ikke krever NSD/Sikt-melding, fordi den kun inneholder anonymiserte og aggregerte data uten navn, kunder, produktidentifikatorer eller andre direkte identifiserende opplysninger. Eventuelle interne arbeidsfiler håndteres lokalt utenfor den publiserbare leveransen. Prosjektet bygger dessuten på bedriftsinterne data som kan være kommersielt sensitive, så forskningsetisk håndtering handler ikke bare om personvern, men også om å beskytte virksomhetens identitet, interne volumer, kunderelasjoner og operative detaljer.
 
 Virksomheten omtales derfor som et anonymisert norsk produksjons- og distribusjonsmiljø innen næringsmiddelindustrien. Rapporten bruker generiske varestrømmer, prosessnavn og aggregerte resultater. Stedsnavn, kundenavn, personnavn, produktidentifikatorer og andre detaljer som kan gjøre virksomheten gjenkjennbar, publiseres ikke.
 
@@ -821,6 +825,8 @@ De høyeste kombinerte indeksukene i modellperioden er 2024-20, 2024-27, 2025-14
 Som referanse brukes Seasonal Naive (SNaive)-prognose: $\hat{y}_{t} = y_{t-52}$. Denne enkle modellen utgør sammenligningsstandard for SARIMAX-alternativer.
 
 Validering mot 2026-01 til 2026-13 gir følgende baseline-resultater på indeks-skala (Tabell 2):
+
+\clearpage
 
 **Tabell 2 – SNaive baseline-validering per varestrøm, valideringsperiode 2026-01 til 2026-13.**
 
@@ -1156,7 +1162,9 @@ KML Kompendium. (2026). *Quantitative methods in logistics: A framework for AI-d
 
 ## 12.0 Vedlegg
 
-Vedleggene er holdt som prosjektmappe-artefakter heller enn innlimte fulltabeller, slik at rapporten forblir lesbar og reproduserbar uten å publisere sensitive rådata. Vedlegg F–I er lokale, genererte kontrollfiler under `004 data/processed/`; de oppsummeres i rapportens tabeller og regnes ikke som filer som følger med dersom innleveringen bare består av PDF.
+Vedleggene er holdt som prosjektmappe-artefakter heller enn innlimte fulltabeller, slik at rapporten forblir lesbar og reproduserbar uten å publisere sensitive rådata. Publiserbare kode-, rapport- og referanseartefakter ligger i prosjektets GitHub-repo. Vedlegg F–I er lokale, genererte kontrollfiler under `004 data/processed/`; de oppsummeres i rapportens tabeller og regnes ikke som filer som følger med dersom innleveringen bare består av PDF.
+
+\clearpage
 
 **Tabell 10 – Vedleggsoversikt (A–K): filer og artefakter.**
 
@@ -1177,6 +1185,8 @@ Vedleggene er holdt som prosjektmappe-artefakter heller enn innlimte fulltabelle
 | K | `005 report/requirements-model-build.txt` | Miljø- og versjonsnote for modellkjøring, figurer og PDF-bygg |
 
 \endgroup
+
+\clearpage
 
 ### Vedlegg J — Anvendelse av kilder
 
