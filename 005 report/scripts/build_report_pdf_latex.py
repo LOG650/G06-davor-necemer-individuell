@@ -66,15 +66,9 @@ def build(md_path: Path, pdf_path: Path) -> None:
         "-f", "markdown-implicit_figures",
         "--pdf-engine=xelatex",
         "--pdf-engine-opt=-interaction=nonstopmode",
-        # Match official LOG650 Word template typography:
-        # Times New Roman 12pt, 1.5 line spacing, template page margins.
-        "-V", "geometry:top=24.9mm",
-        "-V", "geometry:bottom=24.9mm",
-        "-V", "geometry:left=17.5mm",
-        "-V", "geometry:right=25.4mm",
-        "-V", "fontsize=12pt",
-        "-V", "linestretch=1.5",
-        "-V", "mainfont=Times New Roman",
+        "-V", "geometry:margin=22mm",
+        "-V", "fontsize=11pt",
+        "-V", "mainfont=Calibri",
         "-V", "monofont=Consolas",
         "-V", "linkcolor=blue",
         "-V", "urlcolor=blue",

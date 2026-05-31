@@ -6,20 +6,36 @@ header-includes: |
   \sloppy
 ---
 
-# Integrert volumprognose og kapasitetsanalyse
-## Integrated Volume Forecasting and Capacity Analysis
+```{=latex}
+\begin{titlepage}
+\thispagestyle{empty}
+\noindent
+\includegraphics[width=0.42\textwidth]{figures/forside_mountain.png}
 
-**Forfatter:** Davor Necemer
+\vspace{1.0cm}
 
-**Studium:** LOG650 – Høgskolen i Molde
+{\fontsize{38}{42}\selectfont\bfseries Prosjektoppgave}\par
+\vspace{1.0cm}
 
-**Versjon:** Endelig innlevering, 1. juni 2026
+{\Large\bfseries LOG650 Forskningsprosjekt: Logistikk og kunstig intelligens}\par
+\vspace{0.9cm}
 
-**Totalt antall sider inkludert forsiden:** 54
+{\LARGE Integrert volumprognose og kapasitetsanalyse}\par
+\vspace{0.25cm}
+{\large\itshape Integrated Volume Forecasting and Capacity Analysis}\par
+\vspace{1.0cm}
 
-Molde, 1. juni 2026
+{\large Davor Necemer}\par
+\vspace{0.8cm}
 
-\newpage
+{\large Totalt antall sider inkludert forsiden: 36}\par
+\vspace{0.5cm}
+{\large Molde, 1. juni 2026}\par
+
+\vfill
+\hfill\includegraphics[width=0.32\textwidth]{figures/forside_him_logo.jpeg}
+\end{titlepage}
+```
 
 ## Obligatoriske erklæringer
 
