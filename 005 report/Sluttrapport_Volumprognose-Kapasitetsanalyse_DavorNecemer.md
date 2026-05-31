@@ -791,6 +791,8 @@ Verktøy:
 
 Analysegrunnlaget består av 117 modelluker etter at den ufullstendige uke 2026-14 er ekskludert. Dette gir 234 observasjoner fordelt på to varestrømmer. Volum er publisert som indeks med 2024-gjennomsnitt per varestrøm lik 100.
 
+**Tabell 1 – Deskriptiv statistikk per varestrøm i modellperioden (117 uker per strøm).**
+
 \begingroup\footnotesize
 
 | Varestrøm | Observasjoner (modell) | Gj.sn. indeks | Std.avvik (indeks) | CV | Min (indeks) | Maks (indeks) | Kampanjeuker |
@@ -814,6 +816,8 @@ Som referanse brukes Seasonal Naive (SNaive)-prognose: $\hat{y}_{t} = y_{t-52}$.
 
 Validering mot 2026-01 til 2026-13 gir følgende baseline-resultater på indeks-skala:
 
+**Tabell 2 – SNaive baseline-validering per varestrøm, valideringsperiode 2026-01 til 2026-13.**
+
 | Varestrøm | Valideringsuker | MAE | RMSE | MAPE |
 |---|---:|---:|---:|---:|
 | F | 13 | 12.88 | 18.96 | 24.4 % |
@@ -826,6 +830,8 @@ MAPE for S blir høy fordi flere S-uker har lav indeksverdi; små absolutte feil
 Det ble kjørt en konservativ `statsmodels`-grid i `005 report/scripts/run_forecast_capacity_models.py`. Kandidatrommet var begrenset til lave ikke-sesongordener $(p,d,q)$, sesongperiode 52 og parsimoniske sesongledd $(P,D,Q) \in \{(0,0,0),(1,0,0),(0,1,0),(1,1,0)\}$. For F ble `campaign_flag` forkastet som eksogen kandidat fordi flagget er nesten konstant; `holiday_flag` var derfor eneste eksogene kandidat. For S ble både `campaign_flag` og `holiday_flag` testet.
 
 Valgt operativ modell ble definert som den konvergerte kandidaten med lavest validerings-RMSE, sammenlignet mot SNaive:
+
+**Tabell 3 – Valgt operativ SARIMAX-modell per varestrøm, med valideringsfeil, SNaive-referanse og Ljung-Box-test.**
 
 \begingroup\footnotesize
 
@@ -850,6 +856,8 @@ Kjøringen skrev sporbare resultater til tre filer:
 
 Kapasitetsmodellen har nå tre nødvendige inputblokker:
 
+**Tabell 4 – Inputblokker i kapasitetsmodellen.**
+
 | Input | Verdi / status | Bruk i modellen |
 |---|---|---|
 | Prosess-tid P1 | 0.003885 min/FPK | Omregner volum til PD-belastning |
@@ -872,6 +880,8 @@ LP-løseren ble kjørt på de operative prognosene for valideringsperioden. Ford
 ### 8.1 Datavalidering og aggregering
 
 Følgende datasett ble etablert for modellering:
+
+**Tabell 5 – Datasett for modellering: trening, validering og totalt antall rader.**
 
 | Komponent | Perioder | Rader | Bemerk |
 |-----------|----------|-------|--------|
@@ -897,6 +907,8 @@ Figur 2 viser at F for det meste holder seg innenfor et bånd på ca. 70–125 g
 
 Basert på 8 komplette produksjons-/dispatcher-par:
 
+**Tabell 6 – Prosess-tidsmatrise: minutter per FPK-ekvivalent for P1 og P2.**
+
 | Prosess | Minutes/FPK | Kilder | Gyldighet |
 |---------|-------------|--------|-----------|
 | P1 (PD) | 0.003885 | 2024-03-12, 2024-06-25, ... 2026-04-28 | 2024-03-12 til 2026-04-28 |
@@ -908,6 +920,8 @@ Eksempel på arbeidsforbruk:
 ### 8.3 Kapasitets-baseline etablert
 
 Fra capacity_assumptions.csv, normal drift:
+
+**Tabell 7 – Kapasitets-baseline ved normal drift: bemanning og timer per uke.**
 
 \begingroup\footnotesize
 
@@ -925,6 +939,8 @@ Fra capacity_assumptions.csv, normal drift:
 
 Minimumskjøringen i Python gir følgende valideringsresultat:
 
+**Tabell 8 – Prognosevalidering: valgt modell per varestrøm og beslutning mot SNaive.**
+
 \begingroup\footnotesize
 
 | Varestrøm | Valgt modell | MAE | RMSE | MAPE | Beslutning |
@@ -941,6 +957,8 @@ Minimumskjøringen i Python gir følgende valideringsresultat:
 Figur 3 viser at SARIMAX for F fanger det nedjusterte indeksnivået i 2026-Q1 bedre enn SNaive (MAE 8.2 vs. 12.9). For S gir SARIMAX bedre RMSE (6.7 vs. 7.5), men dårligere MAE/MAPE fordi modellen leverer en flat differensiert prediksjon mens faktisk S-volum er svært volatilt.
 
 **LP-kjøringen nedenfor er en teknisk smoke-test på publiserbar indeks-skala, ikke et operativt kapasitetsestimat.** Prognosene er omregnet til `indeks-minutter` med prosess-tidsmatrisen, og resultatet for publiserbar indeks-skala er:
+
+**Tabell 9 – LP indeks-skala smoke-test: resultater per volumscenario.**
 
 | Scenario | Ekstra indeks-timer | Slack indeks-minutter | Maks P1 indeks-timer | Maks P2 indeks-timer |
 |---|---:|---:|---:|---:|
@@ -1137,6 +1155,8 @@ KML Kompendium. (2026). *Quantitative methods in logistics: A framework for AI-d
 
 Vedleggene er holdt som prosjektmappe-artefakter heller enn innlimte fulltabeller, slik at rapporten forblir lesbar og reproduserbar uten å publisere sensitive rådata.
 
+**Tabell 10 – Vedleggsoversikt (A–J): filer og artefakter.**
+
 \begingroup\footnotesize
 
 | Vedlegg | Fil / artefakt | Formål |
@@ -1157,6 +1177,8 @@ Vedleggene er holdt som prosjektmappe-artefakter heller enn innlimte fulltabelle
 ### Vedlegg J — Anvendelse av kilder
 
 Tabellen viser hvordan hver kilde i §11 er anvendt. Dette holdes adskilt fra selve referanselisten for å bevare ren APA 7-formatering der.
+
+**Tabell 11 – Anvendelse av kilder (Vedlegg J): hvordan hver bibliografi-kilde er brukt.**
 
 | Kilde | Anvendelse i rapporten |
 |---|---|
