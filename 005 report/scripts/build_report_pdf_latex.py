@@ -66,6 +66,7 @@ def build(md_path: Path, pdf_path: Path) -> None:
         "-f", "markdown-implicit_figures",
         "--pdf-engine=xelatex",
         "--pdf-engine-opt=-interaction=nonstopmode",
+        "-V", "papersize:a4",
         "-V", "geometry:margin=22mm",
         "-V", "fontsize=11pt",
         "-V", "mainfont=Calibri",
@@ -109,7 +110,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--output",
-        default="013 fase 3 - review/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer.pdf",
+        default="014 fase 4 - report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer_endelig.pdf",
     )
     args = parser.parse_args()
 

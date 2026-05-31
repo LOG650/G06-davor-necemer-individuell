@@ -8,6 +8,7 @@ Created: 2026-04-29
 - `03_Retail_Forecasting_Context/Fildes_Ma_Kolassa_2018_retail_forecasting_working_paper.pdf`
 - `03_Retail_Forecasting_Context/Fildes_Goodwin_Onkal_2019_promotion_effects_accepted_manuscript.pdf`
 - `05_Norwegian_Sources/NNN_tariffdokument_2024-2026.pdf`
+- `05_Norwegian_Sources/SSB_sykefravaer_2026_source_note.md` (source note; SSB statistics remain online/dynamic)
 
 ## Online or Restricted Sources
 
@@ -16,6 +17,7 @@ Created: 2026-04-29
 - Leung, Wu and Lai (2006) is available through ResearchGate/Springer in browser, but automated PDF download was blocked. Links are saved in `04_Operations_Research_LP/LINKS.txt`.
 - Winston (2004) and Holt, Modigliani and Simon (1955) are restricted or publisher-controlled. Links are saved in `04_Operations_Research_LP/LINKS.txt`.
 - SSB sickness absence statistics and KML Kompendium are online resources. Links are saved in their folders.
+- SSB sickness absence was rechecked 2026-05-31 against the official statistics page, StatBank table 12439 and the 2026-05-28 article reporting 6.6 percent total sickness absence in 2026 Q1.
 
 ## Citation Corrections Noted
 
