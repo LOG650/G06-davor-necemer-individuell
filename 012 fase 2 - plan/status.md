@@ -4,7 +4,8 @@
 **Prosjektleder:** Davor Necemer
 **Dager til innlevering:** frist 2026-06-01 kl. 14:00 (utvidet fra 31.05)
 **Aktiv branch:** `Fase_4_report`
-**Sluttvask 2026-05-31:** Forside + obligatoriske erklæringer (inkl. «Bruk av KI-verktøy»-seksjon) fylt ut; publiseringsavtale Brage=Nei; logo-forside (mal-oppsett) + Calibri 11pt + sideombrekking-polish + nummererte Tabell 1-11. Uavhengig sluttreview (6 agenter + Codex-kryssjekk, arkivert i `005 report/internal_reviews/REVIEW_FINAL_2026-05-31.md`) → alle MÅ/BØR/KAN rettet (metode↔kode-konsistens, kampanje-/sonefrist-overclaim dempet, SSB-tittel, personvern-erklæring presisert, Figur 1 W14 m.fl.), adversarisk re-verifisert (tall OK, residual-overclaim lukket). Endelig PDF: 37 sider. Gjenstår: menneskelig korrektur, deretter merge `Fase_4_report` → `main`.
+**Oppdatert status 2026-05-31 kl. 23:16:** Siste sluttlesingsfunn er rettet, committet og pushet i `61e6142` (`fase4: juster sluttlesingsfunn`). Final-PDF er A4, 36 sider, og forsiden sier 36 sider. KI-seksjonen nevner Claude/Claude Code og Codex, NSD/Sikt er lukket etter veilederavklaring, Qlik er presisert til Qlik Sense, og sidebrekk for KI/datatilgjengelighet/Tabell 2/Tabell 10/Vedlegg J er justert. Dette overstyrer eldre restart-notater som nevner 37 sider eller uavklart NSD.
+**Sluttvask 2026-05-31:** Forside + obligatoriske erklæringer (inkl. «Bruk av KI-verktøy»-seksjon) fylt ut; publiseringsavtale Brage=Nei; logo-forside (mal-oppsett) + Calibri 11pt + sideombrekking-polish + nummererte Tabell 1-11. Uavhengig sluttreview (6 agenter + Codex-kryssjekk, arkivert i `005 report/internal_reviews/REVIEW_FINAL_2026-05-31.md`) → alle MÅ/BØR/KAN rettet (metode↔kode-konsistens, kampanje-/sonefrist-overclaim dempet, SSB-tittel, personvern-erklæring presisert, Figur 1 W14 m.fl.), adversarisk re-verifisert (tall OK, residual-overclaim lukket). Endelig PDF: A4, 36 sider, forsiden sier 36 sider. Gjenstår: eventuell siste review/menneskelig korrektur 2026-06-01 morgen, deretter merge `Fase_4_report` → `main` først når final-PDF er godkjent.
 
 ---
 
@@ -15,7 +16,7 @@
 | Fase 1: Initiering | Fullfort |
 | Fase 2: Prosjektplan | Fullfort |
 | Fase 3: Gjennomforing | Fullfort (peer-to-peer levert og mottatt) |
-| Fase 4: Sluttrapport | Pagar; G05 "MA"-funn integrert (ea25e47); "BOR" #5/#6/#10/#11 + #7/#8/#9 + #13 (teoretisk hull §2.3) integrert; menneskelig korrektur + merge til main gjenstaar |
+| Fase 4: Sluttrapport | Pagar; sluttvask og sluttlesingsfunn er rettet, final-PDF er A4/36 sider, og branch `Fase_4_report` er pushet. Gjenstar: eventuell siste review/menneskelig korrektur 2026-06-01 morgen, deretter merge til `main` og WISEflow-levering av kun PDF. |
 
 Fase 3 er fullfort: hovedutkastet ble klart innen Eriks frist 30.04, og
 peer-to-peer-utveksling med G05 (kontaktperson Birgitte) ble gjennomfort
@@ -77,7 +78,7 @@ en dag - se G05_INTEGRATION_PLAN.md for ærlig scoping).
 |----|-----------|----------------|--------|---------|
 | 4.1 | Ferdigstille introduksjon | 2026-05-14 | In progress | Hovedutkast finnes. G05 ber om (a) tydeligere ramme om rammeverk+smoke-test og (b) at faglig bidrag fra 9.4 trekkes inn allerede her. Se G05_INTEGRATION_PLAN.md. |
 | 4.2 | Skrive diskusjon og konklusjon | 2026-05-22 | In progress | Hovedutkast finnes. G05 ber om gap-erkjennelse (uke vs dag/sone), tydeligere implikasjoner og bedre skille mellom utviklet/dokumentert/gjenstaar. |
-| 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | Sluttvask committet og pushet | MA-/BOR-listene er ferdig integrert. Sluttvask etter Review-fourth er committet/pushet i `040a072`: NSD/Sikt-formulering lukket, A4-PDF bygd, sone-/SLACK-sprak dempet, prosess-tid-konfidensialitet rettet, teoretisk bidrag dempet, NNN/SSB/vedlegg ryddet og versjonsnote lagt til. Endelig PDF: `014 fase 4 - report/Sluttrapport_..._endelig.pdf` (A4, 36 sider). |
+| 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | Sluttvask committet og pushet | MA-/BOR-listene er ferdig integrert. Sluttvask etter Review-fourth og senere sluttlesingsfunn er committet/pushet til `61e6142`: NSD/Sikt-formulering lukket etter veilederavklaring, A4-PDF bygd, sone-/SLACK-sprak dempet, prosess-tid-konfidensialitet rettet, teoretisk bidrag dempet, NNN/SSB/vedlegg ryddet, Codex lagt til i KI-seksjonen, Qlik presisert til Qlik Sense og sidebrekk for KI/datatilgjengelighet/Tabell 2/Tabell 10/Vedlegg J justert. Endelig PDF: `014 fase 4 - report/Sluttrapport_..._endelig.pdf` (A4, 36 sider). |
 | 4.4 | Milepael: Innlevering av rapport og kode | 2026-06-01 14:00 | Klar for menneskelig sluttlesing | Frist utvidet til mandag 01.06 kl. 14:00 (skiftet fra 31.05, opprinnelig 29.05). Gjenstar for bruker: les final-PDF manuelt og lever kun PDF i WISEflow. Ikke lever/zip hele workspace med lokale data eller `000 templates/`. |
 | 4.5 | Forberede og gjennomfore muntlig presentasjon | 2026-06-05 | Not started |  |
 
@@ -180,3 +181,28 @@ alltid med xelatex-loggen: tell "Overfull \hbox"-advarsler (skal vaere 0).
 - Kilder/vedlegg: NNN-navn/tittel rettet, SSB oppdatert til 2026/tabell 12439, Vedlegg F-I merket som lokale kontrollfiler, Vedlegg K lagt til for modell-/build-versjoner.
 
 **Gjenstar foer innlevering:** bruker leser final-PDF manuelt og laster opp kun PDF i WISEflow. Ikke merge `Fase_4_report` til `main` foer denne sluttlesingen er godkjent. Ikke commit/lever `.claude/settings.local.json`, `.codex/review/` eller `000 templates/`.
+
+## Restart checkpoint 2026-05-31 kl. 23:16 (for morgenokt 2026-06-01)
+
+**Status:** Siste sluttlesingsfunn er rettet, committet og pushet til `origin/Fase_4_report` i `61e6142` (`fase4: juster sluttlesingsfunn`). Branch er klar for eventuell siste review/menneskelig PDF-sjekk 2026-06-01 morgen.
+
+**Verifisert final-PDF etter `61e6142`:**
+- `014 fase 4 - report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer_endelig.pdf`
+- 36 sider, A4 pa alle sider, forsiden sier 36 sider.
+- KI-seksjonen nevner Claude/Claude Code og Codex, og starter pa egen side etter erklaeringene.
+- `Datatilgjengelighet og reproduserbarhet` starter sammen med tilhorende tekst.
+- Tabell 2 caption + tabell er samlet.
+- Tabell 10 star samlet pa egen side, og Vedlegg J starter pa neste side.
+
+**Siste endringer i `61e6142`:**
+- NSD/Sikt-tekst lukket etter veilederavklaring: `Nei` for innlevert/publisert materiale.
+- Codex lagt til i KI-verktøy-seksjonen.
+- `Qlik` presisert til `Qlik Sense`.
+- Vedleggstekst nevner at publiserbare kode-, rapport- og referanseartefakter ligger i GitHub, mens lokale kontrollfiler/radata ikke folger PDF-innlevering.
+
+**Morgenplan:**
+1. Kjor eventuelt siste review med fokus pa blokkerende funn, ikke store omskrivinger.
+2. Les final-PDF manuelt.
+3. Ved mikrofiks: bygg PDF, sjekk A4/sidetall/sideflyt, commit og push til `Fase_4_report`.
+4. Nar bruker sier finalen er godkjent: merge `Fase_4_report` til `main`, push `main`, og lever kun PDF i WISEflow.
+5. GitHub-opprydding for oversiktlighet tas etter final godkjenning/innlevering, ikke for PDF-en er last.

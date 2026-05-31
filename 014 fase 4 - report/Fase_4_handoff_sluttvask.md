@@ -1,117 +1,122 @@
-# Fase 4 — handoff for ny chat (etter sluttreview, 2026-05-31)
+# Fase 4 - handoff for morgenokt 2026-06-01
 
-**Du leser denne + `Fase_4_kickoff.md` først.** Frisk kontekst for å spare tokens.
-Denne fila er oppdatert etter den uavhengige sluttreviewen og erstatter all tidligere
-status i dette dokumentet. **Stol på `git log`, ikke på hukommelse/eldre handoff-hashes.**
+**Les denne + `Fase_4_kickoff.md` forst.** Denne fila erstatter eldre sluttvask-handoff.
+Stol alltid pa `git log` og `git status`, ikke eldre hash-notater.
 
-## Status akkurat nå (committet + pushet, verifisert)
+## Status akkurat na
 
-Aktiv branch: `Fase_4_report`. **Siste commit: `abf85ef` = origin** (0 ahead/0 behind).
-Verifiser alltid selv med `git log --oneline -5` ved oppstart.
+- Dato/tid ved handoff: 2026-05-31 ca. 23:16.
+- Frist: **mandag 2026-06-01 kl. 14:00** i WISEflow.
+- Aktiv branch: `Fase_4_report`.
+- Siste rapport-/PDF-endrende commit: `61e6142` - `fase4: juster sluttlesingsfunn`.
+- Det kan ligge en senere ren status-/handoff-commit pa toppen av branch.
+- `main` er **ikke** merget enna. Ikke merge til `main` for final-PDF er lest og godkjent.
 
-Commit-kjede (nyest først):
-- `abf85ef` — integrer funn fra uavhengig sluttreview (6 agenter + Codex): alle MÅ/BØR/KAN
-- `fa3e71b` — nummererte tabelltekster (Tabell 1–11)
-- `32d6fd9` — enke-/foreldreløs-kontroll (sideombrekking)
-- `1933666` — listeetikett-fiks (`\@beginparpenalty`)
-- `d90878f` — logo-forside (mal-oppsett) + brødtekst Calibri 11 pt
-- `619b9db` — publiseringsavtale Brage = Nei
-- `209afbe` — «Bruk av KI-verktøy»-seksjon (kreves av nettskjema-KI-egenerklæring)
-- `33b541f` — endelig forside + obligatoriske erklæringer
+For oppstart:
 
-**Endelig PDF:** `014 fase 4 - report/Sluttrapport_…_endelig.pdf` — **37 sider**, exit 0.
-Sidetall-feltet på forsiden = 37 (oppdater hvis innhold endres).
-
-## Hva som er gjort i denne sesjonen
-
-1. **Forside** (LaTeX-titlepage med HiM-logo + mal-oppsett): tittel NO/EN, «Prosjektoppgave»,
-   emnenavn, forfatter, sidetall 37, «Molde, 1. juni 2026». Logoene ligger i
-   `005 report/figures/forside_mountain.png` og `forside_him_logo.jpeg`.
-2. **Obligatoriske erklæringer:** egenerklæring 1–6 (alle «Ja»); Personvern NSD=Nei (presisert,
-   se «Gjenstår»), REK=Nei; Publiseringsavtale: 15 sp, veileder **Per Kristian Rekdal og
-   Bård-Inge Pettersen**, Brage=**Nei** (bedriftssamtykke ikke innhentet), båndlagt=Nei.
-3. **«Bruk av KI-verktøy»-seksjon** — kreves av det innsendte nettskjema-KI-egenerklæringsskjemaet
-   (siste bekreftelse forutsetter at all KI-bruk er beskrevet i besvarelsen). Mappet mot de fem
-   avkryssede formålene. Se auto-memory `log650-ki-verktoy-declaration`.
-4. **Typografi:** Calibri 11 pt brødtekst, 22 mm marg (Times-New-Roman/1,5-mal-match ble prøvd
-   og forkastet). Sideombrekking-polish: `\@beginparpenalty`/`\clubpenalty`/`\widowpenalty`.
-5. **Nummererte Tabell 1–11** (tabelltekst over tabellen); Forkortelser/symboler-ordlista
-   bevisst unummerert.
-6. **Uavhengig sluttreview** (6 parallelle agenter) + kryssjekk mot brukerens Codex-review
-   (`.codex/review/Review-third.md`, IKKE i git). Funn arkivert i
-   **`005 report/internal_reviews/REVIEW_FINAL_2026-05-31.md`** (inkl. egen «Muntlig forsvar»-seksjon).
-7. **Alle MÅ/BØR/KAN rettet** og adversarisk re-verifisert (tall OK; 3 residual-overclaim funnet
-   og lukket). Hovedrettinger: §5.1.1 metode↔kode-konsistens (grid-søk + RMSE-primær, ikke
-   KPSS/AICc); kampanje- og LP-sonefrist-overclaim dempet (konsistent med §6.5); personvern-
-   erklæring presisert; Figur 1 sluttuke W19→W14 (script + caption + regenerert PNG); SSB-tittel
-   «Sykefravær» + URL; sum 0.999; språkvask.
-
-## Gjenstår i fase 4 — prioritert
-
-**MÅ før innlevering (brukerens jobb / krever bruker-handling):**
-1. **Menneskelig korrektur** av hele 37-siders PDF-en. Den viktigste gjenstående jobben.
-2. **NSD-avklaring:** erklæringen er nå ærlig dempet og *flagger* at lokal forbehandling av
-   personnavn *kan* være meldepliktig. Bruker bør sende kort Teams-melding til veileder/
-   personvernombud og bekrefte om melding kreves. (Se REVIEW_FINAL + §5.5 + forside-erklæring.)
-
-**KAN (bevisst utsatt i denne sesjonen — vurder ved behov):**
-- **Auto-TOC med sidetall:** kolliderer med rapportens *manuelle* kapittelnummerering (`## 1.0 …`)
-  og den egendefinerte LaTeX-titlepagen (auto-`\tableofcontents` havner før forsiden / blir tom
-  uten `--number-sections`, som gir dobbel nummerering). Krever restrukturering — ikke gjort
-  pga. build-risiko nær frist. Manuell «## Innhold» beholdt.
-- **APA «et al.» fra første sitering:** rapporten staver ut alle forfattere første gang (APA 6-stil);
-  streng APA 7 bruker «et al.» fra første. Bredt akseptert som-er — utsatt.
-
-**AVSLUTNING:**
-3. **Merge `Fase_4_report` → `main`** KUN når korrektur + NSD er låst (ikke før).
-4. Forbered muntlig presentasjon (05.06) — bruk «Muntlig forsvar»-seksjonen i REVIEW_FINAL.
-
-## Ekte tall (fasit = `004 data/processed/model_run_summary.json`)
-
-| Strøm | SNaive MAE/RMSE/MAPE | SARIMAX MAE/RMSE/MAPE | Valgt modell / eksogen |
-|---|---|---|---|
-| F | 12.88 / 18.96 / 24.4% | 8.18 / 13.21 / 16.3% | SARIMAX(1,1,1)(0,0,0)[52] + helligdagsflagg |
-| S | 5.15 / 7.53 / 60.2% | 6.17 / 6.67 / 76.0% | (0,1,0)(0,0,0)[52], INGEN eksogen; flat konst. ≈15.68, RMSE-seier skjør |
-
-Prosess-tid P1=0.003885, P2=0.037555 min/FPK. Basekapasitet P1=24, P2=144 t/uke.
-Soneandeler Z1=0.325311, Z2=0.335234, Z3=0.339455 (eksakt sum 1.000000; avrundet 0.325/0.335/0.339 = 0.999).
-117 modelluker / 234 obs; uke 2026-14 ekskludert (delvis). LP smoke-test: 0.00 ekstra indeks-timer / 0.00 slack
-(skala-artefakt, IKKE validert kapasitetsmargin). Begge valgte modeller er effektivt ikke-sesonglige
-(sesongledd testet, tapte på RMSE — 2 sesonger for lite).
-
-## ⚠️ Verktøy-/miljølærdom (gjelder fortsatt)
-
-- **Read kan fabrikere innhold/linjenr/commit-hasher.** Fasit for verifisering: `git log`/`git diff`
-  + Grep (ripgrep) + PowerShell `Select-String` på fersk `Get-Content`. IKKE Read alene.
-- **`Edit` feiler lukket** (feil `old_string` → ingen endring). Hent eksakt streng fra Grep/disk.
-  Edit krever en fersk Read av fila i samme økt — ellers «File has not been read yet».
-- **Commit via fil, BOM-fritt:** `[System.IO.File]::WriteAllText($tmp, $msg, (New-Object
-  System.Text.UTF8Encoding($false)))` → `git commit -F`. PS 5.1 `Set-Content -Encoding UTF8`
-  legger BOM i commit-emnet. Slett temp med `[System.IO.File]::Delete($tmp)` — `Remove-Item`
-  nær strenger som «word/media/*» eller «/» kan bli blokkert av harness-guard (falsk positiv).
-- **Ikke spam parallelle PowerShell-kall** — hvis ett feiler, kanselleres de andre.
-- **PDF-bygg:** kjør bare ÉN om gangen. **Figurer regenereres via uv** (base-python mangler pandas):
-  `uv run --python 3.12 --with pandas --with numpy --with matplotlib python "005 report/scripts/build_report_figures.py"`.
-- **Verifiser innholdsendringer adversarisk** (Workflow med flere agenter; lenser: tall vs JSON-fasit,
-  residual-overclaim/selvmotsigelser). Fanget reelle feil begge review-runder.
-- Auto-memory `verify-actual-file-before-edit`, `powershell-commit-via-file`, `log650-ki-verktoy-declaration`.
-
-## Bygg PDF + commit
-
+```powershell
+git fetch origin --prune
+git log --oneline -8
+git status --short --branch
 ```
-python "005 report/scripts/build_report_pdf_latex.py" --output "014 fase 4 - report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer_endelig.pdf"
+
+Forventet status etter fetch:
+
+- `HEAD -> Fase_4_report, origin/Fase_4_report` pa siste pushede commit.
+- Rapport-/PDF-baseline er fortsatt `61e6142` dersom det bare er status-/handoff-commit etter den.
+- Kun lokale/uversjonerte ting utenfor commit: `.claude/settings.local.json`, `.codex/review/*` og `000 templates/*`.
+- Disse skal ikke committes eller leveres.
+
+## Final-PDF akkurat na
+
+Final-PDF:
+
+`014 fase 4 - report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer_endelig.pdf`
+
+Teknisk verifisert etter siste build:
+
+- 36 sider.
+- A4 pa alle sider (`595.28 x 841.89 pt`).
+- Forsiden sier 36 sider.
+- `Bruk av KI-verktøy` starter pa egen side etter obligatoriske erklaeringer og nevner Claude/Claude Code + Codex.
+- `Datatilgjengelighet og reproduserbarhet` starter sammen med tilhorende tekst.
+- Tabell 2 caption og tabell er samlet.
+- Tabell 10 star samlet pa egen side.
+- Vedlegg J starter pa neste side og kan splittes over siste side.
+
+Bygg pa nytt ved endringer:
+
+```powershell
+python "005 report/scripts/build_report_pdf_latex.py"
 ```
-Verifiser exit 0 + «Wrote PDF» + sidetall (pypdf). Oppdater forsidens sidetall-felt hvis tallet endres.
-Oppdater `012 fase 2 - plan/status.md` + `014 fase 4 - report/G05_INTEGRATION_PLAN.md` som del av commiten.
 
-## Ikke gjør
+Scriptet bygger na som default til fase 4-finalen og bruker A4.
 
-- Ikke skann `000 templates/` (unntatt eksplisitt). Ikke endre `013 fase 3 - review/` (frosset).
-- Ikke commit `.claude/settings.local.json` (lokal) eller `.codex/review/` (brukerens Codex-artefakt).
-- Ikke prøv G05s top-3 (reell-skala LP, fristkapasitet-kalibrering, full sensitivitet) — bevisst «gjenstår».
-- Ikke merge til main før korrektur + NSD er låst.
+## Siste endringer som er lukket
 
-## Frist
+Review-fourth / sluttvask-punkter som na er lukket:
 
-Innlevering **mandag 1. juni 2026 kl. 14:00** (WISEflow, kun rapport-PDF). Kandidatnr 46.
-Muntlig presentasjon (Teams) **2026-06-05** (uke 24).
+- **NSD/Sikt:** Teksten sier `Nei` etter avklaring med veileder. Rapporten presiserer at innlevert/publisert materiale er anonymisert/aggregerte data uten personopplysninger.
+- **A4:** PDF er bygget i A4, ikke US Letter.
+- **Sone/cut-off og SLACK:** Sprak dempet. `SLACK` omtales som udekket aggregert arbeidsbelastning/kapasitetsmangel, ikke dokumentert sonevist fristbrudd.
+- **Prosess-tid-konfidensialitet:** Rapporten sier at aggregerte prosess-tidsrater inngar; reelle volum, kunde-/produktdetaljer og kostnader inngar ikke.
+- **Teoretisk hull:** Dempet til case-spesifikt metodisk bidrag.
+- **S-modellen:** RMSE-basert minimumskjoring, med SNaive som konservativ operativ fallback.
+- **NNN/SSB:** NNN-navn/tittel rettet. SSB oppdatert til 2026/tabell 12439 og source note lagt i `003 references`.
+- **Vedlegg F-I:** Forklart som lokale genererte kontrollfiler som ikke folger med dersom innleveringen bare er PDF.
+- **Vedlegg/GitHub:** Rapporten sier at publiserbare kode-, rapport- og referanseartefakter ligger i GitHub, mens sensitive/lokale filer ikke deles.
+- **Qlik:** Rettet til `Qlik Sense`.
+- **KI:** Codex lagt til i KI-verktøy-seksjonen.
+
+## Morgendagens anbefalte rekkefolge
+
+1. **Kort ny review hvis ønsket.**
+   - Bruk kun rapport/PDF/kode/referanser, ikke `000 templates/` med mindre bruker eksplisitt ber om det.
+   - Prioriter bare reelle blokkerende funn. Ikke start store refaktorer.
+2. **Menneskelig sluttlesing av PDF.**
+   - Forside, obligatoriske erklaeringer, KI-seksjon, sammendrag/abstract.
+   - Tabell 2, Figur 2, Tabell 10, Vedlegg J.
+   - Sjekk at SLACK/sonefrist-sprak ikke overselger operativ fristmodell.
+3. **Eventuelle siste mikrofiks pa `Fase_4_report`.**
+   - Bygg PDF.
+   - Verifiser A4, 36/evt. nytt sidetall, og sideflyt.
+   - Commit og push bare relevante filer.
+4. **Nar PDF er godkjent:**
+   - Merge `Fase_4_report` til `main`.
+   - Push `main`.
+   - Lever kun final-PDF i WISEflow.
+5. **GitHub-opprydding etter innlevering / etter godkjent final:**
+   - Gjor repoet oversiktlig for veileder fordi GitHub kan bli last etter fristen.
+   - Ikke slett eller flytt noe som kan endre den leverte rapportens sporbarhet rett for innlevering.
+   - Ikke legg inn sensitive lokale data.
+
+## GitHub-opprydding - forslag etter final
+
+Dette bor vente til PDF er levert eller finalen er helt godkjent:
+
+- Oppdater `README.md` hvis den er utdatert, med kort prosjektoversikt og peker til final-PDF.
+- Sjekk at `003 references/` har ryddige README/LINKS/source notes.
+- Sjekk at `004 data/` kun inneholder publiserbare filer som skal ligge i repo.
+- La `000 templates/`, `.codex/review/` og `.claude/settings.local.json` forbli utenfor commit.
+- Ikke rydd ved a slette historikk eller gjore destruktive git-kommandoer.
+
+## Ikke gjor
+
+- Ikke les/skann `000 templates/` rutinemessig.
+- Ikke endre `013 fase 3 - review/`.
+- Ikke commit `.claude/settings.local.json`, `.codex/review/` eller `000 templates/`.
+- Ikke merge til `main` for bruker sier at PDF er endelig godkjent.
+- Ikke lever eller zip hele workspace. WISEflow-leveranse er final-PDF.
+
+## Muntlig forsvar - husk
+
+Hvis sensor spør om LP/SLACK:
+
+- Denne rapportversjonen viser en teknisk integrasjon SARIMAX -> LP pa publiserbar indeks-skala.
+- `SLACK` i smoke-testen er udekket aggregert arbeidsbelastning, ikke dokumentert sonevist fristbrudd.
+- Operativ fristmodell krever reell FPK-skala, dags-/soneniva og kalibrert `CAP_deadline`.
+
+Hvis sensor spør om NSD/Sikt:
+
+- Veileder har avklart at `NSD/Sikt = Nei` er korrekt for innlevert/publisert materiale.
+- Rapporten publiserer bare anonymiserte og aggregerte data uten personopplysninger.
