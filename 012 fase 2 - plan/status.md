@@ -77,8 +77,8 @@ en dag - se G05_INTEGRATION_PLAN.md for ærlig scoping).
 |----|-----------|----------------|--------|---------|
 | 4.1 | Ferdigstille introduksjon | 2026-05-14 | In progress | Hovedutkast finnes. G05 ber om (a) tydeligere ramme om rammeverk+smoke-test og (b) at faglig bidrag fra 9.4 trekkes inn allerede her. Se G05_INTEGRATION_PLAN.md. |
 | 4.2 | Skrive diskusjon og konklusjon | 2026-05-22 | In progress | Hovedutkast finnes. G05 ber om gap-erkjennelse (uke vs dag/sone), tydeligere implikasjoner og bedre skille mellom utviklet/dokumentert/gjenstaar. |
-| 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | MA-del fullfort | MA-lista ferdig (commit ea25e47): APA-bibliografi + Vedlegg J, forkortelsesliste, tabell-layout (0 Overfull \hbox verifisert), figurtekst-skille Figur 1-6. Endelig PDF: `014 fase 4 - report/Sluttrapport_..._endelig.pdf`. Gjenstaar: BOR-finpuss (#6 modellvalg S, #10 LP-framing, #11 sensitivitet-metode). |
-| 4.4 | Milepael: Innlevering av rapport og kode | 2026-06-01 14:00 | Not started | Frist utvidet til mandag 01.06 kl. 14:00 (skiftet fra 31.05, opprinnelig 29.05). |
+| 4.3 | Finpuss, kvalitetssikring og APA 7th | 2026-05-29 | Sluttvask committet og pushet | MA-/BOR-listene er ferdig integrert. Sluttvask etter Review-fourth er committet/pushet i `040a072`: NSD/Sikt-formulering lukket, A4-PDF bygd, sone-/SLACK-sprak dempet, prosess-tid-konfidensialitet rettet, teoretisk bidrag dempet, NNN/SSB/vedlegg ryddet og versjonsnote lagt til. Endelig PDF: `014 fase 4 - report/Sluttrapport_..._endelig.pdf` (A4, 36 sider). |
+| 4.4 | Milepael: Innlevering av rapport og kode | 2026-06-01 14:00 | Klar for menneskelig sluttlesing | Frist utvidet til mandag 01.06 kl. 14:00 (skiftet fra 31.05, opprinnelig 29.05). Gjenstar for bruker: les final-PDF manuelt og lever kun PDF i WISEflow. Ikke lever/zip hele workspace med lokale data eller `000 templates/`. |
 | 4.5 | Forberede og gjennomfore muntlig presentasjon | 2026-06-05 | Not started |  |
 
 ---
@@ -165,3 +165,18 @@ at lange tokens (modellnavn, filstier) flyter inn i nabokolonner - kombinert med
 `\allowbreak` i navn, `\footnotesize`-wrap og preamble `\usepackage[htt]{hyphenat}` +
 `\sloppy` + `\emergencystretch` (NB: `xurl` finnes ikke i denne TinyTeX). Verifiser
 alltid med xelatex-loggen: tell "Overfull \hbox"-advarsler (skal vaere 0).
+
+## Restart checkpoint 2026-05-31 (etter Review-fourth sluttvask)
+
+**Status:** Sluttvask etter uavhengig Review-fourth er ferdig, committet og pushet til `origin/Fase_4_report` i `040a072` (`fase4: sluttvask formalia og A4-pdf`).
+
+**Verifisert final-PDF:** `014 fase 4 - report/Sluttrapport_Volumprognose-Kapasitetsanalyse_DavorNecemer_endelig.pdf` er A4 (`595.28 x 841.89 pt`), 36 sider, forsiden sier 36 sider, og Figur 2 har bilde og bildetekst samlet paa samme side.
+
+**Lukket i sluttvasken:**
+- NSD/Sikt-formulering: gjelder innlevert/publisert materiale, med lokal forbehandling haandtert utenfor publiserbar leveranse ved behov.
+- LP/sone/SLACK-sprak: `SLACK` beskrives som udekket aggregert arbeidsbelastning/kapasitetsmangel, ikke direkte sonevist fristbrudd.
+- Konfidensialitet: aggregerte prosess-tidsrater inngaar; reelle volum, kunde-/produktdetaljer og kostnader inngaar ikke.
+- Bidrag: "teoretisk hull" er dempet til case-spesifikt metodisk bidrag.
+- Kilder/vedlegg: NNN-navn/tittel rettet, SSB oppdatert til 2026/tabell 12439, Vedlegg F-I merket som lokale kontrollfiler, Vedlegg K lagt til for modell-/build-versjoner.
+
+**Gjenstar foer innlevering:** bruker leser final-PDF manuelt og laster opp kun PDF i WISEflow. Ikke merge `Fase_4_report` til `main` foer denne sluttlesingen er godkjent. Ikke commit/lever `.claude/settings.local.json`, `.codex/review/` eller `000 templates/`.
