@@ -4,6 +4,9 @@ header-includes: |
   \usepackage[htt]{hyphenat}
   \setlength{\emergencystretch}{3em}
   \sloppy
+  \makeatletter
+  \@beginparpenalty=10000
+  \makeatother
 ---
 
 ```{=latex}
