@@ -34,7 +34,7 @@ header-includes: |
 {\large Davor Necemer}\par
 \vspace{0.8cm}
 
-{\large Totalt antall sider inkludert forsiden: 38}\par
+{\large Totalt antall sider inkludert forsiden: 37}\par
 \vspace{0.5cm}
 {\large Molde, 1. juni 2026}\par
 
@@ -564,8 +564,6 @@ Begrunnelse: `2024-01` brukes ikke som basisuke fordi den påvirkes av helligdag
 
 For å dokumentere at prognose- og LP-leddet er teknisk koblet, er det likevel kjørt en publiserbar **indeks-skala smoke-test** der `volume_index` multipliseres med prosess-tidene og behandles som `indeks-minutter` / `indeks-timer`. Denne kjøringen viser at løseren og datastrømmen fungerer, men den kan ikke tolkes som faktisk bemanningsbehov fordi indeksen mangler de stream-spesifikke 2024-gjennomsnittene i FPK.
 
-\clearpage
-
 **Datatilgjengelighet og reproduserbarhet:**
 
 Datagrunnlaget gjøres tilgjengelig på tre nivåer for å balansere etterprøvbarhet mot personvern og kommersiell konfidensialitet:
@@ -806,8 +804,6 @@ Som referanse brukes Seasonal Naive (SNaive)-prognose: $\hat{y}_{t} = y_{t-52}$.
 
 Validering mot 2026-01 til 2026-13 gir følgende baseline-resultater på indeks-skala (Tabell 2):
 
-\clearpage
-
 **Tabell 2 – SNaive baseline-validering per varestrøm, valideringsperiode 2026-01 til 2026-13.**
 
 | Varestrøm | Valideringsuker | MAE | RMSE | MAPE |
@@ -883,6 +879,8 @@ Følgende datasett ble etablert for modellering:
 | **Totalt** | 2024-01 til 2026-13 | **234 rader** | Anonymisert som indeks (2024_avg_per_stream=100) |
 
 Den publiserbare filen inneholder 236 rader fra 118 uker, men modellgrunnlaget ekskluderer uke 2026-14 fordi den bare dekker to dager. Datavasken ekskluderer `Ordretype/Navn = -` for å unngå dobbeltregistrering og produktgruppe 850 fordi denne gruppen ikke inngår i prognosevolumet for de operative varestrømmene.
+
+\clearpage
 
 ![Volumtrend per varestrøm 2024–2026](figures/01_volumtrend.png)
 
