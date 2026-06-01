@@ -34,7 +34,7 @@ header-includes: |
 {\large Davor Necemer}\par
 \vspace{0.8cm}
 
-{\large Totalt antall sider inkludert forsiden: 36}\par
+{\large Totalt antall sider inkludert forsiden: 38}\par
 \vspace{0.5cm}
 {\large Molde, 1. juni 2026}\par
 
@@ -424,6 +424,7 @@ Modellen estimeres separat for ferskvare (F) og sekundærvare (S):
 $$\Phi(B) \Phi_s(B^s) \nabla^d \nabla_s^D Y_t = \Theta(B) \Theta_s(B^s) \epsilon_t + \beta X_t$$
 
 hvor:
+
 - $Y_t$ = ukentlig volum (FPK-ekvivalenter)
 - $B$ = backshift-operator
 - $s$ = sesongperiode (52 uker for årlig sesong i ukesdata)
@@ -474,7 +475,7 @@ Gitt at treningsdata omfatter bare 104 observasjoner (2 sesongperioder), legges 
 - **Residualdiagnostikk:** Ljung-Box test for autokorrelasjon og sesongavhengighet
 - **Beslutning:** Hvis SARIMAX RMSE > SNaive RMSE, brukes SNaive som operativ prognose
 
-**Verktøy:** Python er hovedverktøyet i prognosedelen. Beregningene kjøres via `005 report/scripts/run_forecast_capacity_models.py` med `statsmodels` til SARIMAX-estimering og residualdiagnostikk, og `scipy.optimize.linprog` til LP-løsningen (vedlegg E).
+**Verktøy:** Python er hovedverktøyet i prognosedelen. Beregningene kjøres via skriptet i vedlegg E, med statsmodels til SARIMAX-estimering og residualdiagnostikk og scipy.optimize.linprog til LP-løsningen.
 
 ---
 
@@ -534,13 +535,13 @@ hvor $s$ = varestrøm (F eller S), $t$ = uke.
 
 Begrunnelse: `2024-01` brukes ikke som basisuke fordi den påvirkes av helligdag og kampanjeeffekt, noe som ville gitt en mindre representativ skala. Gjennomsnitt over hele 2024 gir mer stabil basis.
 
-**Viktig: Indeks kan IKKE brukes direkte i kapasitetsmodellen** fordi hver varestrøm har sin egen skala. Hvis F og S har ulike gjennomsnittlige volum i 2024, blandes skalaene når man summerer `volume_index_F + volume_index_S`.
+**Viktig: Indeks kan IKKE brukes direkte i kapasitetsmodellen** fordi hver varestrøm har sin egen skala. Hvis F og S har ulike gjennomsnittlige volum i 2024, blandes skalaene når man summerer volume_index_F og volume_index_S.
 
 **Løsning for intern modell vs. publisert resultat:**
 
 **Intern modell (lokalt, ikke publisert):**
 
-- Bruker reelle FPK-volum fra lokal `weekly_volume.csv`
+- Bruker reelle FPK-volum fra den lokale filen weekly_volume.csv
 - Prognose: $\text{forecast\_fpk}_{s,t}$
 - Arbeidsbelastning: $\text{workload}_{j,t} = \sum_s (\text{forecast\_fpk}_{s,t} \times \text{minutes\_per\_fpk}_{j,s})$
 - LP løst med absolutte mann-timer, resulterer i $X_{j,t}$ som ekstra kapasitet i timer og $SLACK_{j,t}$ som udekket arbeidsbelastning i minutter
@@ -552,7 +553,7 @@ Begrunnelse: `2024-01` brukes ikke som basisuke fordi den påvirkes av helligdag
 - Eksempler: Gjennomsnittlig utnyttelsesgrad (%), fordeling av ekstra kapasitetsbehov, frekvens av uker med udekket arbeidsbelastning (%)
 - Absolutte mann-timer utelates fordi de kan avsløre reelt volum
 - Reelle FPK-tall publiseres ikke
-- `volume_index` brukes ikke som operativt kapasitetsgrunnlag i LP
+- volume_index brukes ikke som operativt kapasitetsgrunnlag i LP
 
 **Etterprøvbarhet uten å avsløre volum:**
 
@@ -577,7 +578,7 @@ Datagrunnlaget gjøres tilgjengelig på tre nivåer for å balansere etterprøvb
 
 Denne løsningen innebærer at en ekstern leser ikke kan reprodusere alle interne datavaskesteg uten tilgang til virksomhetens rådata, men kan etterprøve modellstrukturen, variabeldefinisjonene, anonymiseringslogikken, enhetskoblingen mellom volum og tid, og de publiserte aggregerte parameterne. Etterprøvbarheten ligger derfor i sporbar metode, åpne beregningsregler og publiserbare kontrollsummer, ikke i offentliggjøring av sensitive rådata.
 
-Dispatcherdata brukes også anonymisert og aggregert. Personnavn fra arbeidsregistreringer erstattes av interne worker slots eller systemkategorier, og resultatet rapporteres som tidsforbruk per prosess og håndteringsenhet. Den endelige tidsmatrisen publiserer derfor ikke hvem som utførte arbeidet, hvilke konkrete artikler som ble håndtert, eller hvilke kunder/ruter volumet gjaldt. Den rapporterer bare hvor mange minutter én håndteringsenhet i gjennomsnitt krever i `P1` og `P2`.
+Dispatcherdata brukes også anonymisert og aggregert. Personnavn fra arbeidsregistreringer erstattes av interne worker slots eller systemkategorier, og resultatet rapporteres som tidsforbruk per prosess og håndteringsenhet. Den endelige tidsmatrisen publiserer derfor ikke hvem som utførte arbeidet, hvilke konkrete artikler som ble håndtert, eller hvilke kunder/ruter volumet gjaldt. Den rapporterer bare hvor mange minutter én håndteringsenhet i gjennomsnitt krever i prosess P1 og P2.
 
 For kapasitetsmodellen skilles det mellom observerte data og modellantakelser. Observerte data omfatter blant annet ukesvolum, kampanjeflagg og tidsforbruk fra produksjons-/dispatchergrunnlaget. Antakelser omfatter blant annet sykefraværsnivå, effektivitet for tilkallingshjelp og relative kostnadsvekter for ekstra kapasitet. Disse antakelsene behandles som modellparametre og skal testes gjennom sensitivitetsanalyse, ikke presenteres som direkte målte bedriftsdata.
 
@@ -635,13 +636,14 @@ Dette kapitlet formulerer den matematiske koblingen mellom prognostisert volum, 
 
 Modellen består av to sekvensielle komponenter:
 
-1. **Etterspørselsprognose:** Basert på historiske ukentlige volumer for ferskvare (F) og sekundærvare (S) samt kampanjekalender, produseres punktprognoser for volum i uke `t`. I den interne modellen brukes reelle FPK-ekvivalenter, mens publisert rapportering bruker indekserte volumer for å ivareta konfidensialitet.
+1. **Etterspørselsprognose:** Basert på historiske ukentlige volumer for ferskvare (F) og sekundærvare (S) samt kampanjekalender, produseres punktprognoser for volum i uke t. I den interne modellen brukes reelle FPK-ekvivalenter, mens publisert rapportering bruker indekserte volumer for å ivareta konfidensialitet.
 
-2. **Kapasitetsoptimering:** Prognostisert volum omregnes til arbeidsbelastning ved hjelp av `process_time_matrix.csv`. LP-formuleringen beregner behov for aggregert ekstra kapasitet i `P1` og `P2`, og synliggjør eventuell restbelastning som ikke kan håndteres innen tilgjengelig kapasitet.
+2. **Kapasitetsoptimering:** Prognostisert volum omregnes til arbeidsbelastning ved hjelp av filen process_time_matrix.csv. LP-formuleringen beregner behov for aggregert ekstra kapasitet i prosess P1 og P2, og synliggjør eventuell restbelastning som ikke kan håndteres innen tilgjengelig kapasitet.
 
 Prosessene er:
-- `P1 = PD / for-klargjøring`
-- `P2 = ED / endelig dispatch/ekspedering`
+
+- P1 = PD / for-klargjøring
+- P2 = ED / endelig dispatch/ekspedering
 
 `DD` holdes utenfor hovedmodellen fordi det behandles som direkte eller særskilt dispatchflyt, ikke som et stabilt hovedledd i den ukentlige kapasitetsmodellen.
 
@@ -713,13 +715,13 @@ Enhetskontrollen er sentral:
 
 Eksempel: Hvis prognosen gir 1000 FPK gjennom `P2`, og `P2` har standardtid 0.037555 minutter per FPK, blir arbeidsbelastningen $1000 \cdot 0.037555 = 37.555$ minutter. Denne belastningen sammenlignes med tilgjengelige kapasitetsminutter i `P2`.
 
-For å unngå ubegrensede løsninger skal bare tiltak med dokumentert maksimalgrense aktiveres i $XMAX_{j,t}$. Tiltak som mangler lokal maksimumsgrense i `action_parameters.csv`, for eksempel friuke- eller tilkallingsbemanning, behandles som scenarioforutsetninger inntil praktiske grenser er avklart.
+For å unngå ubegrensede løsninger skal bare tiltak med dokumentert maksimalgrense aktiveres i $XMAX_{j,t}$. Tiltak som mangler lokal maksimumsgrense i action_parameters.csv, for eksempel friuke- eller tilkallingsbemanning, behandles som scenarioforutsetninger inntil praktiske grenser er avklart.
 
 ---
 
 ### 6.5 Sonevise fristbegrensninger
 
-Sonevise frister beskrives som ukentlige andeler basert på `zone_cutoff_profile.csv`:
+Sonevise frister beskrives som ukentlige andeler basert på zone_cutoff_profile.csv:
 
 - **Sone 1 (Z1, kl 00:00):** $p_1 = 0.325311$ av ukens distribusjonsvolum knyttes til første fristvindu
 - **Sone 2 (Z2, kl 01:00):** $p_1 + p_2 = 0.660545$ av ukens distribusjonsvolum knyttes til de to første fristvinduene
@@ -744,9 +746,10 @@ Den aggregerte ekstra kapasiteten $X_{j,t}$ kan senere splittes i tiltakstyper:
 $$X_{j,t} = \sum_{a \in A} x_{j,a,t}$$
 
 hvor:
+
 - $a$ er tiltakstype, for eksempel tidlig oppstart, friukebemanning eller tilkallingshjelp
 - $x_{j,a,t}$ er timer brukt av tiltak $a$ i prosess $j$ og uke $t$
-- hver tiltakstype får egen kostnadsvekt og maksimalgrense fra `action_parameters.csv`
+- hver tiltakstype får egen kostnadsvekt og maksimalgrense fra action_parameters.csv
 
 Denne rapporten bruker den aggregerte formen for å holde modellen etterprøvbar og enhetskonsistent. Detaljert tiltaksvalg krever mer presise lokale grenser for tilgjengelig friukebemanning og tilkallingskapasitet.
 
@@ -762,7 +765,7 @@ $$SLACK_{j,t} \geq 0 \quad \forall j,t$$
 
 $$X_{j,t} \leq XMAX_{j,t} \quad \forall j,t$$
 
-For aktive tidlig-start-tiltak gir `action_parameters.csv` dokumenterte maksimumsgrenser. For `P1` er grensen 6 timer per standard helligdagsuke eller 9 timer i påske-/julscenario. For `P2` er grensen 36 timer per standard helligdagsuke eller 54 timer i påske-/julscenario.
+For aktive tidlig-start-tiltak gir action_parameters.csv dokumenterte maksimumsgrenser. For P1 er grensen 6 timer per standard helligdagsuke eller 9 timer i påske-/julscenario. For P2 er grensen 36 timer per standard helligdagsuke eller 54 timer i påske-/julscenario.
 
 Friuke- og tilkallingsbemanning er dokumentert som mulige tiltak, men bør ikke brukes som ubundne LP-variabler før lokale maksimumsgrenser er fastsatt.
 
@@ -770,7 +773,7 @@ Friuke- og tilkallingsbemanning er dokumentert som mulige tiltak, men bør ikke 
 
 ### 6.8 Løsningsmetode
 
-Modellen er en lineær programmering-formulering og kan løses med simplex-algoritme, som er standard for LP-problemer, eller med interiørpunktmetoder for større instanser. I denne prosjektkonteksten er Python-verktøy som `scipy.optimize.linprog` eller `PuLP` tilstrekkelige. Tilsvarende modell kan også løses i Excel Solver, mens større industrielle versjoner kan flyttes til spesialiserte løsermiljøer som CPLEX eller Gurobi.
+Modellen er en lineær programmering-formulering og kan løses med simplex-algoritme, som er standard for LP-problemer, eller med interiørpunktmetoder for større instanser. I denne prosjektkonteksten er Python-verktøy som scipy.optimize.linprog eller PuLP tilstrekkelige. Tilsvarende modell kan også løses i Excel Solver, mens større industrielle versjoner kan flyttes til spesialiserte løsermiljøer som CPLEX eller Gurobi.
 
 ## 7.0 Analyse
 
