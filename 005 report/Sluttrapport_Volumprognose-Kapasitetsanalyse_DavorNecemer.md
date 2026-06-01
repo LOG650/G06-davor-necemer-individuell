@@ -98,7 +98,7 @@ Metoden er todelt og sekvensiell. En SARIMAX-modell prognostiserer ukentlig volu
 
 Empirisk grunnlag dekker 118 ukentlige observasjoner per varestrøm (2024-01 til 2026-14) i den publiserbare indeks-fila; av disse brukes 117 som modelluker etter at delvis uke 2026-14 ekskluderes, totalt 234 modellobservasjoner. Volum publiseres som indeks der 2024-gjennomsnitt per varestrøm er satt lik 100. Prosess-tider er estimert fra åtte komplette produksjons-/dispatcher-par til `P1` = 0.003885 og `P2` = 0.037555 minutter per FPK-ekvivalent. Soneprofilen er beregnet fra 643 dispatcher-datoer med eksakte andeler 0.325311, 0.335234 og 0.339455 (sum 1.000000; avrundede verdier Z1 = 0.325, Z2 = 0.335, Z3 = 0.339 summerer til 0.999 grunnet avrunding). Basekapasitet er 24 mann-timer/uke for `P1` og 144 mann-timer/uke for `P2`. SNaive-validering på 2026-01 til 2026-13 gir MAE/RMSE 12.88/18.96 for F og 5.15/7.53 for S målt på indeks-skala. Den gjennomførte SARIMAX-gridkjøringen forbedrer RMSE fra SNaive 18.96 til 13.21 for F (valgt modell med helligdagsflagg som eneste eksogene variabel) og fra 7.53 til 6.67 for S (uten eksogen variabel). S-modellen vinner imidlertid kun på RMSE og er svakere enn SNaive på både MAE og MAPE; den kan derfor ikke regnes som en reell forbedring og tolkes varsomt.
 
-Rapporten leverer nå en teknisk minimumsimplementasjon av det integrerte rammeverket: datagrunnlag, prosess-tidsmatrise, kapasitetsbaseline, soneprofil, SARIMAX-validering og LP-løser er koblet i ett reproduserbart skript. LP-kjøringen er en publiserbar indeks-skala smoke-test, ikke et operativt estimat på reelle mann-timer; den gir 0.00 ekstra indeks-timer og 0.00 slack i valideringshorisonten fordi anonymisert indeks ikke inneholder reelle FPK-skalaer. Gjenstående arbeid er derfor reell-skala LP med lokal `weekly_volume.csv`, kalibrering av sonevise fristkapasiteter og full sensitivitetsanalyse.
+Rapporten leverer en teknisk minimumsimplementasjon av det integrerte rammeverket: datagrunnlag, prosess-tidsmatrise, kapasitetsbaseline, soneprofil, SARIMAX-validering og LP-løser er koblet i ett reproduserbart skript. LP-kjøringen er en publiserbar indeks-skala smoke-test, ikke et operativt estimat på reelle mann-timer; den gir 0.00 ekstra indeks-timer og 0.00 slack i valideringshorisonten fordi anonymisert indeks ikke inneholder reelle FPK-skalaer. Gjenstående arbeid er derfor reell-skala LP med lokal `weekly_volume.csv`, kalibrering av sonevise fristkapasiteter og full sensitivitetsanalyse.
 
 **Nøkkelord:** SARIMAX, lineær programmering, kapasitetsplanlegging, distribusjonsfrister, etterspørselsprognose, næringsmiddellogistikk, anonymisering.
 
@@ -110,7 +110,7 @@ The approach is sequential and consists of two components. A SARIMAX model forec
 
 The empirical basis covers 117 modelling weeks (2024-01 to 2026-13, week 2026-14 excluded as a partial week), two product streams and 234 observations in total. Volumes are published as an index normalised so the 2024 mean per stream equals 100. Process times are estimated from eight complete production/dispatcher pairs as `P1` = 0.003885 and `P2` = 0.037555 minutes per FPK-equivalent. The zone profile is derived from 643 dispatcher dates (Z1 = 0.325, Z2 = 0.335, Z3 = 0.339; exact shares sum to 1.000000, while these rounded values sum to 0.999). Base capacity is 24 worker-hours/week for `P1` and 144 worker-hours/week for `P2`. SNaive validation across 2026-01 to 2026-13 yields MAE/RMSE 12.88/18.96 for F and 5.15/7.53 for S on the index scale. The SARIMAX grid run improves RMSE from SNaive 18.96 to 13.21 for F and from 7.53 to 6.67 for S; the S result wins only on RMSE and is weaker than SNaive on both MAE and MAPE, so it cannot be regarded as a genuine improvement and is interpreted cautiously.
 
-The report now delivers a technical minimum implementation of the integrated framework: data foundation, process-time matrix, capacity baseline, zone profile, SARIMAX validation and LP solving are connected in one reproducible script. The LP run is a publishable index-scale smoke test, not an operational estimate of real worker-hours; it produces 0.00 extra index-hours and 0.00 slack across the validation horizon because the anonymised index file does not contain real FPK scales. Remaining work is therefore real-scale LP using local `weekly_volume.csv`, calibration of zone-level deadline capacities and full sensitivity analysis.
+The report delivers a technical minimum implementation of the integrated framework: data foundation, process-time matrix, capacity baseline, zone profile, SARIMAX validation and LP solving are connected in one reproducible script. The LP run is a publishable index-scale smoke test, not an operational estimate of real worker-hours; it produces 0.00 extra index-hours and 0.00 slack across the validation horizon because the anonymised index file does not contain real FPK scales. Remaining work is therefore real-scale LP using local `weekly_volume.csv`, calibration of zone-level deadline capacities and full sensitivity analysis.
 
 **Keywords:** SARIMAX, linear programming, capacity planning, distribution deadlines, demand forecasting, food logistics, anonymization.
 
@@ -411,6 +411,7 @@ Uke 2026-14 ekskluderes fra validering fordi den inneholder kun 2 arbeidsdager (
 Endelig modellspesifikasjon fastsettes etter datakontroll og innledende eksplorativ analyse, slik at modellens kompleksitet tilpasses datamaterialets kvalitet, lengde og tilgjengelige eksogene variabler. I denne minimumsimplementasjonen estimeres hver kandidat på treningsdata (2024–2025), og det er den valgte modellens out-of-sample valideringsprognose (2026-01 til 2026-13) som mates inn i kapasitetsmodellens smoke-test. Re-estimering på hele datasettet og en egen fremtidsprognose ut over valideringshorisonten hører til reell-skala-arbeidet (§9.4).
 
 **Prognosemodell:** SARIMAX (Seasonal Autoregressive Integrated Moving Average with eXogenous variables) velges fordi (se også seksjon 2.1):
+
 - Tidsseriene (ukentlige volumer) har **tydelige sesongmønstre** (høysesonger knyttet til julekampanjer, påske, sommerferie) og underliggende trend
 - Eksogene variabler (kampanjekalender) påvirker etterspørselen betydelig utover det sesongbaserte nivået
 - Næringsmiddeletterspørsel følger årlige sesongmønstre som SARIMAX håndterer godt (Arunraj, Ahrens & Fernandes, 2016)
@@ -464,6 +465,7 @@ Gitt at treningsdata omfatter bare 104 observasjoner (2 sesongperioder), legges 
    - For S ble både `campaign_flag` og `holiday_flag` testet som kandidater, men den valgte S-modellen bruker ingen eksogen variabel (jf. §7.2)
 
 **Validering:** Modell valideres out-of-sample på uke 2026-01 til 2026-13 (13 uker, uke 2026-14 ekskludert):
+
 - **Sammenligningskriterier:**
   - MAE (Mean Absolute Error)
   - RMSE (Root Mean Squared Error)
@@ -472,10 +474,7 @@ Gitt at treningsdata omfatter bare 104 observasjoner (2 sesongperioder), legges 
 - **Residualdiagnostikk:** Ljung-Box test for autokorrelasjon og sesongavhengighet
 - **Beslutning:** Hvis SARIMAX RMSE > SNaive RMSE, brukes SNaive som operativ prognose
 
-**Verktøy:** Python er hovedverktøyet i prognosedelen.
-- `005 report/scripts/run_forecast_capacity_models.py` kjører en konservativ kandidatgrid med `statsmodels.tsa.statespace.sarimax.SARIMAX`
-- `statsmodels` brukes til estimering, prognosegenerering og residualdiagnostikk, mens `scipy.optimize.linprog` brukes til LP-kjøringen
-- `pmdarima.auto_arima` eller R med `forecast::auto.arima(seasonal = TRUE)` kan brukes som alternativ senere, men er ikke nødvendig for denne rapportens reproduserbare minimumskjøring
+**Verktøy:** Python er hovedverktøyet i prognosedelen. Beregningene kjøres via `005 report/scripts/run_forecast_capacity_models.py` med `statsmodels` til SARIMAX-estimering og residualdiagnostikk, og `scipy.optimize.linprog` til LP-løsningen (vedlegg E).
 
 ---
 
@@ -540,6 +539,7 @@ Begrunnelse: `2024-01` brukes ikke som basisuke fordi den påvirkes av helligdag
 **Løsning for intern modell vs. publisert resultat:**
 
 **Intern modell (lokalt, ikke publisert):**
+
 - Bruker reelle FPK-volum fra lokal `weekly_volume.csv`
 - Prognose: $\text{forecast\_fpk}_{s,t}$
 - Arbeidsbelastning: $\text{workload}_{j,t} = \sum_s (\text{forecast\_fpk}_{s,t} \times \text{minutes\_per\_fpk}_{j,s})$
@@ -547,6 +547,7 @@ Begrunnelse: `2024-01` brukes ikke som basisuke fordi den påvirkes av helligdag
 - Intern resultat: dimensjoner i timer og minutter, kan reproduseres med reelle FPK
 
 **Publisert resultat (rapport + vedlegg):**
+
 - Kapasitetsbehov rapporteres som **relative nøkkeltall**, ikke absolutte timer
 - Eksempler: Gjennomsnittlig utnyttelsesgrad (%), fordeling av ekstra kapasitetsbehov, frekvens av uker med udekket arbeidsbelastning (%)
 - Absolutte mann-timer utelates fordi de kan avsløre reelt volum
@@ -554,6 +555,7 @@ Begrunnelse: `2024-01` brukes ikke som basisuke fordi den påvirkes av helligdag
 - `volume_index` brukes ikke som operativt kapasitetsgrunnlag i LP
 
 **Etterprøvbarhet uten å avsløre volum:**
+
 - SARIMAX-validering rapporteres på indeks-skala (MAE/RMSE i indeks-enheter)
 - LP-logikk og struktur er transparent (begrensninger, målfunksjon)
 - Sensitivitetsanalysens *ramme* vises som relative endringer; den publiserbare indeks-kjøringen gir trivielt 0.00 utfall i alle baner (§8.4), og reell ±Y %-respons forutsetter FPK-skala (gjenstår, §10)
@@ -648,11 +650,13 @@ Prosessene er:
 ### 6.2 Notasjon og beslutningsvariabler
 
 Indekser:
+
 - $j \in \{P1,P2\}$: prosessledd
 - $s \in \{F,S\}$: varestrøm
 - $t = 1,\ldots,T$: uke i planleggingshorisonten
 
 Parametre:
+
 - $\hat{V}_{s,t}$ = prognostisert volum i FPK-ekvivalenter for varestrøm $s$ i uke $t$
 - $m_j$ = minutter per FPK i prosess $j$; samme standardtid brukes for F og S i denne rapportversjonen
 - $CAP^{base}_{j,t}$ = ordinær kapasitet i mann-timer for prosess $j$ i uke $t$
@@ -661,6 +665,7 @@ Parametre:
 - $\lambda$ = penalty-vekt per minutt udekket arbeidsbelastning
 
 Beslutningsvariabler:
+
 - $X_{j,t} \geq 0$ = aggregert ekstra kapasitet i mann-timer for prosess $j$ i uke $t$
 - $SLACK_{j,t} \geq 0$ = arbeidsminutter som ikke dekkes av tilgjengelig kapasitet i prosess $j$ i uke $t$
 
@@ -679,8 +684,7 @@ hvor:
 - $SLACK_{j,t}$ måles i minutter
 - $c_j$ er en relativ vekt, ikke en faktisk kronekostnad
 
-`SLACK` måles her som udekket arbeidsbelastning i minutter, ikke som antall FPK over sonekapasiteten eller som direkte sonevise fristbrudd slik proposalen opprinnelig formulerte det. Dette er en bevisst raffinering som bevarer enhetskonsistens med kapasitetsbegrensningen (minutter mot minutter).
-- $\lambda$ settes høyt for å gjøre udekket arbeidsbelastning dyrere enn normal ekstra kapasitet
+`SLACK` måles her som udekket arbeidsbelastning i minutter, ikke som antall FPK over sonekapasiteten eller som direkte sonevise fristbrudd slik proposalen opprinnelig formulerte det. Dette er en bevisst raffinering som bevarer enhetskonsistens med kapasitetsbegrensningen (minutter mot minutter); $\lambda$ settes høyt for å gjøre udekket arbeidsbelastning dyrere enn normal ekstra kapasitet.
 
 **Tolking:** Målfunksjonen prioriterer å dekke arbeidsbelastningen med minst mulig ekstra kapasitet. Dersom kapasitetstaket nås, kan modellen bruke $SLACK_{j,t}$, men den høye penalty-vekten gjør dette til en siste utvei. Dermed blir aggregert kapasitetsmangel synlig som modellresultat, ikke skjult i kapasitetsantakelsene.
 
@@ -816,7 +820,7 @@ Det ble kjørt en konservativ `statsmodels`-grid i `005 report/scripts/run_forec
 
 Valgt modell i den RMSE-baserte minimumskjøringen ble definert som den konvergerte kandidaten med lavest validerings-RMSE, sammenlignet mot SNaive (Tabell 3):
 
-**Tabell 3 – Valgt SARIMAX/ARIMA-kandidat per varestrøm i RMSE-basert minimumskjøring, med valideringsfeil, SNaive-referanse og Ljung-Box-test.**
+**Tabell 3 – Valgt modellkandidat per varestrøm i RMSE-basert minimumskjøring, med valideringsfeil, SNaive-referanse og Ljung-Box-test.**
 
 \begingroup\footnotesize
 
@@ -839,7 +843,7 @@ Kjøringen skrev sporbare resultater til tre filer:
 
 ### 7.3 Kapasitetsmodell-setup
 
-Kapasitetsmodellen har nå tre nødvendige inputblokker:
+Kapasitetsmodellen har tre nødvendige inputblokker:
 
 **Tabell 4 – Inputblokker i kapasitetsmodellen.**
 
@@ -854,7 +858,8 @@ Kapasitetsmodellen har nå tre nødvendige inputblokker:
 Prosess-tidene bygger på åtte komplette produksjons-/dispatcher-par fra 2024, 2025 og 2026. Soneprofilen bygger på 643 valgte dispatcher-datoer og summerer til 1.000000. Dette gjør at rapporten ikke lenger er avhengig av en ren antakelse for sonefordeling.
 
 **Kritiske observasjoner:**
-- Sone-andeler (`zone_cutoff_profile.csv`) er nå beregnet fra `ED`-rader i dispatcherhistorikk og summerer til 1.000000
+
+- Sone-andeler (`zone_cutoff_profile.csv`) er beregnet fra `ED`-rader i dispatcherhistorikk og summerer til 1.000000
 - `anomaly_flag` og `constrained_week_flag` er ikke validert, så enkelte anomale uker kan være klassifisert som normale
 - LP-modellen har nå nødvendig soneinput, men sonevise fristkapasiteter (`CAP_deadline`) må kalibreres før modellen kan tolkes som en natt-for-natt bemanningsplan
 
@@ -1034,8 +1039,6 @@ Datamessig dokumenterer rapporten et grunnlag på 117 modelluker for to varestr�
 Rapportens viktigste begrensning er at den ikke leverer en operativ reell-skala kapasitetsplan. Før modellen kan brukes til direkte beslutninger, må LP-kjøringen kobles til lokal, ikke-publiserbar weekly_volume.csv, slik at prognosene omregnes fra indeks til faktiske FPK, minutter og mann-timer. De sonevise fristkapasitetene, CAP_deadline, må kalibreres mot faktisk bemanning og nattlige tidsvinduer, og full sensitivitetsanalyse for volum, sonemiks og kapasitetsbortfall må gjennomføres. Lokale maksimumsgrenser for friuke- og tilkallingsbemanning må også fastsettes før disse kan aktiveres som egne LP-variabler.
 
 Den praktiske implikasjonen er likevel tydelig: Når reelle FPK-volum kobles inn lokalt, kan rammeverket brukes som ukentlig planleggingsverktøy. Prognosen kan oppdateres ved ukestart, LP-modellen kan beregne aggregert kapasitetsallokering, og SLACK/utnyttelsesgrad kan flagge uker med mulig kapasitetsmangel. Før dette tolkes som direkte varsel om sonevise fristbrudd, må dags- og sonekapasitet kalibreres som beskrevet i §9.4. Rapporten viser dermed ikke en ferdig operativ løsning, men et testet og etterprøvbart grunnlag for å flytte kapasitetsstyringen fra reaktiv ekstrahjelp-praksis til proaktiv ukesplanlegging.
-
-Hovedutkastet som lå til grunn for peer review ble datert 30. april 2026, og endelig innlevering er datert 1. juni 2026.
 
 ---
 
